@@ -1,0 +1,286 @@
+C51 COMPILER V9.00   XS_CHOOSE                                                             08/12/2024 14:18:43 PAGE 1   
+
+
+C51 COMPILER V9.00, COMPILATION OF MODULE XS_CHOOSE
+OBJECT MODULE PLACED IN ..\hex\XS_choose.obj
+COMPILER INVOKED BY: C:\Keil _C51\C51\BIN\C51.EXE ..\main\XS_choose.c LARGE BROWSE INCDIR(..\user) DEBUG OBJECTEXTEND PR
+                    -INT(.\LIST\XS_choose.lst) OBJECT(..\hex\XS_choose.obj)
+
+line level    source
+
+   1          //#include "config.h"
+   2          //
+   3          //const u8  code MAIN_KEY_CHOOSE = 16;
+   4          //const u16 code MAIN_CHOOSE[]=
+   5          //{
+   6          //        0, 133,   0, 122,//1 返回
+   7          //      830, 941, 42, 133,//2 男
+   8          //      974, 1085, 42, 133,//3 女
+   9          //
+  10          //       390, 577, 138, 294,//六个部位
+  11          //       390, 577, 377, 533,
+  12          //       390, 577, 614,770,
+  13          //      1350,1517, 145, 303,
+  14          //      1350,1517, 383, 541,
+  15          //      1350,1517, 620,778,
+  16          //
+  17          //      652, 721,807,895,
+  18          //      761, 830,807,895,
+  19          //      870, 939,807,895,
+  20          //      980, 1049,807,895,
+  21          //      1089, 1158,807,895,
+  22          //      1198, 1267,807,895,
+  23          //
+  24          //      816, 1075,940,1049,              //ok
+  25          //};
+  26          //
+  27          //void cut_choose_sex_selection(void);
+  28          //void cut_choose_part_selection(void);
+  29          //void cut_choose_skin_color_selection(void);
+  30          //
+  31          //void main_xs_choose(void)
+  32          //{
+  33          //      u8 key;
+  34          //      if(SEX_SELECTION == WOMEN){DIS_PICNUM(Pic_WOMEN_NORMAL_CHOOSE);}
+  35          //      else{DIS_PICNUM(Pic_MEN_NORMAL_CHOOSE);}
+  36          //      cut_choose_part_selection();
+  37          //      cut_choose_skin_color_selection();
+  38          //      do{
+  39          //              delay_ms(1);
+  40          //              if(KEY_YES!=0x00)
+  41          //              {
+  42          //                      ADS7843_KEY(); //扫描按键
+  43          //                      key=KEY_FANHUI(MAIN_KEY_CHOOSE,MAIN_CHOOSE); 
+  44          //                      switch(key)
+  45          //                      {
+  46          //                              case 1: //返回
+  47          //                                      DIS_DEL_DIS(Pic_WOMEN_NORMAL_CHOOSE_DOWN,0,0,133,122,0,0);
+  48          //                                      XIANG1();
+  49          //                                      INTERFACE = PAGE_CHOOSE_MODE;
+  50          //                                      goto over_main_xs_choose;
+  51          //                                      break;
+  52          //                              case 2:  //男
+  53          //                                      if(SEX_SELECTION != MEN){
+  54          //                                              XIANG1();
+C51 COMPILER V9.00   XS_CHOOSE                                                             08/12/2024 14:18:43 PAGE 2   
+
+  55          //                                              SEX_SELECTION = MEN;
+  56          //                                              cut_choose_sex_selection();
+  57          //                                              cut_choose_part_selection();
+  58          //                                      }
+  59          //                                      break;
+  60          //                              case 3:  //女
+  61          //                                      if(SEX_SELECTION != WOMEN){
+  62          //                                              XIANG1();
+  63          //                                              SEX_SELECTION = WOMEN;
+  64          //                                              cut_choose_sex_selection();
+  65          //                                              cut_choose_part_selection();
+  66          //                                      }
+  67          //                                      break;
+  68          //                              case 4:  //部位1
+  69          //                                      if(PART_SELECTION != 0){
+  70          //                                              XIANG1();
+  71          //                                              PART_SELECTION = 0;
+  72          //                                              cut_choose_part_selection();
+  73          //                                      }
+  74          //                                      break;
+  75          //                              case 5:  //部位2
+  76          //                                      if(PART_SELECTION != 1){
+  77          //                                              XIANG1();
+  78          //                                              PART_SELECTION = 1;
+  79          //                                              cut_choose_part_selection();
+  80          //                                      }
+  81          //                                      break;
+  82          //                              case 6:  //部位3
+  83          //                                      if(PART_SELECTION != 2){
+  84          //                                              XIANG1();
+  85          //                                              PART_SELECTION = 2;
+  86          //                                              cut_choose_part_selection();
+  87          //                                      }
+  88          //                                      break;
+  89          //                              case 7:  //部位4
+  90          //                                      if(PART_SELECTION != 3){
+  91          //                                              XIANG1();
+  92          //                                              PART_SELECTION = 3;
+  93          //                                              cut_choose_part_selection();
+  94          //                                      }
+  95          //                                      break;
+  96          //                              case 8:  //部位5
+  97          //                                      if(PART_SELECTION != 4){
+  98          //                                              XIANG1();
+  99          //                                              PART_SELECTION = 4;
+ 100          //                                              cut_choose_part_selection();
+ 101          //                                      }
+ 102          //                                      break;
+ 103          //                              case 9:  //部位6
+ 104          //                                      if(PART_SELECTION != 5){
+ 105          //                                              XIANG1();
+ 106          //                                              PART_SELECTION = 5;
+ 107          //                                              cut_choose_part_selection();
+ 108          //                                      }
+ 109          //                                      break;
+ 110          //                              case 10:  //1
+ 111          //                                      if(SKIN_COLOR_SELECTION != 0){
+ 112          //                                              XIANG1();
+ 113          //                                              SKIN_COLOR_SELECTION = 0;
+ 114          //                                              cut_choose_skin_color_selection();
+ 115          //                                      }
+ 116          //                                      break;
+C51 COMPILER V9.00   XS_CHOOSE                                                             08/12/2024 14:18:43 PAGE 3   
+
+ 117          //                              case 11:  //2
+ 118          //                                      if(SKIN_COLOR_SELECTION != 1){
+ 119          //                                              XIANG1();
+ 120          //                                              SKIN_COLOR_SELECTION = 1;
+ 121          //                                              cut_choose_skin_color_selection();
+ 122          //                                      }
+ 123          //                                      break;
+ 124          //                              case 12:  //3
+ 125          //                                      if(SKIN_COLOR_SELECTION != 2){
+ 126          //                                              XIANG1();
+ 127          //                                              SKIN_COLOR_SELECTION = 2;
+ 128          //                                              cut_choose_skin_color_selection();
+ 129          //                                      }
+ 130          //                                      break;
+ 131          //                              case 13:  //4
+ 132          //                                      if(SKIN_COLOR_SELECTION != 3){
+ 133          //                                              XIANG1();
+ 134          //                                              SKIN_COLOR_SELECTION = 3;
+ 135          //                                              cut_choose_skin_color_selection();
+ 136          //                                      }
+ 137          //                                      break;
+ 138          //                              case 14:  //5
+ 139          //                                      if(SKIN_COLOR_SELECTION != 4){
+ 140          //                                              XIANG1();
+ 141          //                                              SKIN_COLOR_SELECTION = 4;
+ 142          //                                              cut_choose_skin_color_selection();
+ 143          //                                      }
+ 144          //                                      break;
+ 145          //                              case 15:  //6
+ 146          //                                      if(SKIN_COLOR_SELECTION != 5){
+ 147          //                                              XIANG1();
+ 148          //                                              SKIN_COLOR_SELECTION = 5;
+ 149          //                                              cut_choose_skin_color_selection();
+ 150          //                                      }
+ 151          //                                      break;
+ 152          //                              case 16:
+ 153          //                                      DIS_DEL_DIS(Pic_MEN_NORMAL_CHOOSE_DOWN,816,940,1075,1049,816,940);
+ 154          //                                      XIANG1();
+ 155          //                                      INTERFACE = PAGE_DIODE_LASER_WORK;
+ 156          //                                      delay_ms(100);
+ 157          //                                      goto over_main_xs_choose;
+ 158          //                                      break;
+ 159          //                      }
+ 160          //                      KEY_YES = 0;
+ 161          //              }
+ 162          //              
+ 163          //              WATER_TEMP = Get_ADC_RES_WATER_TEMP();//获取水温度
+ 164          //              if(WATER_TEMP != 255)
+ 165          //              {
+ 166          //                      if(WATER_TEMP >= WATER_COLD_UPPER_LIMITS)COLD_WATER_ON; //温度高了打开制冷
+ 167          //                      if(WATER_TEMP <= WATER_COLD_LOWER_LIMITS)COLD_WATER_OFF;//温度低了关闭制冷
+ 168          //              }else{COLD_WATER_OFF;}
+ 169          //              
+ 170          //              if(HANDLE_PROBE_TEMP != 255)//手柄温度
+ 171          //              {
+ 172          //                      if(HANDLE_PROBE_TEMP >= HANDLE_PROBE_COLD_UPPER_LIMITS[HANDLE_PROBE_COLE_GEAR])COLD_HANDLE_PROBE_ON;    
+             -//温度高了打开制冷
+ 173          //                      if(HANDLE_PROBE_TEMP <= HANDLE_PROBE_COLD_LOWER_LIMITS[HANDLE_PROBE_COLE_GEAR])COLD_HANDLE_PROBE_OFF;
+             -//温度低了关闭制冷
+ 174          //              }else{COLD_HANDLE_PROBE_OFF;}
+ 175          //              
+ 176          //      }while(1);
+C51 COMPILER V9.00   XS_CHOOSE                                                             08/12/2024 14:18:43 PAGE 4   
+
+ 177          //      over_main_xs_choose:
+ 178          //      _nop_();
+ 179          //}
+ 180          //
+ 181          //void cut_choose_sex_selection(void)
+ 182          //{
+ 183          //      if(SEX_SELECTION == MEN)DIS_DEL_DIS(Pic_MEN_NORMAL_CHOOSE,350,0,1645,800,350,0);
+ 184          //      else{DIS_DEL_DIS(Pic_WOMEN_NORMAL_CHOOSE,350,0,1645,800,350,0);}
+ 185          //}
+ 186          //
+ 187          //void cut_choose_part_selection(void)
+ 188          //{
+ 189          //      u8 pic;
+ 190          //      static u8 last = 0;
+ 191          //      if(SEX_SELECTION == WOMEN){pic = Pic_WOMEN_NORMAL_CHOOSE;}
+ 192          //      else{pic = Pic_MEN_NORMAL_CHOOSE;}
+ 193          //      switch(last)
+ 194          //      {       
+ 195          //              case 0:DIS_DEL_DIS(pic, 370,118,597,304,370,118);break;
+ 196          //              case 1:DIS_DEL_DIS(pic, 370,357,597,553,370,357);break;
+ 197          //              case 2:DIS_DEL_DIS(pic, 370,594,597,790,370,594);break;
+ 198          //              case 3:DIS_DEL_DIS(pic,1330,125,1537,323,1330,125);break;
+ 199          //              case 4:DIS_DEL_DIS(pic,1330,363,1537,561,1330,363);break;
+ 200          //              case 5:DIS_DEL_DIS(pic,1330,600,1537,798,1330,600);break;
+ 201          //      }
+ 202          //      switch(PART_SELECTION)
+ 203          //      {
+ 204          //              case 0:DIS_DEL_DIS(pic+1, 370,118,597,304,370,118);break;
+ 205          //              case 1:DIS_DEL_DIS(pic+1, 370,357,597,553,370,357);break;
+ 206          //              case 2:DIS_DEL_DIS(pic+1, 370,594,597,790,370,594);break;
+ 207          //              case 3:DIS_DEL_DIS(pic+1,1330,125,1537,323,1330,125);break;
+ 208          //              case 4:DIS_DEL_DIS(pic+1,1330,363,1537,561,1330,363);break;
+ 209          //              case 5:DIS_DEL_DIS(pic+1,1330,600,1537,798,1330,600);break;
+ 210          //      }
+ 211          //      last = PART_SELECTION;
+ 212          //}
+ 213          //
+ 214          //void cut_choose_skin_color_selection(void)
+ 215          //{
+ 216          //      u8 pic;
+ 217          //      static u8 last = 0;
+ 218          //      if(SEX_SELECTION == WOMEN){pic = Pic_WOMEN_NORMAL_CHOOSE;}
+ 219          //      else{pic = Pic_MEN_NORMAL_CHOOSE;}
+ 220          //      switch(last)
+ 221          //      {
+ 222          //              case 0:DIS_DEL_DIS(pic,652,807,721,915,652,807);break;
+ 223          //              case 1:DIS_DEL_DIS(pic,761,807,830,915,761,807);break;
+ 224          //              case 2:DIS_DEL_DIS(pic,870,807,939,915,870,807);break;
+ 225          //              case 3:DIS_DEL_DIS(pic,980,807,1049,915,980,807);break;
+ 226          //              case 4:DIS_DEL_DIS(pic,1089,807,1158,915,1089,807);break;
+ 227          //              case 5:DIS_DEL_DIS(pic,1198,807,1267,915,1198,807);break;
+ 228          //      }
+ 229          //      switch(SKIN_COLOR_SELECTION)
+ 230          //      {
+ 231          //              case 0:DIS_DEL_DIS(pic+1,652,807,721,915,652,807);break;
+ 232          //              case 1:DIS_DEL_DIS(pic+1,761,807,830,915,761,807);break;
+ 233          //              case 2:DIS_DEL_DIS(pic+1,870,807,939,915,870,807);break;
+ 234          //              case 3:DIS_DEL_DIS(pic+1,980,807,1049,915,980,807);break;
+ 235          //              case 4:DIS_DEL_DIS(pic+1,1089,807,1158,915,1089,807);break;
+ 236          //              case 5:DIS_DEL_DIS(pic+1,1198,807,1267,915,1198,807);break;
+ 237          //      }
+ 238          //      last = SKIN_COLOR_SELECTION;
+C51 COMPILER V9.00   XS_CHOOSE                                                             08/12/2024 14:18:43 PAGE 5   
+
+ 239          //}
+ 240          // 
+ 241          // 
+ 242          // 
+ 243          // 
+ 244          // 
+ 245          // 
+ 246          // 
+ 247          // 
+ 248          // 
+ 249          // 
+ 250          // 
+ 251          // 
+ 252          // 
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =   ----    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

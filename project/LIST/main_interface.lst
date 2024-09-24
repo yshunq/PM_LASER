@@ -1,0 +1,98 @@
+C51 COMPILER V9.00   MAIN_INTERFACE                                                        08/28/2024 17:05:54 PAGE 1   
+
+
+C51 COMPILER V9.00, COMPILATION OF MODULE MAIN_INTERFACE
+OBJECT MODULE PLACED IN ..\hex\main_interface.obj
+COMPILER INVOKED BY: C:\Keil _C51\C51\BIN\C51.EXE ..\main\main_interface.c LARGE BROWSE INCDIR(..\user;..\common;..\disp
+                    -lay) DEBUG OBJECTEXTEND PRINT(.\LIST\main_interface.lst) OBJECT(..\hex\main_interface.obj)
+
+line level    source
+
+   1          #include "config.h"
+   2          
+   3          void jump_interface(void)
+   4          {
+   5   1              while(1)
+   6   1              {
+   7   2                      KEY_YES = 0;
+   8   2                      switch(INTERFACE)
+   9   2                      {
+  10   3                              case  PAGE_LOADING:
+  11   3                                      main_xs_loading();
+  12   3                                      break;
+  13   3                              case  PAGE_TQ_WORK:
+  14   3                                      main_xs_tq_work();
+  15   3                                      break;
+  16   3                              case  PAGE_ADVANCED_SETTINGS:
+  17   3                                      main_xs_advanced_settings();
+  18   3                                      break;
+  19   3                              case  PAGE_ADJUST_POWER:
+  20   3                                      main_xs_adjust_power();
+  21   3                                      break;   
+  22   3      //                      /*case  PAGE_DIODE_LASER_WORK:
+  23   3      //                              main_xs_diode_laser_work();
+  24   3      //                              break;
+  25   3      //                      case  PAGE_REF_VOL:
+  26   3      //                              main_xs_ref_vol();
+  27   3      //                              break;
+  28   3      ////                    case  PAGE_LANGUAGE:
+  29   3      ////                            main_xs_language();
+  30   3      ////                            break;
+  31   3      //                      case  PAGE_WATER_SETTING:
+  32   3      //                              main_xs_water_setting();
+  33   3      //                              break;
+  34   3      //                      case  PAGE_HANDLE_SETTING:
+  35   3      //                              main_xs_handle_setting();
+  36   3      //                              break;
+  37   3      //                      case  PAGE_FLOW_SETTING:
+  38   3      //                              main_xs_flow_setting();
+  39   3      //                              break;
+  40   3      //                      case  PAGE_TOTAL_TIME_SETTING:
+  41   3      //                              main_xs_total_time_setting();
+  42   3      //                              break;
+  43   3      //                      case  PAGE_SOUND_SETTING:
+  44   3      //                              main_xs_sound_flag_setting();
+  45   3      //                              break;
+  46   3      //                      case  PAGE_WRITE_HANDLE:
+  47   3      //                              main_xs_write_handle();
+  48   3      //                              break;
+  49   3      //                      case  PAGE_WRITE_MACHINES_ID:
+  50   3      //                              main_xs_write_machines_id();
+  51   3      //                              break;
+  52   3      //                      case  PAGE_CHOOSE_MODE:
+  53   3      //                              main_xs_choose_mode();
+  54   3      //                              break;
+C51 COMPILER V9.00   MAIN_INTERFACE                                                        08/28/2024 17:05:54 PAGE 2   
+
+  55   3      //                      case  PAGE_LOGO_FLAG:
+  56   3      //                              main_xs_logo_flag();
+  57   3      //                              break;                  
+  58   3      //                      case  PAGE_SET_PULSE:
+  59   3      //                              main_xs_set_pulse();
+  60   3      //                              break;
+  61   3      //                      case  PAGE_CHECK_HANDLE:  
+  62   3      //                              main_xs_check_handle();
+  63   3      //                          break;
+  64   3                              
+  65   3                              default:
+  66   3                           break; 
+  67   3                      } 
+  68   2              }
+  69   1      }
+  70          
+  71          
+  72          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     42    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -1,0 +1,96 @@
+C51 COMPILER V9.00   DIS_TQ_WORK                                                           08/28/2024 17:05:56 PAGE 1   
+
+
+C51 COMPILER V9.00, COMPILATION OF MODULE DIS_TQ_WORK
+OBJECT MODULE PLACED IN ..\hex\dis_tq_work.obj
+COMPILER INVOKED BY: C:\Keil _C51\C51\BIN\C51.EXE ..\display\dis_tq_work.c LARGE BROWSE INCDIR(..\user;..\common;..\disp
+                    -lay) DEBUG OBJECTEXTEND PRINT(.\LIST\dis_tq_work.lst) OBJECT(..\hex\dis_tq_work.obj)
+
+line level    source
+
+   1          #include "dis_tq_work.h"
+   2          
+   3          void dis_tq_work_frequency_gear(u8 dis)
+   4          {
+   5   1              static u8 buff = 0;
+   6   1              DIS_FONT_WEI_VALUE(Pic_TQ_WORK,1,0xff,0xff,0x07,2,dis,TQ_FREQUENCY_GEAR,buff,298,742);
+   7   1              buff = TQ_FREQUENCY_GEAR;
+   8   1      }
+   9          
+  10          void dis_tq_work_energy_gear(u8 dis)
+  11          {
+  12   1              static u16 buff = 0;
+  13   1              DIS_FONT_WEI_VALUE(Pic_TQ_WORK,1,0xff,0xff,0x07,4,dis,TQ_ENERGY_GEAR,buff,1525,742);
+  14   1              buff = TQ_ENERGY_GEAR;
+  15   1      }
+  16          
+  17          void dis_tq_work_total_time(u8 dis)
+  18          {
+  19   1              static u32 buff = 0;
+  20   1              DIS_FONT_WEI_VALUE(Pic_TQ_WORK,1,0xff,0xff,0x03,7,dis,TQ_TOTAL_TIME,buff,290,965);
+  21   1              buff = TQ_TOTAL_TIME;
+  22   1      }
+  23          
+  24          void dis_tq_work_cure_time(u8 dis)
+  25          {
+  26   1              static u16 buff = 0;
+  27   1              DIS_FONT_WEI_VALUE(Pic_TQ_WORK,1,0xff,0xff,0x03,5,dis,TQ_CURE_TIME,buff,592,965);
+  28   1              buff = TQ_CURE_TIME;
+  29   1      } 
+  30          
+  31          void dis_tq_work_spot_size(u8 dis)
+  32          {
+  33   1              static u8 buff = 0;
+  34   1              DIS_FONT_WEI_VALUE(Pic_TQ_WORK,1,0xff,0xff,0x07,2,dis,TQ_SPOT_SIZE,buff,924,735);
+  35   1              buff = TQ_SPOT_SIZE;
+  36   1      }
+  37          
+  38          void dis_tq_work_energy_density(u8 dis)
+  39          {
+  40   1              static u32 buff = 0;
+  41   1              u32 temp,square,power;
+  42   1              temp = TQ_SPOT_SIZE;
+  43   1              square = 314*temp*temp;
+  44   1      
+  45   1              temp = TQ_ENERGY_GEAR;
+  46   1              power = temp*1000/square;
+  47   1      
+  48   1              temp = TQ_FREQUENCY_GEAR;
+  49   1              power = temp*power;
+  50   1      
+  51   1              DIS_FONT_WEI_DECIMAL_TWO_VALUE(Pic_TQ_WORK,1,0xff,0xff,0x09,6,dis,power,buff,815,315);
+  52   1              buff = power;
+  53   1      }
+  54          
+C51 COMPILER V9.00   DIS_TQ_WORK                                                           08/28/2024 17:05:56 PAGE 2   
+
+  55          void dis_tq_work_temp(u8 temp)
+  56          {
+  57   1              DIS_DEL_DIS(Pic_TQ_WORK,72,0,96,16,72,0);
+  58   1              if(temp >= 254){
+  59   2                      DIS_FONT_WEI_NUMBER_CM(Pic_TQ_WORK,0,0xff,0xff,0x01,temp,3,9*8,0);
+  60   2              }else if(temp <= 10){
+  61   2                      DIS_FONT_C(0xff,0xff,1,0x01,72,0,"-");
+  62   2                      DIS_FONT_WEI_NUMBER_CM(Pic_TQ_WORK,0,0xff,0xff,0x01,10-temp,2,10*8,0);
+  63   2              }else{
+  64   2                      DIS_FONT_WEI_NUMBER_CM(Pic_TQ_WORK,0,0xff,0xff,0x01,temp-10,2,9*8,0);   
+  65   2              }       
+  66   1      }
+  67          
+  68          
+  69          
+  70          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    988    ----
+   CONSTANT SIZE    =      2    ----
+   XDATA SIZE       =     14      14
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -1,0 +1,75 @@
+C51 COMPILER V9.00   CUT_TQ_WORK                                                           08/28/2024 17:05:56 PAGE 1   
+
+
+C51 COMPILER V9.00, COMPILATION OF MODULE CUT_TQ_WORK
+OBJECT MODULE PLACED IN ..\hex\cut_tq_work.obj
+COMPILER INVOKED BY: C:\Keil _C51\C51\BIN\C51.EXE ..\display\cut_tq_work.c LARGE BROWSE INCDIR(..\user;..\common;..\disp
+                    -lay) DEBUG OBJECTEXTEND PRINT(.\LIST\cut_tq_work.lst) OBJECT(..\hex\cut_tq_work.obj)
+
+line level    source
+
+   1          #include "cut_tq_work.h"
+   2          
+   3          void cut_tq_work_wavelength(void)
+   4          {
+   5   1              if(WAVELENGTH == WL532NM)DIS_DEL_DIS(Pic_TQ_WORK_CUT1,1,1,458,458,104,121);
+   6   1              else if(WAVELENGTH == WL650NM)DIS_DEL_DIS(Pic_TQ_WORK_CUT1,460,1,917,458,104,121);
+   7   1              else if(WAVELENGTH == WL585NM)DIS_DEL_DIS(Pic_TQ_WORK_CUT1,919,1,1376,458,104,121);
+   8   1              else if(WAVELENGTH == WL1320NM)DIS_DEL_DIS(Pic_TQ_WORK_CUT1,1378,1,1835,458,104,121);
+   9   1              else if(WAVELENGTH == WL1064NM)DIS_DEL_DIS(Pic_TQ_WORK_CUT1,1,460,458,917,104,121);
+  10   1      }
+  11          
+  12          void cut_tq_work_wavelength_cover(void)
+  13          {
+  14   1              DIS_DEL_DIS(Pic_TQ_WORK,104,121,561,578,104,121);
+  15   1      }
+  16          
+  17          void cut_tq_work_laser_level(void)
+  18          {
+  19   1              switch(TQ_LASER_LEVEL){
+  20   2                      //case  0x00:DIS_DEL_DIS(Pic_TQ_WORK,1453,973,1744,1002,1453,973);break;
+  21   2                      case  0x00:DIS_DEL_DIS(Pic_TQ_WORK_CUT2,1,  1,268, 31,1453,973);break;
+  22   2                      case  0x01:DIS_DEL_DIS(Pic_TQ_WORK_CUT2,1, 33,268, 63,1453,973);break;
+  23   2                      case  0x02:DIS_DEL_DIS(Pic_TQ_WORK_CUT2,1, 65,268, 95,1453,973);break;
+  24   2                      case  0x03:DIS_DEL_DIS(Pic_TQ_WORK_CUT2,1, 97,268,127,1453,973);break;
+  25   2                      case  0x04:DIS_DEL_DIS(Pic_TQ_WORK_CUT2,1,129,268,159,1453,973);break;
+  26   2                      case  0x05:DIS_DEL_DIS(Pic_TQ_WORK_CUT2,1,161,268,191,1453,973);break;
+  27   2                      case  0x06:DIS_DEL_DIS(Pic_TQ_WORK_CUT2,1,193,268,223,1453,973);break;
+  28   2                      case  0x07:DIS_DEL_DIS(Pic_TQ_WORK_CUT2,1,225,268,255,1453,973);break;
+  29   2                      case  0x08:DIS_DEL_DIS(Pic_TQ_WORK_CUT2,1,257,268,287,1453,973);break;
+  30   2                      case  0x09:DIS_DEL_DIS(Pic_TQ_WORK_CUT2,1,289,268,319,1453,973);break;
+  31   2              }       
+  32   1      }
+  33          
+  34          void cut_tq_work_start_pic(void)
+  35          {
+  36   1              DIS_DEL_DIS(Pic_TQ_WORK_DOWN,1396,176,1804,540,1396,176);
+  37   1      }
+  38          
+  39          void cut_tq_work_stop_pic(void)
+  40          {
+  41   1              DIS_DEL_DIS(Pic_TQ_WORK,1396,176,1804,540,1396,176);
+  42   1      }
+  43          
+  44          
+  45          
+  46          
+  47          
+  48          
+  49           
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    821    ----
+   CONSTANT SIZE    =   ----    ----
+C51 COMPILER V9.00   CUT_TQ_WORK                                                           08/28/2024 17:05:56 PAGE 2   
+
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

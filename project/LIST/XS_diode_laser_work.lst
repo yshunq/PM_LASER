@@ -1,0 +1,567 @@
+C51 COMPILER V9.00   XS_DIODE_LASER_WORK                                                   08/14/2024 14:34:49 PAGE 1   
+
+
+C51 COMPILER V9.00, COMPILATION OF MODULE XS_DIODE_LASER_WORK
+OBJECT MODULE PLACED IN ..\hex\XS_diode_laser_work.obj
+COMPILER INVOKED BY: C:\Keil _C51\C51\BIN\C51.EXE ..\main\XS_diode_laser_work.c LARGE BROWSE INCDIR(..\user;..\common;..
+                    -\display) DEBUG OBJECTEXTEND PRINT(.\LIST\XS_diode_laser_work.lst) OBJECT(..\hex\XS_diode_laser_work.obj)
+
+line level    source
+
+   1          //#include "config.h"
+   2          //
+   3          //const u8  code MAIN_KEY_LASER_WORK = 11;
+   4          //const u16 code MAIN_LASER_WORK[]=
+   5          //{
+   6          //        0, 120,   0, 120,       //返回
+   7          //      22, 111, 777, 876,        //频率-
+   8          //      22, 111, 593, 692,        //频率+        
+   9          //      1797, 1886,777,876,       //能量-
+  10          //      1797,1886,593,692,        //能量+
+  11          //
+  12          //      672, 753, 280, 345,       //脉宽-               专家模式才有
+  13          //      1161, 1242, 280, 344,     //脉宽+
+  14          //      844,1075,895,1043,        //启动 关闭
+  15          //
+  16          //      829,885,625,681,
+  17          //      931,986,625,681,
+  18          //      1032,1088,625,681,
+  19          //};
+  20          //
+  21          //void count_int1_ll(void);
+  22          // 
+  23          //void main_xs_diode_laser_work(void)
+  24          //{
+  25          //      u8 key,last_down,key_flag,water_error,last_water_error,flow_error,last_flow_error,probe_mode;
+  26          //      u8 handle_ttemp,handle_temp_error,last_handle_temp_error,laset_flow_rate;
+  27          //      u8 pulse_cc,pic;
+  28          //      u16 i,orc;
+  29          //      u32 total;
+  30          //      set_check_handle();//查询手柄ID和手柄总数
+  31          //      set_check_temp();
+  32          //      if(MODE_FLAG == FAST_MODE){pic = Pic_FAST_DIODE_LASER_WORK;}//显示页面
+  33          //      else if(MODE_FLAG == NORMAL_MODE){pic = Pic_NORMAL_DIODE_LASER_WORK;}
+  34          //      else{pic = Pic_PROFESSIONAL_DIODE_LASER_WORK;}
+  35          //      DIS_PICNUM(pic);
+  36          //       
+  37          //      count_diode_laser_work_parameters();//计算参数 POWER_GEAR,PULSE_TIME,FRE_GEAR
+  38          //      //得 MAX_IOP,MIN_IOP,MAX_FRE_GEAR,MIN_POWER_GEAR,MAX_POWER_GEAR
+  39          //      //count_diode_laser_work_max_fre_max_power_gear();//根据PULSE_TIME来计算
+  40          //      //if(POWER_GEAR > MAX_POWER_GEAR)POWER_GEAR = MAX_POWER_GEAR;
+  41          //      //if(POWER_GEAR < MIN_POWER_GEAR)POWER_GEAR = MIN_POWER_GEAR;
+  42          //      //if(FRE_GEAR > MAX_FRE_GEAR)FRE_GEAR = MAX_FRE_GEAR;
+  43          //      count_diode_laser_work_count_cyc();//计算周期
+  44          //
+  45          //      HANDLE_PROBE_COLE_GEAR = 2;//制冷档位
+  46          //      water_error = 0;
+  47          //      last_water_error = 0;
+  48          //      handle_temp_error = 0;
+  49          //      last_handle_temp_error = 0;
+  50          //      
+  51          //      if(MODE_FLAG == NORMAL_MODE)dis_diode_laser_work_body_part();
+  52          //      else if(MODE_FLAG == PROFESSIONAL_MODE)dis_diode_laser_work_pulse_time();//专业模式才会显示
+  53          //      if(MODE_FLAG == NORMAL_MODE || MODE_FLAG ==     PROFESSIONAL_MODE)dis_diode_laser_work_handle_probe_cold_ge
+             -ar();
+C51 COMPILER V9.00   XS_DIODE_LASER_WORK                                                   08/14/2024 14:34:49 PAGE 2   
+
+  54          //      dis_diode_laser_work_power_gear(0);
+  55          //      dis_diode_laser_work_fre_gear();
+  56          //      
+  57          //      WATER_TEMP = Get_ADC_RES_WATER_TEMP();
+  58          //      if(WATER_WARNING_FLAG == 0){
+  59          //              if(WATER_TEMP >= WATER_WARNING_UPPER_LIMITS)water_error = 1;
+  60          //              else if(WATER_TEMP <= WATER_WARNING_LOWER_LIMITS)water_error = 1;
+  61          //              else{water_error = 0;}
+  62          //      }else{water_error = 0;}
+  63          //      dis_diode_laser_work_water_temp(0,water_error);
+  64          //      
+  65          //      if(HANDLE_PROBE_WARNING_FLAG == 0){
+  66          //              if(HANDLE_PROBE_TEMP >= HANDLE_PROBE_WARNING_UPPER_LIMITS)handle_temp_error = 1;
+  67          //              else if(HANDLE_PROBE_TEMP <= HANDLE_PROBE_WARNING_LOWER_LIMITS)handle_temp_error = 1;
+  68          //              else{handle_temp_error = 0;}
+  69          //      }else{handle_temp_error = 0;}
+  70          //      dis_diode_laser_work_handle_temp(0,handle_temp_error);
+  71          //      
+  72          //      dis_diode_laser_work_shots_total(0);
+  73          //      //dis_diode_laser_work_shots_used(1);
+  74          //
+  75          //      probe_mode = RX_PROBE_MODE;
+  76          //      cut_diode_laser_work_rx_probe_mode();
+  77          //      
+  78          //      count_int1_ll();//流量
+  79          //      if(FLOW_FLAG == 0){
+  80          //              if(FLOW_RATE < WARNING_FLOW_RATE)flow_error = 1;
+  81          //              else{flow_error = 0;}
+  82          //      }else{flow_error = 0;}
+  83          //      dis_diode_laser_work_flow_rate(0,flow_error);
+  84          //      last_flow_error = flow_error;
+  85          //      
+  86          //      START_STOP_FLAG = 1;
+  87          //      COUNT_FLAG = 1;
+  88          //      total = RX_PROBE_TOTAL;
+  89          //      last_down = 0;//上次按下位置
+  90          //      COLD_HANDLE_PROBE_ON;
+  91          //      COLD_WATER_ON;
+  92          //      POWER_READY_OFF;//关电源ready
+  93          //      close_pwm();            //关闭模拟信号
+  94          //      POWER_SET_OFF;
+  95          //      close_handle_led();
+  96          //      pulse_cc = 0;
+  97          //
+  98          //
+  99          //    LCD_KEY_RETURN_VALUE = 0;
+ 100          //      LCD_LOCK_FLAG = CLOSE_LOCK;
+ 101          //      set_lcd_lock_pic();
+ 102          //
+ 103          //      RX_ADD_FINISH_FLAG = 0;//手柄加加返回成功失败标志位       暂时没用到
+ 104          //
+ 105          //      do{
+ 106          //              delay_ms(1);
+ 107          //              if(KEY_YES!=0x00){
+ 108          //                      ADS7843_KEY(); //扫描按键
+ 109          //                      key=KEY_FANHUI(MAIN_KEY_LASER_WORK,MAIN_LASER_WORK); 
+ 110          //                      switch(key){
+ 111          //                              case 1:  //返回
+ 112          //                                      if(START_STOP_FLAG == 1){
+ 113          //                                              XIANG1();
+ 114          //                                              if(MODE_FLAG == FAST_MODE || MODE_FLAG == PROFESSIONAL_MODE){
+ 115          //                                                      INTERFACE = PAGE_CHOOSE_MODE;
+C51 COMPILER V9.00   XS_DIODE_LASER_WORK                                                   08/14/2024 14:34:49 PAGE 3   
+
+ 116          //                                              }else{
+ 117          //                                                      INTERFACE = PAGE_CHOOSE;
+ 118          //                                              }
+ 119          //                                              goto over_main_xs_diode_laser_work;
+ 120          //                                      }
+ 121          //                                      break;
+ 122          //                              case 2:  //频率档位-
+ 123          //                                      if(FRE_GEAR > 1 && KEY_DOWN_FLAG == 1 && START_STOP_FLAG == 1){
+ 124          //                                              DIS_DEL_DIS(Pic_DIODE_LASER_WORK_DOWN,22,777,111,876,22,777);
+ 125          //                                              XIANG1();
+ 126          //                                              FRE_GEAR--;
+ 127          //                                              dis_diode_laser_work_fre_gear();
+ 128          //
+ 129          //                                              //计算最大脉宽值
+ 130          //                                              count_diode_laser_work_max_pulse_time();//已知频率  计算最大脉宽值
+ 131          //
+ 132          //                                              if(MODE_FLAG == FAST_MODE || MODE_FLAG == NORMAL_MODE){//快速 和 普通 改变频率时改变脉宽
+ 133          //                                                      PULSE_TIME = MAX_PULSE_TIME;
+ 134          //                                                      //PULSE_TIME = 100/FRE_GEAR;
+ 135          //                                                      //dis_diode_laser_work_pulse_time();    
+ 136          //                                              }else{  //专家模式
+ 137          //                                                      if(PULSE_TIME > MAX_PULSE_TIME){
+ 138          //                                                              PULSE_TIME = MAX_PULSE_TIME;
+ 139          //                                                              dis_diode_laser_work_pulse_time();
+ 140          //                                                      }
+ 141          ////                                                    if(PULSE_TIME > (100/FRE_GEAR)){
+ 142          ////                                                            PULSE_TIME = 100/FRE_GEAR;
+ 143          ////                                                            dis_diode_laser_work_pulse_time();
+ 144          ////                                                    }
+ 145          //                                              }
+ 146          //                                              count_diode_laser_work_count_cyc();//计算最高脉冲时间
+ 147          //                                              delay_ms(50);
+ 148          //                                              last_down = 2;
+ 149          //                                      }else{KEY_YES = 0;}
+ 150          //                                      break;
+ 151          //                              case 3:  //频率档位+  
+ 152          //                                      if(FRE_GEAR < MAX_FRE_GEAR && KEY_DOWN_FLAG == 1 && START_STOP_FLAG == 1){
+ 153          //                                              DIS_DEL_DIS(Pic_DIODE_LASER_WORK_DOWN,22,593,111,692,22,593);
+ 154          //                                              XIANG1();
+ 155          //                                              FRE_GEAR++;
+ 156          //                                              dis_diode_laser_work_fre_gear();
+ 157          //
+ 158          //                                              //计算最大脉宽值
+ 159          //                                              count_diode_laser_work_max_pulse_time();//已知频率  计算最大脉宽值
+ 160          //
+ 161          //                                              if(MODE_FLAG == FAST_MODE || MODE_FLAG == NORMAL_MODE){//快速 和 普通 改变频率时改变脉宽
+ 162          //                                                      PULSE_TIME = MAX_PULSE_TIME;
+ 163          //                                                      //dis_diode_laser_work_pulse_time();    
+ 164          //                                              }else{  //专家模式
+ 165          //                                                      if(PULSE_TIME > MAX_PULSE_TIME){
+ 166          //                                                              PULSE_TIME = MAX_PULSE_TIME;
+ 167          //                                                              dis_diode_laser_work_pulse_time();
+ 168          //                                                      }
+ 169          //                                              }
+ 170          //                                              count_diode_laser_work_count_cyc();//计算最高脉冲时间
+ 171          //                                              delay_ms(50);
+ 172          //                                              last_down = 3;
+ 173          //                                      }else{KEY_YES = 0;}
+ 174          //                                      break;
+ 175          //                              case 4:  //能量档位-
+ 176          //                                      if(POWER_GEAR > MIN_POWER_GEAR && KEY_DOWN_FLAG == 1 && START_STOP_FLAG == 1){
+ 177          //                                              DIS_DEL_DIS(Pic_DIODE_LASER_WORK_DOWN,1797,777,1886,876,1797,777);
+C51 COMPILER V9.00   XS_DIODE_LASER_WORK                                                   08/14/2024 14:34:49 PAGE 4   
+
+ 178          //                                              XIANG1();
+ 179          //                                              POWER_GEAR--;
+ 180          //                                              dis_diode_laser_work_power_gear(1);
+ 181          //                                              delay_ms(50);
+ 182          //                                              last_down = 4;
+ 183          //                                      }else{KEY_YES = 0;}
+ 184          //                                      break;
+ 185          //                              case 5:  //能量档位+
+ 186          //                                      if(POWER_GEAR < MAX_POWER_GEAR && KEY_DOWN_FLAG == 1 && START_STOP_FLAG == 1){
+ 187          //                                              DIS_DEL_DIS(Pic_DIODE_LASER_WORK_DOWN,1797,593,1886,692,1797,593);
+ 188          //                                              XIANG1();
+ 189          //                                              POWER_GEAR++;
+ 190          //                                              dis_diode_laser_work_power_gear(1);
+ 191          //                                              delay_ms(50);
+ 192          //                                              last_down = 5;
+ 193          //                                      }else{KEY_YES = 0;}
+ 194          //                                      break;
+ 195          //                              case 6:  //脉宽-
+ 196          //                                      if(PULSE_TIME > 10 && KEY_DOWN_FLAG == 1 && MODE_FLAG == PROFESSIONAL_MODE && START_STOP_FLAG == 1)
+             -{
+ 197          //                                              DIS_DEL_DIS(Pic_DIODE_LASER_WORK_DOWN,672,280,753,345,672,280);
+ 198          //                                              XIANG1();
+ 199          //                                              PULSE_TIME -= 10;
+ 200          //                                              dis_diode_laser_work_pulse_time();
+ 201          //
+ 202          //                                              count_diode_laser_work_max_fre_gear();
+ 203          //
+ 204          ////                                            if(FRE_GEAR > MAX_FRE){
+ 205          ////                                                    FRE_GEAR = MAX_FRE;
+ 206          ////                                                    dis_diode_laser_work_fre_gear();
+ 207          ////                                                    count_diode_laser_work_count_cyc();//计算最高脉冲时间
+ 208          ////                                            }
+ 209          //                                              delay_ms(50);
+ 210          //                                              last_down = 6;
+ 211          //                                      }else{KEY_YES = 0;}
+ 212          //                                      break;
+ 213          //                              case 7:  //脉宽+
+ 214          //                                      if(PULSE_TIME < MAX_PULSE && KEY_DOWN_FLAG == 1 && MODE_FLAG == PROFESSIONAL_MODE && START_STOP_FLA
+             -G == 1){
+ 215          //                                              DIS_DEL_DIS(Pic_DIODE_LASER_WORK_DOWN,1161,280,1242,344,1161,280);
+ 216          //                                              XIANG1();
+ 217          //                                              PULSE_TIME += 10;
+ 218          //                                              dis_diode_laser_work_pulse_time();
+ 219          //
+ 220          //                                              count_diode_laser_work_max_fre_gear();
+ 221          //
+ 222          //                                              if(FRE_GEAR > MAX_FRE){
+ 223          //                                                      FRE_GEAR = MAX_FRE;
+ 224          //                                                      dis_diode_laser_work_fre_gear();
+ 225          //                                                      count_diode_laser_work_count_cyc();//计算最高脉冲时间
+ 226          //                                              }
+ 227          //                                              delay_ms(50);
+ 228          //                                              last_down = 7;
+ 229          //                                      }else{KEY_YES = 0;}
+ 230          //                                      break;
+ 231          //                              case 8:
+ 232          //                                      if(water_error == 0 && handle_temp_error == 0 && flow_error == 0 && RX_PROBE_MODE > 0){//水温正常
+ 233          //                                              XIANG1();
+ 234          //                                              if(START_STOP_FLAG == 1){
+ 235          //                                                      if(MACHINES_ID == RX_PROBE_ID || MACHINES_ID == 200 || RX_PROBE_ID == 200){
+ 236          //                                                              if(CHECK_SET == 0){ //输出引脚有输出
+ 237          //                                                                      delay_ms(200);
+C51 COMPILER V9.00   XS_DIODE_LASER_WORK                                                   08/14/2024 14:34:49 PAGE 5   
+
+ 238          //                                                                      XIANG1();
+ 239          //                                                                      DIS_FONT_C(0x00,0x00,4,0x01,0,0,"err1");
+ 240          //                                                              }else{  //输出引脚没有输出
+ 241          //                                                                      START_STOP_FLAG = 0;
+ 242          //                                                                      orc = count_diode_laser_work_set_current();
+ 243          //                                                                      PWM0_INIT(2000,orc);//2KHZ
+ 244          //                                                                      POWER_READY_ON;
+ 245          //                                                                      DIS_DEL_DIS(pic,0,0,40,16,0,0);
+ 246          //                                                              }
+ 247          //                                                      }else{
+ 248          //                                                              delay_ms(200);
+ 249          //                                                              XIANG1();
+ 250          //                                                              DIS_PICNUM(Pic_WARNING_ID);
+ 251          //                                                              dis_version();
+ 252          //                                                              KEY_YES = 0;
+ 253          //                                                              while(KEY_YES == 0);
+ 254          //                                                              XIANG1();
+ 255          //                                                              INTERFACE = PAGE_CHOOSE_MODE;
+ 256          //                                                              goto over_main_xs_diode_laser_work;
+ 257          //                                                      }
+ 258          //                                              }else{
+ 259          //                                                      KEY_DOWN_FLAG = 1;
+ 260          //                                                      START_STOP_FLAG = 1;
+ 261          //                                                      POWER_SET_OFF;
+ 262          //                                                      POWER_READY_OFF;        //关电源ready
+ 263          //                                                      close_pwm();            //关闭模拟信号
+ 264          //                                              }
+ 265          //                                              cut_diode_laser_work_start_stop_flag(pic);
+ 266          //                                      }
+ 267          //                                      delay_ms(100);
+ 268          //                                      KEY_YES = 0;
+ 269          //                                      break;
+ 270          //                              case 9:
+ 271          //                                      if(MODE_FLAG == NORMAL_MODE || MODE_FLAG ==     PROFESSIONAL_MODE){
+ 272          //                                              if(HANDLE_PROBE_COLE_GEAR != 0){
+ 273          //                                                      XIANG1();
+ 274          //                                                      HANDLE_PROBE_COLE_GEAR = 0;
+ 275          //                                                      dis_diode_laser_work_handle_probe_cold_gear();
+ 276          //                                              }
+ 277          //                                      }KEY_YES = 0;
+ 278          //                                      break;
+ 279          //                               case 10:
+ 280          //                                      if(MODE_FLAG == NORMAL_MODE || MODE_FLAG ==     PROFESSIONAL_MODE){
+ 281          //                                              if(HANDLE_PROBE_COLE_GEAR != 1){
+ 282          //                                                      XIANG1();
+ 283          //                                                      HANDLE_PROBE_COLE_GEAR = 1;
+ 284          //                                                      dis_diode_laser_work_handle_probe_cold_gear();
+ 285          //                                              }
+ 286          //                                      }KEY_YES = 0;
+ 287          //                                      break;
+ 288          //                               case 11:
+ 289          //                                      if(MODE_FLAG == NORMAL_MODE || MODE_FLAG ==     PROFESSIONAL_MODE){
+ 290          //                                              if(HANDLE_PROBE_COLE_GEAR != 2){
+ 291          //                                                      XIANG1();
+ 292          //                                                      HANDLE_PROBE_COLE_GEAR = 2;
+ 293          //                                                      dis_diode_laser_work_handle_probe_cold_gear();
+ 294          //                                              }
+ 295          //                                      }KEY_YES = 0;
+ 296          //                                      break;
+ 297          //                      }
+ 298          //              }else{
+ 299          //                      switch(last_down){
+C51 COMPILER V9.00   XS_DIODE_LASER_WORK                                                   08/14/2024 14:34:49 PAGE 6   
+
+ 300          //                              case 2:DIS_DEL_DIS(pic, 22, 777,111, 876, 22, 777);last_down = 0;break;
+ 301          //                              case 3:DIS_DEL_DIS(pic, 22, 593,111, 692, 22, 593);last_down = 0;break;
+ 302          //                              case 4:DIS_DEL_DIS(pic,1797,777,1886,876,1797,777);last_down = 0;break;
+ 303          //                              case 5:DIS_DEL_DIS(pic,1797,593,1886,692,1797,593);last_down = 0;break;
+ 304          //                              case 6:DIS_DEL_DIS(pic,672, 280,753, 345,672, 280);last_down = 0;break;
+ 305          //                              case 7:DIS_DEL_DIS(pic,1161,280,1242,344,1161,280);last_down = 0;break;
+ 306          //                      }
+ 307          //                      pulse_cc = 0;
+ 308          //              }
+ 309          //              
+ 310          //              i++;
+ 311          //              if(i > 1000){//每秒进入
+ 312          //                      WATER_TEMP = Get_ADC_RES_WATER_TEMP();//获取温度
+ 313          //                      //检测温度是否在范围内
+ 314          //                      if(WATER_WARNING_FLAG == 0){
+ 315          //                              if(WATER_TEMP >= WATER_WARNING_UPPER_LIMITS)water_error = 1;
+ 316          //                              else if(WATER_TEMP <= WATER_WARNING_LOWER_LIMITS)water_error = 1;
+ 317          //                              else{water_error = 0;}
+ 318          //                      }else{water_error = 0;}
+ 319          //                              
+ 320          //                      if(last_water_error != water_error){
+ 321          //                              last_water_error = water_error;
+ 322          //                              XIANG1();
+ 323          //                              START_STOP_FLAG = 1;
+ 324          //                              KEY_DOWN_FLAG = 1;
+ 325          //                              POWER_SET_OFF;
+ 326          //                              POWER_READY_OFF;//关电源ready
+ 327          //                              close_pwm();            //关闭模拟信号
+ 328          //                              close_handle_led();
+ 329          //                              cut_diode_laser_work_start_stop_flag(pic);
+ 330          //                              DIS_FONT_WEI_NUMBER_CM(pic,0,0xff,0xff,0x02,1,1,0,0);//---------------------
+ 331          //                      }
+ 332          //                      
+ 333          //                      dis_diode_laser_work_water_temp(1,water_error);
+ 334          //                      i = 0;
+ 335          //                      if(WATER_TEMP != 255){
+ 336          //                              if(WATER_TEMP >= WATER_COLD_UPPER_LIMITS)COLD_WATER_ON; //温度高了打开制冷
+ 337          //                              if(WATER_TEMP <= WATER_COLD_LOWER_LIMITS)COLD_WATER_OFF;//温度低了关闭制冷
+ 338          //                      }else{COLD_WATER_OFF;}
+ 339          //                      
+ 340          //                      count_int1_ll();//检测水流量
+ 341          //                      if(laset_flow_rate != FLOW_RATE){
+ 342          //                              laset_flow_rate = FLOW_RATE;
+ 343          //                              if(FLOW_FLAG == 0){
+ 344          //                                      if(FLOW_RATE < WARNING_FLOW_RATE)flow_error = 1;
+ 345          //                                      else{flow_error = 0;}
+ 346          //                              }else{flow_error = 0;}
+ 347          //                              
+ 348          //                              if(last_flow_error != flow_error){
+ 349          //                                      last_flow_error = flow_error;
+ 350          //                                      XIANG1();
+ 351          //                                      START_STOP_FLAG = 1;
+ 352          //                                      KEY_DOWN_FLAG = 1;
+ 353          //                                      POWER_SET_OFF;
+ 354          //                                      POWER_READY_OFF;//关电源ready
+ 355          //                                      close_pwm();            //关闭模拟信号
+ 356          //                                      close_handle_led();
+ 357          //                                      cut_diode_laser_work_start_stop_flag(pic);
+ 358          //                                      DIS_FONT_WEI_NUMBER_CM(pic,0,0xff,0xff,0x02,2,1,0,0);//---------------------
+ 359          //                              }
+ 360          //                              dis_diode_laser_work_flow_rate(1,flow_error);
+ 361          //                      }
+C51 COMPILER V9.00   XS_DIODE_LASER_WORK                                                   08/14/2024 14:34:49 PAGE 7   
+
+ 362          //              }
+ 363          //              
+ 364          //              if(key_flag != KEY){//检测按键
+ 365          //                      key_flag = KEY;
+ 366          //                      if(key_flag == 0 && START_STOP_FLAG == 0){
+ 367          //                              XIANG1();
+ 368          //                              delay_ms(500);
+ 369          //                              COUNT_TT = 1000;
+ 370          //                              KEY_DOWN_FLAG = 0;
+ 371          //                              //open_handle_led();
+ 372          //                      }else{
+ 373          //                              KEY_DOWN_FLAG = 1;
+ 374          //                              //POWER_SET_OFF;
+ 375          //                              //close_handle_led();
+ 376          //                      }
+ 377          //              }
+ 378          //              
+ 379          //              if(probe_mode != RX_PROBE_MODE){
+ 380          //                      XIANG1();
+ 381          //                      START_STOP_FLAG = 1;
+ 382          //                      KEY_DOWN_FLAG = 1;
+ 383          //                      POWER_SET_OFF;
+ 384          //                      POWER_READY_OFF;//关电源ready
+ 385          //                      close_pwm();            //关闭模拟信号
+ 386          //                      close_handle_led();
+ 387          //                      cut_diode_laser_work_start_stop_flag(pic);
+ 388          //                      cut_diode_laser_work_rx_probe_mode();
+ 389          //                      probe_mode = RX_PROBE_MODE;
+ 390          //              }
+ 391          //              
+ 392          //              if(COUNT_FLAG == 0){//加加
+ 393          //                      set_count_add();
+ 394          //                      COUNT_FLAG = 1;
+ 395          //              }
+ 396          //              
+ 397          //              if(total != RX_PROBE_TOTAL){//总数不一样时，显示总数
+ 398          //                      total = RX_PROBE_TOTAL;
+ 399          //                      SHOTS_USED++;
+ 400          //                      dis_diode_laser_work_shots_total(1);
+ 401          //                      //dis_diode_laser_work_shots_used(0);
+ 402          //              }
+ 403          //              
+ 404          //              if(handle_ttemp != HANDLE_PROBE_TEMP){//手柄温度
+ 405          //                      handle_ttemp = HANDLE_PROBE_TEMP;
+ 406          //                      if(HANDLE_PROBE_WARNING_FLAG == 0){
+ 407          //                              if(HANDLE_PROBE_TEMP >= HANDLE_PROBE_WARNING_UPPER_LIMITS)handle_temp_error = 1;
+ 408          //                              else if(HANDLE_PROBE_TEMP <= HANDLE_PROBE_WARNING_LOWER_LIMITS)handle_temp_error = 1;
+ 409          //                              else{handle_temp_error = 0;}
+ 410          //                      }else{handle_temp_error = 0;}
+ 411          //                      
+ 412          //                      if(last_handle_temp_error != handle_temp_error){
+ 413          //                              last_handle_temp_error = handle_temp_error;
+ 414          //                              XIANG1();
+ 415          //                              START_STOP_FLAG = 1;
+ 416          //                              KEY_DOWN_FLAG = 1;
+ 417          //                              POWER_SET_OFF;
+ 418          //                              POWER_READY_OFF;//关电源ready
+ 419          //                              close_pwm();            //关闭模拟信号
+ 420          //                              close_handle_led();
+ 421          //                              cut_diode_laser_work_start_stop_flag(pic);
+ 422          //                              DIS_FONT_WEI_NUMBER_CM(pic,0,0xff,0xff,0x02,3,1,0,0);//---------------------
+ 423          //                      }
+C51 COMPILER V9.00   XS_DIODE_LASER_WORK                                                   08/14/2024 14:34:49 PAGE 8   
+
+ 424          //                      dis_diode_laser_work_handle_temp(1,handle_temp_error);
+ 425          //                      
+ 426          //                      if(HANDLE_PROBE_TEMP != 255){
+ 427          //                              if(HANDLE_PROBE_TEMP >= HANDLE_PROBE_COLD_UPPER_LIMITS[HANDLE_PROBE_COLE_GEAR])COLD_HANDLE_PROBE_ON;
+             -        //温度高了打开制冷
+ 428          //                              if(HANDLE_PROBE_TEMP <= HANDLE_PROBE_COLD_LOWER_LIMITS[HANDLE_PROBE_COLE_GEAR])COLD_HANDLE_PROBE_OFF
+             -;//温度低了关闭制冷
+ 429          //                      }else{COLD_HANDLE_PROBE_OFF;}
+ 430          //              }
+ 431          //
+ 432          //              
+ 433          //              if(LCD_KEY_RETURN_VALUE > 0){
+ 434          //                      if(LCD_KEY_RETURN_VALUE == 1 && LCD_LOCK_FLAG == OPEN_LOCK && POWER_GEAR > MIN_POWER_GEAR && KEY_DOWN
+             -_FLAG == 1 && START_STOP_FLAG == 1){//能量减减
+ 435          //                              XIANG1();
+ 436          //                              POWER_GEAR--;
+ 437          //                              dis_diode_laser_work_power_gear(1);
+ 438          //                              LCD_KEY_RETURN_VALUE = 0;       
+ 439          //                      }else if(LCD_KEY_RETURN_VALUE == 2 && LCD_LOCK_FLAG == OPEN_LOCK && POWER_GEAR < MAX_POWER_GEAR && KE
+             -Y_DOWN_FLAG == 1 && START_STOP_FLAG == 1){
+ 440          //                              XIANG1();
+ 441          //                              POWER_GEAR++;
+ 442          //                              dis_diode_laser_work_power_gear(1);
+ 443          //                              LCD_KEY_RETURN_VALUE = 0;
+ 444          //                      }else if(LCD_KEY_RETURN_VALUE == 3 && KEY_DOWN_FLAG == 1){
+ 445          //                              XIANG1();
+ 446          //                              if(LCD_LOCK_FLAG == OPEN_LOCK){LCD_LOCK_FLAG = CLOSE_LOCK;}else{LCD_LOCK_FLAG = OPEN_LOCK;}
+ 447          //                              set_lcd_lock_pic();
+ 448          //                              LCD_KEY_RETURN_VALUE = 0;
+ 449          //                      }else if(LCD_KEY_RETURN_VALUE == 4 && LCD_LOCK_FLAG == OPEN_LOCK && water_error == 0 && handle_temp_e
+             -rror == 0 && flow_error == 0 && RX_PROBE_MODE > 0){
+ 450          //                              XIANG1();
+ 451          //                              if(START_STOP_FLAG == 1){
+ 452          //                                      if(MACHINES_ID == RX_PROBE_ID || MACHINES_ID == 200 || RX_PROBE_ID == 200){
+ 453          //                                              if(CHECK_SET == 0){ //输出引脚有输出
+ 454          //                                                      delay_ms(200);
+ 455          //                                                      XIANG1();
+ 456          //                                                      DIS_FONT_C(0x00,0x00,4,0x01,0,0,"err1");
+ 457          //                                              }else{  //输出引脚没有输出
+ 458          //                                                      START_STOP_FLAG = 0;
+ 459          //                                                      orc = count_diode_laser_work_set_current();
+ 460          //                                                      PWM0_INIT(2000,orc);//2KHZ
+ 461          //                                                      POWER_READY_ON;
+ 462          //                                                      DIS_DEL_DIS(pic,0,0,40,16,0,0);
+ 463          //                                              }
+ 464          //                                      }else{
+ 465          //                                              delay_ms(200);
+ 466          //                                              XIANG1();
+ 467          //                                              DIS_PICNUM(Pic_WARNING_ID);
+ 468          //                                              dis_version();
+ 469          //                                              KEY_YES = 0;
+ 470          //                                              while(KEY_YES == 0);
+ 471          //                                              XIANG1();
+ 472          //                                              INTERFACE = PAGE_CHOOSE_MODE;
+ 473          //                                              goto over_main_xs_diode_laser_work;
+ 474          //                                      }
+ 475          //                              }else{
+ 476          //                                      KEY_DOWN_FLAG = 1;
+ 477          //                                      START_STOP_FLAG = 1;
+ 478          //                                      POWER_SET_OFF;
+ 479          //                                      POWER_READY_OFF;        //关电源ready
+ 480          //                                      close_pwm();            //关闭模拟信号
+C51 COMPILER V9.00   XS_DIODE_LASER_WORK                                                   08/14/2024 14:34:49 PAGE 9   
+
+ 481          //                              }
+ 482          //                              cut_diode_laser_work_start_stop_flag(pic);
+ 483          //                              LCD_KEY_RETURN_VALUE = 0;
+ 484          //                      }else{
+ 485          //                              LCD_KEY_RETURN_VALUE = 0;
+ 486          //                      }
+ 487          //              }
+ 488          //
+ 489          //
+ 490          //
+ 491          //
+ 492          //              
+ 493          //      }while(1);
+ 494          //      over_main_xs_diode_laser_work:
+ 495          //      _nop_();
+ 496          //      
+ 497          //      START_STOP_FLAG = 1;
+ 498          //      KEY_DOWN_FLAG = 1;
+ 499          //      POWER_READY_OFF;//关电源ready
+ 500          //      close_pwm();            //关闭模拟信号
+ 501          //      POWER_SET_OFF;
+ 502          //      close_handle_led();
+ 503          //      
+ 504          //}
+ 505          //
+ 506          //void count_int1_ll(void)
+ 507          //{
+ 508          //      FLOW_RATE = (u8)(100*INT1_CYC/FLOW_CONSTANT);
+ 509          //}
+ 510          // 
+ 511          // 
+ 512          // 
+ 513          // 
+ 514          // 
+ 515          // 
+ 516          // 
+ 517          // 
+ 518          // 
+ 519          // 
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =   ----    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

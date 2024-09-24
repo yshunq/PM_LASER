@@ -1,0 +1,413 @@
+C51 COMPILER V9.00   XS_WRITE_HANDLE                                                       08/14/2024 14:33:04 PAGE 1   
+
+
+C51 COMPILER V9.00, COMPILATION OF MODULE XS_WRITE_HANDLE
+OBJECT MODULE PLACED IN ..\hex\XS_write_handle.obj
+COMPILER INVOKED BY: C:\Keil _C51\C51\BIN\C51.EXE ..\main\XS_write_handle.c LARGE BROWSE INCDIR(..\user;..\common;..\dis
+                    -play) DEBUG OBJECTEXTEND PRINT(.\LIST\XS_write_handle.lst) OBJECT(..\hex\XS_write_handle.obj)
+
+line level    source
+
+   1          //#include "config.h"
+   2          //
+   3          //const u8 code MAIN_KEY_WHANDLE = 21;
+   4          //const u16  code MAIN_XY_WHANDLE[]=
+   5          //{
+   6          //      494,593,633,733, //1
+   7          //      601,700,633,733, //2
+   8          //      707,806,633,733, //3
+   9          //      814,913,633,733, //4
+  10          //      
+  11          //      387,486,744,843, //5
+  12          //      494,593,744,843, //6
+  13          //      601,700,744,843, //7
+  14          //      707,806,744,843, //8
+  15          //      814,913,744,843, //9
+  16          //
+  17          //      387,486,633,733, //0
+  18          //      
+  19          //      690,878,283,370, //11 写入选择
+  20          //      690,878,401,488, //12 写入选择
+  21          //       
+  22          //      392,641,514,620, //13 读取
+  23          //      648,908,514,620, //14 写入
+  24          //      
+  25          //      0,130,0,130, //15 返回
+  26          //      
+  27          //      
+  28          //      1065,1128,416,479, //17 年减  
+  29          //      1065,1128,604,667, //16 年加
+  30          //      
+  31          //      1239,1302,416,479, //19 月减  
+  32          //      1239,1302,604,667, //18 月加
+  33          //      
+  34          //      1412,1475,416,479, //21 日减   
+  35          //      1412,1475,604,667, //20 日加
+  36          //};
+  37          // 
+  38          //void main_xs_write_handle(void)
+  39          //{
+  40          //      u8 key,wei[2],adv_psw[2][7],i,ad_flag;
+  41          //      u32 total[2];
+  42          //      
+  43          //      set_check_handle();
+  44          //      delay_ms(500);
+  45          //      set_check_data();
+  46          //      
+  47          //      DIS_PICNUM(Pic_WRITE_HANDLE); //显示高级设置页面
+  48          //
+  49          //      ad_flag = 0;
+  50          //      wei[ad_flag] = 0;
+  51          //      adv_psw[ad_flag][0] = 9;
+  52          //      adv_psw[ad_flag][1] = 0;
+  53          //      adv_psw[ad_flag][2] = 0;
+  54          //      adv_psw[ad_flag][3] = 0;
+C51 COMPILER V9.00   XS_WRITE_HANDLE                                                       08/14/2024 14:33:04 PAGE 2   
+
+  55          //      adv_psw[ad_flag][4] = 0;
+  56          //      adv_psw[ad_flag][5] = 0;
+  57          //      adv_psw[ad_flag][6] = 0;
+  58          //      dis_write_ahandle_total(ad_flag,adv_psw,wei[ad_flag]);
+  59          //      
+  60          //      ad_flag = 1;
+  61          //      wei[ad_flag] = 0;
+  62          //      adv_psw[ad_flag][0] = 0;
+  63          //      adv_psw[ad_flag][1] = 0;
+  64          //      adv_psw[ad_flag][2] = 0;
+  65          //      adv_psw[ad_flag][3] = 0;
+  66          //      adv_psw[ad_flag][4] = 0;
+  67          //      adv_psw[ad_flag][5] = 0;
+  68          //      adv_psw[ad_flag][6] = 0;
+  69          //      dis_write_ahandle_total(ad_flag,adv_psw,wei[ad_flag]);
+  70          //
+  71          //      delay_ms(500);
+  72          //      dis_ahandle_id();
+  73          //      dis_read_ahandle_shot_times();
+  74          //      dis_ahandle_date();
+  75          //  
+  76          //      ad_flag = 0;
+  77          //      
+  78          //      do{
+  79          //              delay_ms(1);
+  80          //              if(KEY_YES!=0x00)
+  81          //              {
+  82          //                      ADS7843_KEY(); //扫描按键
+  83          //                      key=KEY_FANHUI(MAIN_KEY_WHANDLE,MAIN_XY_WHANDLE); 
+  84          //                      switch(key)
+  85          //                      {
+  86          //                              case 1://1
+  87          //                                      if((ad_flag == 0 && wei[ad_flag] < 3) || (ad_flag == 1 && wei[ad_flag] < 7))
+  88          //                                      {
+  89          //                                              XIANG1();
+  90          //                                              adv_psw[ad_flag][wei[ad_flag]] = 1;
+  91          //                                              wei[ad_flag]++;
+  92          //                                              dis_write_ahandle_total(ad_flag,adv_psw,wei[ad_flag]);
+  93          //                                      }
+  94          //                                      break;
+  95          //                              case 2://2
+  96          //                                      if((ad_flag == 0 && wei[ad_flag] < 3) || (ad_flag == 1 && wei[ad_flag] < 7))
+  97          //                                      {
+  98          //                                              XIANG1();
+  99          //                                              adv_psw[ad_flag][wei[ad_flag]] = 2;
+ 100          //                                              wei[ad_flag]++;
+ 101          //                                              dis_write_ahandle_total(ad_flag,adv_psw,wei[ad_flag]);
+ 102          //                                      }
+ 103          //                                      break;
+ 104          //                              case 3://3
+ 105          //                                      if((ad_flag == 0 && wei[ad_flag] < 3) || (ad_flag == 1 && wei[ad_flag] < 7))
+ 106          //                                      {
+ 107          //                                              XIANG1();
+ 108          //                                              adv_psw[ad_flag][wei[ad_flag]] = 3;
+ 109          //                                              wei[ad_flag]++;
+ 110          //                                              dis_write_ahandle_total(ad_flag,adv_psw,wei[ad_flag]);
+ 111          //                                      }
+ 112          //                                      break;
+ 113          //                              case 4://4
+ 114          //                                      if((ad_flag == 0 && wei[ad_flag] < 3) || (ad_flag == 1 && wei[ad_flag] < 7))
+ 115          //                                      {
+ 116          //                                              XIANG1();
+C51 COMPILER V9.00   XS_WRITE_HANDLE                                                       08/14/2024 14:33:04 PAGE 3   
+
+ 117          //                                              adv_psw[ad_flag][wei[ad_flag]] = 4;
+ 118          //                                              wei[ad_flag]++;
+ 119          //                                              dis_write_ahandle_total(ad_flag,adv_psw,wei[ad_flag]);
+ 120          //                                      }
+ 121          //                                      break;
+ 122          //                              case 5://5
+ 123          //                                      if((ad_flag == 0 && wei[ad_flag] < 3) || (ad_flag == 1 && wei[ad_flag] < 7))
+ 124          //                                      {
+ 125          //                                              XIANG1();
+ 126          //                                              adv_psw[ad_flag][wei[ad_flag]] = 5;
+ 127          //                                              wei[ad_flag]++;
+ 128          //                                              dis_write_ahandle_total(ad_flag,adv_psw,wei[ad_flag]);
+ 129          //                                      }
+ 130          //                                      break;
+ 131          //                              case 6://6
+ 132          //                                      if((ad_flag == 0 && wei[ad_flag] < 3) || (ad_flag == 1 && wei[ad_flag] < 7))
+ 133          //                                      {
+ 134          //                                              XIANG1();
+ 135          //                                              adv_psw[ad_flag][wei[ad_flag]] = 6;
+ 136          //                                              wei[ad_flag]++;
+ 137          //                                              dis_write_ahandle_total(ad_flag,adv_psw,wei[ad_flag]);
+ 138          //                                      }
+ 139          //                                      break;
+ 140          //                              case 7://7
+ 141          //                                      if((ad_flag == 0 && wei[ad_flag] < 3) || (ad_flag == 1 && wei[ad_flag] < 7))
+ 142          //                                      {
+ 143          //                                              XIANG1();
+ 144          //                                              adv_psw[ad_flag][wei[ad_flag]] = 7;
+ 145          //                                              wei[ad_flag]++;
+ 146          //                                              dis_write_ahandle_total(ad_flag,adv_psw,wei[ad_flag]);
+ 147          //                                      }
+ 148          //                                      break;
+ 149          //                              case 8://8
+ 150          //                                      if((ad_flag == 0 && wei[ad_flag] < 3) || (ad_flag == 1 && wei[ad_flag] < 7))
+ 151          //                                      {
+ 152          //                                              XIANG1();
+ 153          //                                              adv_psw[ad_flag][wei[ad_flag]] = 8;
+ 154          //                                              wei[ad_flag]++;
+ 155          //                                              dis_write_ahandle_total(ad_flag,adv_psw,wei[ad_flag]);
+ 156          //                                      }
+ 157          //                                      break;
+ 158          //                              case 9://9
+ 159          //                                      if((ad_flag == 0 && wei[ad_flag] < 3) || (ad_flag == 1 && wei[ad_flag] < 7))
+ 160          //                                      {
+ 161          //                                              XIANG1();
+ 162          //                                              adv_psw[ad_flag][wei[ad_flag]] = 9;
+ 163          //                                              wei[ad_flag]++;
+ 164          //                                              dis_write_ahandle_total(ad_flag,adv_psw,wei[ad_flag]);
+ 165          //                                      }
+ 166          //                                      break;
+ 167          //                              case 10://0
+ 168          //                                      if((ad_flag == 0 && wei[ad_flag] < 3) || (ad_flag == 1 && wei[ad_flag] < 7))
+ 169          //                                      {
+ 170          //                                              XIANG1();
+ 171          //                                              adv_psw[ad_flag][wei[ad_flag]] = 0;
+ 172          //                                              wei[ad_flag]++;
+ 173          //                                              dis_write_ahandle_total(ad_flag,adv_psw,wei[ad_flag]);
+ 174          //                                      }
+ 175          //                                      break;
+ 176          //                              case 11:
+ 177          //                                      //if(ad_flag != 0)
+ 178          //                                      //{
+C51 COMPILER V9.00   XS_WRITE_HANDLE                                                       08/14/2024 14:33:04 PAGE 4   
+
+ 179          //                                              XIANG1();
+ 180          //                                              ad_flag = 0;
+ 181          //                                              wei[ad_flag] = 0;
+ 182          //                                              adv_psw[ad_flag][0] = 0;
+ 183          //                                              adv_psw[ad_flag][1] = 0;
+ 184          //                                              adv_psw[ad_flag][2] = 0;
+ 185          //                                              adv_psw[ad_flag][3] = 0;
+ 186          //                                              adv_psw[ad_flag][4] = 0;
+ 187          //                                              adv_psw[ad_flag][5] = 0;
+ 188          //                                              adv_psw[ad_flag][6] = 0;
+ 189          //                                              dis_write_ahandle_total(ad_flag,adv_psw,wei[ad_flag]);
+ 190          //                                      //}
+ 191          //                                      break;
+ 192          //                              case 12:
+ 193          //                                      //if(ad_flag != 1)
+ 194          //                                      //{
+ 195          //                                              XIANG1();
+ 196          //                                              ad_flag = 1;
+ 197          //                                              wei[ad_flag] = 0;
+ 198          //                                              adv_psw[ad_flag][0] = 0;
+ 199          //                                              adv_psw[ad_flag][1] = 0;
+ 200          //                                              adv_psw[ad_flag][2] = 0;
+ 201          //                                              adv_psw[ad_flag][3] = 0;
+ 202          //                                              adv_psw[ad_flag][4] = 0;
+ 203          //                                              adv_psw[ad_flag][5] = 0;
+ 204          //                                              adv_psw[ad_flag][6] = 0;
+ 205          //                                              dis_write_ahandle_total(ad_flag,adv_psw,wei[ad_flag]);
+ 206          //                                      //}
+ 207          //                                      break;
+ 208          //                              case 13://查询
+ 209          //                                      XIANG1();
+ 210          //                                      set_check_handle();
+ 211          //                                      delay_ms(500);
+ 212          //                                      set_check_data();
+ 213          //                                      delay_ms(500);
+ 214          //                                      dis_ahandle_id();
+ 215          //                                      dis_read_ahandle_shot_times();
+ 216          //                                      dis_ahandle_date();
+ 217          //                                      break;
+ 218          //                              case 14://写点
+ 219          //                                      XIANG1();
+ 220          //                                      total[0] = 0;
+ 221          //                                      for(i=0;i<wei[0];i++)total[0] = 10*total[0] + adv_psw[0][i];
+ 222          //                                      total[1] = 0;
+ 223          //                                      for(i=0;i<wei[1];i++)total[1] = 10*total[1] + adv_psw[1][i];
+ 224          //                                      set_write_handle(total[0],total[1]);
+ 225          //                                      delay_ms(500);
+ 226          //                                      set_write_data();
+ 227          //                                      delay_ms(500);
+ 228          //                                      set_check_handle();
+ 229          //                                      delay_ms(500);
+ 230          //                                      dis_ahandle_id();
+ 231          //                                      dis_read_ahandle_shot_times();
+ 232          //                                      dis_ahandle_date();
+ 233          //                                      ad_flag = 0;
+ 234          //                                      wei[ad_flag] = 0;
+ 235          //                                      adv_psw[ad_flag][0] = 0;
+ 236          //                                      adv_psw[ad_flag][1] = 0;
+ 237          //                                      adv_psw[ad_flag][2] = 0;
+ 238          //                                      adv_psw[ad_flag][3] = 0;
+ 239          //                                      adv_psw[ad_flag][4] = 0;
+ 240          //                                      adv_psw[ad_flag][5] = 0;
+C51 COMPILER V9.00   XS_WRITE_HANDLE                                                       08/14/2024 14:33:04 PAGE 5   
+
+ 241          //                                      adv_psw[ad_flag][6] = 0;
+ 242          //                                      
+ 243          //                                      ad_flag = 1;
+ 244          //                                      wei[ad_flag] = 0;
+ 245          //                                      adv_psw[ad_flag][0] = 0;
+ 246          //                                      adv_psw[ad_flag][1] = 0;
+ 247          //                                      adv_psw[ad_flag][2] = 0;
+ 248          //                                      adv_psw[ad_flag][3] = 0;
+ 249          //                                      adv_psw[ad_flag][4] = 0;
+ 250          //                                      adv_psw[ad_flag][5] = 0;
+ 251          //                                      adv_psw[ad_flag][6] = 0;
+ 252          //                                      break;
+ 253          //                              case 15:// 返回
+ 254          //                                      XIANG1();
+ 255          //                                      INTERFACE = PAGE_CHOOSE_MODE;
+ 256          //                                      goto over_main_xs_write_handle;
+ 257          //                                      break;
+ 258          //                              case 16://A年加加
+ 259          //                                      if(AHANDLE_YEAR < 200)
+ 260          //                                      {
+ 261          //                                              XIANG1();
+ 262          //                                              AHANDLE_YEAR++;
+ 263          //                                              dis_ahandle_date();
+ 264          //                                      }
+ 265          //                                      break;
+ 266          //                              case 17://A年减减
+ 267          //                                if(AHANDLE_YEAR > 0)
+ 268          //                                      {
+ 269          //                                              XIANG1();
+ 270          //                                              AHANDLE_YEAR--;
+ 271          //                                              dis_ahandle_date();
+ 272          //                                      }
+ 273          //                                      break;
+ 274          //                              case 18://A月加加
+ 275          //                                      if(AHANDLE_MONTHS < 12)
+ 276          //                                      {
+ 277          //                                              XIANG1();
+ 278          //                                              AHANDLE_MONTHS++;
+ 279          //                                              dis_ahandle_date();
+ 280          //                                      }
+ 281          //                                      break;
+ 282          //                              case 19://A月减减
+ 283          //                                      if(AHANDLE_MONTHS > 1)
+ 284          //                                      {
+ 285          //                                              XIANG1();
+ 286          //                                              AHANDLE_MONTHS--;
+ 287          //                                              dis_ahandle_date();
+ 288          //                                      }
+ 289          //                                      break;
+ 290          //                              case 20://A日加加
+ 291          //                                      if(AHANDLE_DAY < 31)
+ 292          //                                      {
+ 293          //                                              XIANG1();
+ 294          //                                              AHANDLE_DAY++;
+ 295          //                                              dis_ahandle_date();
+ 296          //                                      }
+ 297          //                                      break;
+ 298          //                              case 21://A日减减
+ 299          //                                      if(AHANDLE_DAY > 1)
+ 300          //                                      {
+ 301          //                                        XIANG1();
+ 302          //                                              AHANDLE_DAY--;
+C51 COMPILER V9.00   XS_WRITE_HANDLE                                                       08/14/2024 14:33:04 PAGE 6   
+
+ 303          //                                              dis_ahandle_date();
+ 304          //                                      }
+ 305          //                                      break;
+ 306          //                      }
+ 307          //                      KEY_YES = 0;
+ 308          //    }
+ 309          //              
+ 310          //              WATER_TEMP = Get_ADC_RES_WATER_TEMP();//获取水温度
+ 311          //              if(WATER_TEMP != 255)
+ 312          //              {
+ 313          //                      if(WATER_TEMP >= WATER_COLD_UPPER_LIMITS)COLD_WATER_ON; //温度高了打开制冷
+ 314          //                      if(WATER_TEMP <= WATER_COLD_LOWER_LIMITS)COLD_WATER_OFF;//温度低了关闭制冷
+ 315          //              }else{COLD_WATER_OFF;}
+ 316          //              
+ 317          //              if(HANDLE_PROBE_TEMP != 255)//手柄温度
+ 318          //              {
+ 319          //                      if(HANDLE_PROBE_TEMP >= HANDLE_PROBE_COLD_UPPER_LIMITS[HANDLE_PROBE_COLE_GEAR])COLD_HANDLE_PROBE_ON;    
+             -//温度高了打开制冷
+ 320          //                      if(HANDLE_PROBE_TEMP <= HANDLE_PROBE_COLD_LOWER_LIMITS[HANDLE_PROBE_COLE_GEAR])COLD_HANDLE_PROBE_OFF;
+             -//温度低了关闭制冷
+ 321          //              }else{COLD_HANDLE_PROBE_OFF;}
+ 322          //              
+ 323          //      }while(1);
+ 324          //      over_main_xs_write_handle:
+ 325          //      _nop_();
+ 326          //}
+ 327          // 
+ 328          //void dis_write_ahandle_total(u8 ad,u8 (*adv_psw)[7],u8 wei)
+ 329          //{
+ 330          //      u32 dat;
+ 331          //      u16 x,y;
+ 332          //      u8 i;
+ 333          //      dat = 0;
+ 334          //      switch(ad)
+ 335          //      {
+ 336          //         case  0: x = 715; y = 308; break;
+ 337          //         case  1: x = 715; y = 425; break;
+ 338          //      }
+ 339          //      for(i=0;i<wei;i++)
+ 340          //      {
+ 341          //         dat = 10*dat + adv_psw[ad][i];
+ 342          //      }
+ 343          //      DIS_FONT_WEI_NUMBER_CM(Pic_WRITE_HANDLE,1,0x5C,0xF4,0x04,dat,7,x,y);
+ 344          //}
+ 345          // 
+ 346          //void dis_ahandle_id(void)
+ 347          //{
+ 348          //  DIS_FONT_WEI_NUMBER_CM(Pic_WRITE_HANDLE,1,0x5C,0xF4,0x04,RX_PROBE_ID,7,516,308);
+ 349          //}
+ 350          //
+ 351          //void dis_read_ahandle_shot_times(void)
+ 352          //{
+ 353          //  DIS_FONT_WEI_NUMBER_CM(Pic_WRITE_HANDLE,1,0x5C,0xF4,0x04,RX_PROBE_TOTAL,7,516,425);
+ 354          //}
+ 355          //
+ 356          //void dis_ahandle_date(void)
+ 357          //{
+ 358          //      u16 year;
+ 359          //      year = 2000 + AHANDLE_YEAR;
+ 360          //      DIS_FONT_WEI_NUMBER_CM(Pic_WRITE_HANDLE,1,0x5C,0xF4,0x04,year,4,1055,520);
+ 361          //      DIS_FONT_WEI_NUMBER_CM(Pic_WRITE_HANDLE,1,0x5C,0xF4,0x04,AHANDLE_MONTHS,2,1250,520);
+ 362          //      DIS_FONT_WEI_NUMBER_CM(Pic_WRITE_HANDLE,1,0x5C,0xF4,0x04,AHANDLE_DAY,2,1423,520);
+C51 COMPILER V9.00   XS_WRITE_HANDLE                                                       08/14/2024 14:33:04 PAGE 7   
+
+ 363          //}
+ 364          //
+ 365          //
+ 366          // 
+ 367          // 
+ 368          // 
+ 369          // 
+ 370          // 
+ 371          // 
+ 372          // 
+ 373          // 
+ 374          // 
+ 375          // 
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =   ----    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

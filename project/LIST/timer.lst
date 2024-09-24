@@ -1,0 +1,111 @@
+C51 COMPILER V9.00   TIMER                                                                 08/28/2024 17:05:53 PAGE 1   
+
+
+C51 COMPILER V9.00, COMPILATION OF MODULE TIMER
+OBJECT MODULE PLACED IN ..\hex\timer.obj
+COMPILER INVOKED BY: C:\Keil _C51\C51\BIN\C51.EXE ..\user\timer.c LARGE BROWSE INCDIR(..\user;..\common;..\display) DEBU
+                    -G OBJECTEXTEND PRINT(.\LIST\timer.lst) OBJECT(..\hex\timer.obj)
+
+line level    source
+
+   1          #include "timer.h"
+   2          #include "config.h"
+   3          
+   4          unsigned long DELAY_MS = 0;
+   5          unsigned long SYSTEM_COUNT = 0;
+   6          
+   7          void delay_ms(u32 ms)
+   8          {
+   9   1              DELAY_MS = 0;
+  10   1              while(DELAY_MS < ms);
+  11   1      }
+  12          
+  13          void Timer0_Init(void)
+  14          {
+  15   1          TMOD = 0x00;                                //模式0
+  16   1          TH0=(65536-(FOSC/(12000000/1000)))/256;                     //65536-(MAIN_Fosc/(12000000/1000))
+  17   1              TL0=(65536-(FOSC/(12000000/1000)))%256;
+  18   1          TR0 = 1;                                    //启动定时器
+  19   1          ET0 = 1;                                    //使能定时器中断
+  20   1      }
+  21          
+  22          void TM0_Isr() interrupt 1 using 1
+  23          {
+  24   1              DELAY_MS++;
+  25   1              SYSTEM_COUNT++;
+  26   1      
+  27   1              if(BUZZER_COUNT > 0){
+  28   2                      if(BUZZER_COUNT == 1)BUZZER_OFF;
+  29   2                      BUZZER_COUNT--; 
+  30   2              }
+  31   1      
+  32   1              if(TQ_WORK_FLAG == 0){
+  33   2                      TQ_WORK_COUNT_TT++;
+  34   2                      if(TQ_WORK_COUNT_TT >= TQ_WORK_CYCLE){
+  35   3                              TQ_WORK_COUNT_TT = 0;
+  36   3                              TQ_ADD_FLAG = 0;
+  37   3                              TQ_SET_COUNT = TQ_SET_TIME + 1;
+  38   3                              YAG_SET_ON;
+  39   3                      }
+  40   2              }else{
+  41   2                      TQ_WORK_COUNT_TT = 1000;
+  42   2              }
+  43   1      
+  44   1              if(TQ_SET_COUNT > 0){
+  45   2                      if(TQ_SET_COUNT == 1){
+  46   3                              YAG_SET_OFF;
+  47   3                      }
+  48   2                      TQ_SET_COUNT--;
+  49   2              }
+  50   1      
+  51   1      }
+  52          
+  53          void Timer1_Init(void)//500us
+  54          {
+C51 COMPILER V9.00   TIMER                                                                 08/28/2024 17:05:53 PAGE 2   
+
+  55   1          TMOD = 0x00;                                //模式0
+  56   1          TH1=(65536-(FOSC/(12000000/500)))/256;              //65536-(MAIN_Fosc/(12000000/1000))
+  57   1              TL1=(65536-(FOSC/(12000000/500)))%256;
+  58   1          TR1 = 1;                                    //启动定时器
+  59   1          ET1 = 1;                                    //使能定时器中断
+  60   1      }
+  61          
+  62          void TM1_Isr() interrupt 3
+  63          {
+  64   1              TQ_SPOT_COUNT++;        
+  65   1      }
+  66          
+  67          //u32 system_count_retrun(void)
+  68          //{
+  69          //      return SYSTEM_COUNT;    
+  70          //}
+  71          
+  72          u8 timekeeping_100ms(u8 clear)//0时清零 
+  73          {       
+  74   1              static u32 pressStartTime = 0;
+  75   1              static u32 lastClickTime = 0;
+  76   1              pressStartTime = SYSTEM_COUNT;
+  77   1              if(clear == 0)lastClickTime = pressStartTime;
+  78   1              if((pressStartTime - lastClickTime) > 100){
+  79   2                      return 1;       
+  80   2              }
+  81   1              return 0;
+  82   1      }
+  83          
+  84          
+  85          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    403    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =     16       4
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -1,0 +1,328 @@
+C51 COMPILER V9.00   UART                                                                  08/28/2024 17:05:53 PAGE 1   
+
+
+C51 COMPILER V9.00, COMPILATION OF MODULE UART
+OBJECT MODULE PLACED IN ..\hex\UART.obj
+COMPILER INVOKED BY: C:\Keil _C51\C51\BIN\C51.EXE ..\user\UART.C LARGE BROWSE INCDIR(..\user;..\common;..\display) DEBUG
+                    - OBJECTEXTEND PRINT(.\LIST\UART.lst) OBJECT(..\hex\UART.obj)
+
+line level    source
+
+   1          #include "uart.h"
+   2          
+   3          bit uart3_busy;
+   4          u8 rx3_ram;
+   5          u8 rx3_data[20];
+   6          
+   7          bit uart2_busy;
+   8          u8 rx2_ram;
+   9          u8 rx2_gs;
+  10          u8 rx2_length;
+  11          u8 rx2_data[20];
+  12          
+  13          //----------------------------------------------------------------------------------------------------//
+  14          void Uart3Init(void)
+  15          {
+  16   1              P0M1 &= ~(1 << 1);      //P01推挽输出
+  17   1              P0M0 |= (1 << 1);
+  18   1              P_SW2 &= ~0x02;            //S3_S0=0 (P0.0/RxD3, P0.1/TxD3)
+  19   1              //P_SW2 |= 0x02;           //S3_S0=1 (P5.0/RxD3_2, P5.1/TxD3_2)
+  20   1              
+  21   1              S3CON = 0x50;
+  22   1              T3L = BRT3;
+  23   1              T3H = BRT3 >> 8;
+  24   1              T4T3M = 0x0a;
+  25   1              uart3_busy = 0;
+  26   1              rx3_ram=10;
+  27   1              IE2 |= 0x08;
+  28   1      }
+  29          
+  30          void Uart3Send(u8 dat)
+  31          {
+  32   1              while (uart3_busy);
+  33   1              uart3_busy = 1;
+  34   1              S3BUF = dat;
+  35   1      }
+  36          
+  37          void Uart3Isr() interrupt 17
+  38          {
+  39   1              static u8 flag = 0;
+  40   1              u8 dat;
+  41   1              if (S3CON & 0x02)
+  42   1              {
+  43   2                      S3CON &= ~0x02;
+  44   2                      uart3_busy = 0;
+  45   2              }
+  46   1              if (S3CON & 0x01)
+  47   1              {
+  48   2                      S3CON &= ~0x01;
+  49   2                      dat = S3BUF;
+  50   2                      switch(rx3_ram)
+  51   2          {
+  52   3                              case 10:if(dat==0xAA)rx3_ram--;else{rx3_ram=10;flag=0x00;}break;
+  53   3                              case  9:
+  54   3                                      switch(dat)
+C51 COMPILER V9.00   UART                                                                  08/28/2024 17:05:53 PAGE 2   
+
+  55   3                                      {
+  56   4                                              case 0x73:flag=0xff; //有按键
+  57   4                                                      break;
+  58   4                                              case 0x72:flag=0x00; //没按键
+  59   4                                                      KEY_YES=flag;
+  60   4                                                      break;
+  61   4                    }
+  62   3                                      rx3_ram--;
+  63   3                                      break; 
+  64   3                              case  8:KEY_XH=dat; rx3_ram--; break;
+  65   3                              case  7:KEY_XL=dat; rx3_ram--; break;
+  66   3                              case  6:KEY_YH=dat; rx3_ram--; break;
+  67   3                              case  5:KEY_YL=dat; rx3_ram--; KEY_YES = flag; break;
+  68   3                              case  4:rx3_ram--; break;
+  69   3                              case  3:rx3_ram--; break;
+  70   3                              case  2:rx3_ram--; break;
+  71   3                              case  1:rx3_ram=10;break;
+  72   3                              default:rx3_ram=10;flag=0x00;break;                                                     
+  73   3          }
+  74   2              }
+  75   1      }
+  76          
+  77          
+  78          //------------------------------------------------------------------------------------------//
+  79          /*void UART2_IOPORT_CHANGE(void)
+  80          {
+  81                  //P1M1 &= ~(1 << 1);    //P11推挽输出
+  82                  //P1M0 |= (1 << 1);
+  83                          
+  84                  P_SW2 &= ~0x01;                 //RXD/P1.0, TXD/P1.1
+  85                  //P_SW2 |= 0x01;        //RXD_2/P4.6, TXD_2/P4.7
+  86          }
+  87          */
+  88          //----------------------------------------------------------------------------//
+  89          // 函数名称：uart2Init 
+  90          // 输入参数：无 
+  91          // 输出参数：无 
+  92          // 函数功能：设置好定时器2的工作模式 
+  93          //----------------------------------------------------------------------------//
+  94          //void Uart2Init(void)
+  95          //{
+  96          //      P_SW2 &= ~0x01;                 //RXD/P1.0, TXD/P1.1
+  97          //      
+  98          //      S2CON |= 0x10;
+  99          //      T2L = BRT2;
+ 100          //      T2H = BRT2 >> 8;
+ 101          //      AUXR |= 0x14;
+ 102          //      uart2_busy = 0;
+ 103          //      rx2_ram=100;
+ 104          //      rx2_gs=0x00;
+ 105          //      IE2 |= 0x01;
+ 106          //}
+ 107          //
+ 108          ////----------------------------------------------------------------------------//
+ 109          //// 函数名称：uartSendData 
+ 110          //// 输入参数：ucData: 发送字节 
+ 111          //// 输出参数：无 
+ 112          //// 函数功能：使用串口发送一个字节数据 
+ 113          ////----------------------------------------------------------------------------//
+ 114          //void Uart2Send(uint8 dat)
+ 115          //{
+ 116          //    while (uart2_busy);
+C51 COMPILER V9.00   UART                                                                  08/28/2024 17:05:53 PAGE 3   
+
+ 117          //    uart2_busy = 1;
+ 118          //    S2BUF = dat;
+ 119          //}
+ 120          //
+ 121          ////----------------------------------------------------------------------------//
+ 122          //// 函数名称： 
+ 123          //// 输入参数：无 
+ 124          //// 输出参数：无 
+ 125          //// 函数功能：串口0服务函数 
+ 126          ////----------------------------------------------------------------------------//
+ 127          //void Uart2Isr() interrupt 8
+ 128          //{
+ 129          //      u8 value,db;
+ 130          //      if (S2CON & S2TI){
+ 131          //              S2CON &= ~S2TI; //清除S2TI位
+ 132          //              uart2_busy = 0;
+ 133          //      }
+ 134          //      if (S2CON & S2RI){
+ 135          //              S2CON &= ~S2RI;         //清除S2RI位
+ 136          //              value = S2BUF;
+ 137          //              switch(rx2_ram){
+ 138          //                      case 100:if(value==0xAA)rx2_ram--;else{rx2_ram=100;rx2_gs=0x00;}break;
+ 139          //                      case  99:if(value==0xAA)rx2_ram--;else{rx2_ram=100;rx2_gs=0x00;}break;
+ 140          //                      case  98:if(value < 20){rx2_length=value;rx2_ram=value;rx2_ram--;}else{rx2_ram=100;rx2_gs=0x00;}break
+             -;        
+ 141          //                      default:
+ 142          //                              if(rx2_ram==0x00){//接收完成
+ 143          //                                      rx2_data[rx2_gs]=value;
+ 144          //                                      switch(rx2_data[0]){
+ 145          //                                              /*case 0x10:
+ 146          //                                                      SHOTS_TOTAL = rx2_data[1];
+ 147          //                                                      SHOTS_TOTAL <<= 8;
+ 148          //                                                      SHOTS_TOTAL |= rx2_data[2];
+ 149          //                                                      SHOTS_TOTAL <<= 8;
+ 150          //                                                      SHOTS_TOTAL |= rx2_data[3];
+ 151          //                                                      break;*/
+ 152          //                                              case 0x51:
+ 153          //                                                      db = 0xAA + 0xAA + rx2_length + rx2_data[0] + rx2_data[1] + rx2_data[2] + rx2_data[3] + rx2_data[
+             -4] + rx2_data[5] + rx2_data[6];
+ 154          //                                                      if(rx2_data[1] == DEVICE_TYPE && rx2_data[7] == db && rx2_data[8] == 0xFE){
+ 155          //                                                              RX_PROBE_MODE = rx2_data[2];
+ 156          //                                                              RX_PROBE_ID = rx2_data[3];
+ 157          //                                                              RX_PROBE_TOTAL = rx2_data[4];
+ 158          //                                                              RX_PROBE_TOTAL <<= 8;
+ 159          //                                                              RX_PROBE_TOTAL |= rx2_data[5];
+ 160          //                                                              RX_PROBE_TOTAL <<= 8;
+ 161          //                                                              RX_PROBE_TOTAL |= rx2_data[6];   
+ 162          //                                                      }break;
+ 163          //                                              case 0x53:
+ 164          //                                                      db = 0xAA + 0xAA + rx2_length + rx2_data[0] + rx2_data[1] + rx2_data[2];
+ 165          //                                                      if(rx2_data[1] == DEVICE_TYPE && rx2_data[3] == db && rx2_data[4] == 0xFE){
+ 166          //                                                              HANDLE_PROBE_TEMP = rx2_data[2];         
+ 167          //                                                      }break;
+ 168          //                                              case 0x60:
+ 169          //                                                      db = 0xAA + 0xAA + rx2_length + rx2_data[0] + rx2_data[1] + rx2_data[2];
+ 170          //                                                      if(rx2_data[1] == DEVICE_TYPE && rx2_data[3] == db && rx2_data[4] == 0xFE){
+ 171          //                                                              LCD_KEY_RETURN_VALUE = rx2_data[2];      
+ 172          //                                                      }break;
+ 173          //                                              case 0x70:
+ 174          //                                                      db = 0xAA + 0xAA + rx2_length + rx2_data[0] + rx2_data[1] + rx2_data[2];
+ 175          //                                                      if(rx2_data[1] == DEVICE_TYPE && rx2_data[3] == db && rx2_data[4] == 0xFE){
+ 176          //                                                              HANDLE_KEY_FLAG = ~rx2_data[2];  
+C51 COMPILER V9.00   UART                                                                  08/28/2024 17:05:53 PAGE 4   
+
+ 177          //                                                      }break;
+ 178          //                                              case 0x89:
+ 179          //                                                      db = 0xAA + 0xAA + rx2_length + rx2_data[0] + rx2_data[1] + rx2_data[2] + rx2_data[3] + rx2_data[
+             -4] + rx2_data[5];
+ 180          //                                                      if(rx2_data[1] == DEVICE_TYPE && rx2_data[6] == db && rx2_data[7] == 0xFE){
+ 181          //                                                              RX_ADD_FINISH_FLAG = rx2_data[2];
+ 182          //                                                              RX_PROBE_TOTAL = rx2_data[3];
+ 183          //                                                              RX_PROBE_TOTAL <<= 8;
+ 184          //                                                              RX_PROBE_TOTAL |= rx2_data[4];
+ 185          //                                                              RX_PROBE_TOTAL <<= 8;
+ 186          //                                                              RX_PROBE_TOTAL |= rx2_data[5];   
+ 187          //                                                      }break;
+ 188          //                                              case 0xC1:
+ 189          //                                                      db = 0xAA + 0xAA + rx2_length + rx2_data[0] + rx2_data[1] + rx2_data[2] + rx2_data[3];
+ 190          //                                                      if(rx2_data[1] == DEVICE_TYPE && rx2_data[4] == db && rx2_data[5] == 0xFE){
+ 191          //                                                              RX_Edition[0] = rx2_data[2];
+ 192          //                                                              RX_Edition[1] = rx2_data[3];     
+ 193          //                                                      }break; 
+ 194          //                                              case 0xCD:
+ 195          //                                                      db = 0xAA + 0xAA + rx2_length + rx2_data[0] + rx2_data[1] + rx2_data[2] + rx2_data[3] + rx2_data[
+             -4];
+ 196          //                                                      if(rx2_data[1] == DEVICE_TYPE && rx2_data[5] == db && rx2_data[6] == 0xFE){
+ 197          //                                                              AHANDLE_YEAR = rx2_data[2];
+ 198          //                                                              AHANDLE_MONTHS = rx2_data[3];
+ 199          //                                                              AHANDLE_DAY = rx2_data[4];       
+ 200          //                                                      }break; 
+ 201          //                                      }
+ 202          //                                      rx2_ram=100;
+ 203          //                                      rx2_gs =0x00;
+ 204          //                              }else{
+ 205          //                                      rx2_data[rx2_gs]=value;
+ 206          //                                      rx2_ram--;
+ 207          //                                      rx2_gs++;
+ 208          //                              }
+ 209          //                              break;                                                  
+ 210          //              }
+ 211          //      }
+ 212          //}
+ 213          //
+ 214          //void tx2_out_3(u8 dat1,u8 dat2,u8 dat3)
+ 215          //{
+ 216          //      u8 temp;
+ 217          //      temp = 0xAA + 0xAA +0x05 + dat1 + dat2 + dat3;
+ 218          //      Uart2Send(0xAA);
+ 219          //      Uart2Send(0xAA);
+ 220          //      Uart2Send(0x05);
+ 221          //      Uart2Send(dat1);
+ 222          //      Uart2Send(dat2);
+ 223          //      Uart2Send(dat3);
+ 224          //      Uart2Send(temp);
+ 225          //      Uart2Send(0xFE);
+ 226          //}
+ 227          //
+ 228          //void tx2_out_4(u8 dat1,u8 dat2,u8 dat3,u8 dat4)
+ 229          //{
+ 230          //      u8 temp;
+ 231          //      temp = 0xAA + 0xAA +0x06 + dat1 + dat2 + dat3 + dat4;
+ 232          //      Uart2Send(0xAA);
+ 233          //      Uart2Send(0xAA);
+ 234          //      Uart2Send(0x06);
+ 235          //      Uart2Send(dat1);
+ 236          //      Uart2Send(dat2);
+C51 COMPILER V9.00   UART                                                                  08/28/2024 17:05:53 PAGE 5   
+
+ 237          //      Uart2Send(dat3);
+ 238          //      Uart2Send(dat4);
+ 239          //      Uart2Send(temp);
+ 240          //      Uart2Send(0xFE);
+ 241          //}
+ 242          //
+ 243          //void tx2_out_5(u8 dat1,u8 dat2,u8 dat3,u8 dat4,u8 dat5)
+ 244          //{
+ 245          //      u8 temp;
+ 246          //      temp = 0xAA + 0xAA +0x07 + dat1 + dat2 + dat3 + dat4 + dat5;
+ 247          //      Uart2Send(0xAA);
+ 248          //      Uart2Send(0xAA);
+ 249          //      Uart2Send(0x07);
+ 250          //      Uart2Send(dat1);
+ 251          //      Uart2Send(dat2);
+ 252          //      Uart2Send(dat3);
+ 253          //      Uart2Send(dat4);
+ 254          //      Uart2Send(dat5);
+ 255          //      Uart2Send(temp);
+ 256          //      Uart2Send(0xFE);
+ 257          //}
+ 258          //
+ 259          //void tx2_out_6(u8 dat1,u8 dat2,u8 dat3,u8 dat4,u8 dat5,u8 dat6)
+ 260          //{
+ 261          //      u8 temp;
+ 262          //      temp = 0xAA + 0xAA +0x08 + dat1 + dat2 + dat3 + dat4 + dat5 + dat6;
+ 263          //      Uart2Send(0xAA);
+ 264          //      Uart2Send(0xAA);
+ 265          //      Uart2Send(0x08);
+ 266          //      Uart2Send(dat1);
+ 267          //      Uart2Send(dat2);
+ 268          //      Uart2Send(dat3);
+ 269          //      Uart2Send(dat4);
+ 270          //      Uart2Send(dat5);
+ 271          //      Uart2Send(dat6);
+ 272          //      Uart2Send(temp);
+ 273          //      Uart2Send(0xFE);
+ 274          //}
+ 275          
+ 276          
+ 277          
+ 278          
+ 279          
+ 280          
+ 281          
+ 282          
+ 283          
+ 284          
+ 285          
+ 286          
+ 287          
+ 288          
+ 289          
+ 290          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    268    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =     45    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+C51 COMPILER V9.00   UART                                                                  08/28/2024 17:05:53 PAGE 6   
+
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =      2    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

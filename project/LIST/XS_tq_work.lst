@@ -1,0 +1,485 @@
+C51 COMPILER V9.00   XS_TQ_WORK                                                            08/28/2024 17:05:54 PAGE 1   
+
+
+C51 COMPILER V9.00, COMPILATION OF MODULE XS_TQ_WORK
+OBJECT MODULE PLACED IN ..\hex\XS_tq_work.obj
+COMPILER INVOKED BY: C:\Keil _C51\C51\BIN\C51.EXE ..\main\XS_tq_work.c LARGE BROWSE INCDIR(..\user;..\common;..\display)
+                    - DEBUG OBJECTEXTEND PRINT(.\LIST\XS_tq_work.lst) OBJECT(..\hex\XS_tq_work.obj)
+
+line level    source
+
+   1          #include "config.h"
+   2          
+   3          const u8  code MAIN_KEY_TQ_WORK = 14;
+   4          const u16 code MAIN_TQ_WORK[]=
+   5          {
+   6                    154,326,160,291, //1320
+   7                    340,508,158,291, //1064
+   8                    392,543,310,429, //532
+   9                    278,380,403,575, //650
+  10                    146,262,322,462, //585
+  11          
+  12                    1396,1804,176,540, //6
+  13          
+  14                    67,180,683,852,        //7
+  15                    491,608,683,852,       //8
+  16                    1313,1436,683,852, //9
+  17                    1740,1868,683,852, //10
+  18          
+  19                    1443,1518,981,1056, //11
+  20                    1657,1741,981,1056, //12
+  21          
+  22                    808,1124,623,913,
+  23                    0,258,917,1079,         //13
+  24          };
+  25          
+  26          u8 check_temp_error(u8 temp);
+  27          
+  28          void main_xs_tq_work(void)
+  29          {
+  30   1              u8 key,last_down,error_flag,buff_temp,actual_temp,start_key_down_flag,precombustion_flag,key_flag,temp_er
+             -ror,water_error,sopt_size;
+  31   1              u16 touch_count,i,temp,pwm_value;
+  32   1              DIS_PICNUM(Pic_TQ_WORK);
+  33   1      
+  34   1              TQ_CURE_TIME = 0;
+  35   1      
+  36   1              sopt_size = TQ_SPOT_SIZE;
+  37   1      
+  38   1              cut_tq_work_wavelength();
+  39   1              dis_tq_work_frequency_gear(DIS_ALL);
+  40   1              dis_tq_work_energy_gear(DIS_ALL);
+  41   1              dis_tq_work_total_time(DIS_ALL);
+  42   1              dis_tq_work_cure_time(DIS_ALL); 
+  43   1              dis_tq_work_spot_size(DIS_ALL);
+  44   1              dis_tq_work_energy_density(DIS_ALL);
+  45   1              cut_tq_work_laser_level();
+  46   1      
+  47   1              YAG_PRECOMBUSTION_OFF;
+  48   1              YAG_CHARGE_OFF;
+  49   1              YAG_SET_OFF;
+  50   1      
+  51   1              START_STOP_FLAG = 1;
+  52   1              TQ_WORK_FLAG = 1;
+  53   1              TQ_ADD_FLAG = 1;
+C51 COMPILER V9.00   XS_TQ_WORK                                                            08/28/2024 17:05:54 PAGE 2   
+
+  54   1              error_flag = 0;
+  55   1              last_down = 0;
+  56   1              touch_count = 0;
+  57   1              buff_temp = 0xff;
+  58   1              actual_temp = 0;
+  59   1              start_key_down_flag = 1;
+  60   1              precombustion_flag = 1;
+  61   1              temp_error = 0;
+  62   1              water_error = 0;
+  63   1      
+  64   1              pwm_value = count_tq_work_set_vol();
+  65   1              yag_voltage_pwm(YAG_PWM_CYCLE,pwm_value);
+  66   1      
+  67   1              count_tq_work_laser_level();
+  68   1      
+  69   1              key_flag = YAG_SRART_KEY;
+  70   1      
+  71   1              if(XIAN_FLAG == 0){
+  72   2                      DIS_FONT_C(0xff,0xff,9,0x01,0,0,"ACT_TEMP:");
+  73   2      
+  74   2                      DIS_FONT_C(0xff,0xff,9,0x01,0,16,"MAX_TEMP:");
+  75   2                      DIS_FONT_WEI_NUMBER_CM(Pic_TQ_WORK,0,0xff,0xff,0x01,MAX_WATER_TEMP,3,9*8,16);
+  76   2      
+  77   2                      DIS_FONT_C(0xff,0xff,9,0x01,0,32,"PWM_VOLT:");
+  78   2                      DIS_FONT_WEI_NUMBER_CM(Pic_TQ_WORK,0,0xff,0xff,0x01,pwm_value,5,9*8,32);
+  79   2      
+  80   2                      DIS_FONT_C(0xff,0xff,9,0x01,0,48,"SET_TIME:");
+  81   2                      DIS_FONT_WEI_NUMBER_CM(Pic_TQ_WORK,0,0xff,0xff,0x01,TQ_SET_TIME,5,9*8,48);
+  82   2              }
+  83   1      
+  84   1              
+  85   1      
+  86   1              do{
+  87   2                      delay_ms(1);
+  88   2                      if(KEY_YES!=0x00 && touch_count == 0){
+  89   3                              ADS7843_KEY(); //扫描按键
+  90   3                              key=KEY_FANHUI(MAIN_KEY_TQ_WORK,MAIN_TQ_WORK); 
+  91   3                              switch(key){
+  92   4                                      case 1:
+  93   4                                              if(WAVELENGTH != WL1320NM && START_STOP_FLAG == 1){
+  94   5                                                      XIANG1();
+  95   5                                                      WAVELENGTH = WL1320NM;
+  96   5                                                      cut_tq_work_wavelength();
+  97   5                                                      MOTOR_LEFT_ON;
+  98   5                                                      for(i=0;i<9;i++){
+  99   6                                                              delay_ms(250);
+ 100   6                                                              cut_tq_work_wavelength_cover();
+ 101   6                                                              delay_ms(250);
+ 102   6                                                              cut_tq_work_wavelength();
+ 103   6                                                      }
+ 104   5                                                      MOTOR_STOP_ON;
+ 105   5                                              }KEY_YES = 0;
+ 106   4                                              break;
+ 107   4                                      case 2:
+ 108   4                                              if(WAVELENGTH != WL1064NM && START_STOP_FLAG == 1){
+ 109   5                                                      XIANG1();
+ 110   5                                                      WAVELENGTH = WL1064NM;
+ 111   5                                                      cut_tq_work_wavelength();
+ 112   5                                                      MOTOR_LEFT_ON;
+ 113   5                                                      for(i=0;i<9;i++){
+ 114   6                                                              delay_ms(250);
+ 115   6                                                              cut_tq_work_wavelength_cover();
+C51 COMPILER V9.00   XS_TQ_WORK                                                            08/28/2024 17:05:54 PAGE 3   
+
+ 116   6                                                              delay_ms(250);
+ 117   6                                                              cut_tq_work_wavelength();
+ 118   6                                                      }
+ 119   5                                                      MOTOR_STOP_ON;
+ 120   5                                              }KEY_YES = 0;
+ 121   4                                              break;
+ 122   4                                      case 3:
+ 123   4                                              if(WAVELENGTH != WL532NM && START_STOP_FLAG == 1){
+ 124   5                                                      XIANG1();
+ 125   5                                                      WAVELENGTH = WL532NM;
+ 126   5                                                      cut_tq_work_wavelength();
+ 127   5                                                      MOTOR_RIGHT_ON;
+ 128   5                                                      for(i=0;i<9;i++){
+ 129   6                                                              delay_ms(250);
+ 130   6                                                              cut_tq_work_wavelength_cover();
+ 131   6                                                              delay_ms(250);
+ 132   6                                                              cut_tq_work_wavelength();
+ 133   6                                                      }
+ 134   5                                                      MOTOR_STOP_ON;
+ 135   5                                              }KEY_YES = 0;
+ 136   4                                              break;
+ 137   4                                      case 4:
+ 138   4                                              if(WAVELENGTH != WL650NM && START_STOP_FLAG == 1){
+ 139   5                                                      XIANG1();
+ 140   5                                                      WAVELENGTH = WL650NM;
+ 141   5                                                      cut_tq_work_wavelength();
+ 142   5                                                      MOTOR_LEFT_ON;
+ 143   5                                                      for(i=0;i<9;i++){
+ 144   6                                                              delay_ms(250);
+ 145   6                                                              cut_tq_work_wavelength_cover();
+ 146   6                                                              delay_ms(250);
+ 147   6                                                              cut_tq_work_wavelength();
+ 148   6                                                      }
+ 149   5                                                      MOTOR_STOP_ON;
+ 150   5                                              }KEY_YES = 0;
+ 151   4                                              break;
+ 152   4                                      case 5:
+ 153   4                                              if(WAVELENGTH != WL585NM && START_STOP_FLAG == 1){
+ 154   5                                                      XIANG1();
+ 155   5                                                      WAVELENGTH = WL585NM;
+ 156   5                                                      cut_tq_work_wavelength();
+ 157   5                                                      MOTOR_LEFT_ON;
+ 158   5                                                      for(i=0;i<9;i++){
+ 159   6                                                              delay_ms(250);
+ 160   6                                                              cut_tq_work_wavelength_cover();
+ 161   6                                                              delay_ms(250);
+ 162   6                                                              cut_tq_work_wavelength();
+ 163   6                                                      }
+ 164   5                                                      MOTOR_STOP_ON;
+ 165   5                                              }KEY_YES = 0;
+ 166   4                                              break;
+ 167   4                                      case 6: //启动 停止
+ 168   4                                              if(TQ_WORK_FLAG == 1){
+ 169   5                                                      XIANG1();
+ 170   5                                                      start_key_down_flag = 0;
+ 171   5                                              }KEY_YES = 0;
+ 172   4                                              break;
+ 173   4                                      case 7:
+ 174   4                                              if(TQ_FREQUENCY_GEAR > 1 && START_STOP_FLAG == 1){
+ 175   5                                                      DIS_DEL_DIS(Pic_TQ_WORK_DOWN,67,683,180,852,67,683);
+ 176   5                                                      XIANG1();
+ 177   5                                                      TQ_FREQUENCY_GEAR--;
+C51 COMPILER V9.00   XS_TQ_WORK                                                            08/28/2024 17:05:54 PAGE 4   
+
+ 178   5                                                      dis_tq_work_frequency_gear(DIS_PART);
+ 179   5                                                      dis_tq_work_energy_density(DIS_PART);
+ 180   5                                                      touch_count = 100;
+ 181   5                                                      last_down = 7;
+ 182   5                                              }else{KEY_YES = 0;}
+ 183   4                                              break;
+ 184   4                                      case 8:
+ 185   4                                              if(TQ_FREQUENCY_GEAR < 10 && START_STOP_FLAG == 1){
+ 186   5                                                      DIS_DEL_DIS(Pic_TQ_WORK_DOWN,491,683,608,852,491,683);
+ 187   5                                                      XIANG1();
+ 188   5                                                      TQ_FREQUENCY_GEAR++;
+ 189   5                                                      dis_tq_work_frequency_gear(DIS_PART);
+ 190   5                                                      dis_tq_work_energy_density(DIS_PART);
+ 191   5                                                      touch_count = 100;
+ 192   5                                                      last_down = 8;
+ 193   5                                              }else{KEY_YES = 0;}
+ 194   4                                              break;
+ 195   4                                      case 9:
+ 196   4                                              if(TQ_ENERGY_GEAR > 50 && START_STOP_FLAG == 1){
+ 197   5                                                      DIS_DEL_DIS(Pic_TQ_WORK_DOWN,1313,683,1436,852,1313,683);
+ 198   5                                                      XIANG1();
+ 199   5                                                      TQ_ENERGY_GEAR -= 50;
+ 200   5                                                      dis_tq_work_energy_gear(DIS_PART);
+ 201   5                                                      dis_tq_work_energy_density(DIS_PART);
+ 202   5                                                      touch_count = 100;
+ 203   5                                                      last_down = 9;
+ 204   5                                              }else{KEY_YES = 0;}
+ 205   4                                              break; 
+ 206   4                                      case 10:
+ 207   4                                              if(TQ_ENERGY_GEAR < 1000 && START_STOP_FLAG == 1){
+ 208   5                                                      DIS_DEL_DIS(Pic_TQ_WORK_DOWN,1740,683,1868,852,1740,683);
+ 209   5                                                      XIANG1();
+ 210   5                                                      TQ_ENERGY_GEAR += 50;
+ 211   5                                                      dis_tq_work_energy_gear(DIS_PART);
+ 212   5                                                      dis_tq_work_energy_density(DIS_PART);
+ 213   5                                                      touch_count = 100;
+ 214   5                                                      last_down = 10;
+ 215   5                                              }else{KEY_YES = 0;}
+ 216   4                                              break;
+ 217   4                                      case 11:
+ 218   4                                              if(TQ_LASER_LEVEL > 0 && TQ_WORK_FLAG == 1){
+ 219   5                                                      DIS_DEL_DIS(Pic_TQ_WORK_DOWN,1448,1002,1502,1036,1448,1002);
+ 220   5                                                      XIANG1();
+ 221   5                                                      TQ_LASER_LEVEL--;
+ 222   5                                                      cut_tq_work_laser_level();
+ 223   5                                                      touch_count = 100;
+ 224   5                                                      last_down = 11;
+ 225   5                                              }else{KEY_YES = 0;}
+ 226   4                                              break; 
+ 227   4                                      case 12:
+ 228   4                                              if(TQ_LASER_LEVEL < 9 && TQ_WORK_FLAG == 1){
+ 229   5                                                      DIS_DEL_DIS(Pic_TQ_WORK_DOWN,1669,1002,1724,1036,1669,1002);
+ 230   5                                                      XIANG1();
+ 231   5                                                      TQ_LASER_LEVEL++;
+ 232   5                                                      cut_tq_work_laser_level();
+ 233   5                                                      touch_count = 100;
+ 234   5                                                      last_down = 12;
+ 235   5                                              }else{KEY_YES = 0;}
+ 236   4                                              break;
+ 237   4                                      case 13:
+ 238   4                                              if(TQ_WORK_FLAG == 1){
+ 239   5                                                      XIANG1();
+C51 COMPILER V9.00   XS_TQ_WORK                                                            08/28/2024 17:05:54 PAGE 5   
+
+ 240   5                                                      TQ_SPOT_SIZE++;
+ 241   5                                                      if(TQ_SPOT_SIZE > 10)TQ_SPOT_SIZE = 1;
+ 242   5                                                      sopt_size = TQ_SPOT_SIZE;
+ 243   5                                                      dis_tq_work_spot_size(DIS_PART);
+ 244   5                                                      dis_tq_work_energy_density(DIS_PART);
+ 245   5                                              }KEY_YES = 0;
+ 246   4                                              break;
+ 247   4                                      case 14:        //返回
+ 248   4                                              if(START_STOP_FLAG == 1){
+ 249   5                                                      DIS_DEL_DIS(Pic_TQ_WORK_DOWN,0,917,258,1079,0,917);
+ 250   5                                                      XIANG1();
+ 251   5                                                      INTERFACE = PAGE_LOADING;
+ 252   5                                                      goto over_main_xs_tq_work;
+ 253   5                                              }KEY_YES = 0;
+ 254   4                                              break;
+ 255   4                              }
+ 256   3                      }else if(KEY_YES == 0 && touch_count == 0){
+ 257   3                              switch(last_down){
+ 258   4                                      case 7:DIS_DEL_DIS(Pic_TQ_WORK,67,683,180,852,67,683);break;
+ 259   4                                      case 8:DIS_DEL_DIS(Pic_TQ_WORK,491,683,608,852,491,683);break;
+ 260   4                                      case 9:
+ 261   4                                              pwm_value = count_tq_work_set_vol();
+ 262   4                                              yag_voltage_pwm(YAG_PWM_CYCLE,pwm_value);
+ 263   4                                              if(XIAN_FLAG == 0)DIS_FONT_WEI_NUMBER_CM(Pic_TQ_WORK,0,0xff,0xff,0x01,pwm_value,5,9*8,32);
+ 264   4                                              DIS_DEL_DIS(Pic_TQ_WORK,1313,683,1436,852,1313,683);break;
+ 265   4                                      case 10:
+ 266   4                                              pwm_value = count_tq_work_set_vol();
+ 267   4                                              yag_voltage_pwm(YAG_PWM_CYCLE,pwm_value);
+ 268   4                                              if(XIAN_FLAG == 0)DIS_FONT_WEI_NUMBER_CM(Pic_TQ_WORK,0,0xff,0xff,0x01,pwm_value,5,9*8,32);
+ 269   4                                              DIS_DEL_DIS(Pic_TQ_WORK,1740,683,1868,852,1740,683);break;
+ 270   4                                      case 11:
+ 271   4                                              count_tq_work_laser_level();
+ 272   4                                              DIS_DEL_DIS(Pic_TQ_WORK,1448,1002,1502,1036,1448,1002);break;
+ 273   4                                      case 12:
+ 274   4                                              count_tq_work_laser_level();
+ 275   4                                              DIS_DEL_DIS(Pic_TQ_WORK,1669,1002,1724,1036,1669,1002);break;
+ 276   4                              }last_down = 0; 
+ 277   3                      }
+ 278   2      
+ 279   2                      if(touch_count > 0)touch_count--;
+ 280   2      
+ 281   2                      if(start_key_down_flag == 0){//有按键按下
+ 282   3                              if(START_STOP_FLAG == 1){//进入预燃状态
+ 283   4                                      cut_tq_work_start_pic();
+ 284   4                                      for(i=0;i<2;i++){//预燃两次
+ 285   5                                              YAG_CHARGE_OFF;
+ 286   5                                              YAG_PRECOMBUSTION_ON;
+ 287   5                                              temp = 0;
+ 288   5                                              while(temp < 1000){
+ 289   6                                                      delay_ms(1);
+ 290   6                                                      temp++;
+ 291   6                                                      precombustion_flag = CHECK_PRECOMBUSTION_KEY;
+ 292   6                                                      if(precombustion_flag == 0)goto over_precombustion_flish;
+ 293   6                                              }
+ 294   5                                              YAG_PRECOMBUSTION_OFF;
+ 295   5                                              delay_ms(1000);
+ 296   5                                      }
+ 297   4                                      over_precombustion_flish:
+ 298   4                                      if(precombustion_flag == 0){//预燃正确
+ 299   5                                              YAG_CHARGE_ON;
+ 300   5                                              START_STOP_FLAG = 0;
+ 301   5                                      }else{//预燃失败
+C51 COMPILER V9.00   XS_TQ_WORK                                                            08/28/2024 17:05:54 PAGE 6   
+
+ 302   5                                              START_STOP_FLAG = 1;
+ 303   5                                              DIS_PICNUM(Pic_SIMMER_ERROR);
+ 304   5                                              XIANG1();
+ 305   5                                              delay_ms(200);
+ 306   5                                              XIANG1();
+ 307   5                                              KEY_YES = 0;
+ 308   5                                              while(KEY_YES == 0);
+ 309   5                                              XIANG1();
+ 310   5                                              INTERFACE = PAGE_LOADING;
+ 311   5                                              goto over_main_xs_tq_work;
+ 312   5                                      }
+ 313   4                              }else{//退出预燃状态
+ 314   4                                      START_STOP_FLAG = 1;
+ 315   4                                      YAG_PRECOMBUSTION_OFF;
+ 316   4                                      YAG_CHARGE_OFF;
+ 317   4                                      //YAG_SET_OFF;
+ 318   4                                      cut_tq_work_stop_pic();
+ 319   4                              }
+ 320   3                              start_key_down_flag = 1;
+ 321   3                      }
+ 322   2                      
+ 323   2                      if(key_flag != YAG_SRART_KEY){//判断按键状态
+ 324   3                              key_flag = YAG_SRART_KEY;
+ 325   3                              if(START_STOP_FLAG == 0){//准备的状态下
+ 326   4                                      if(key_flag == 0){
+ 327   5                                              TQ_WORK_CYCLE = 1000/TQ_FREQUENCY_GEAR;
+ 328   5                                              BUZZER_ON;
+ 329   5                                              delay_ms(1000);
+ 330   5                                              BUZZER_OFF;
+ 331   5                                              if(YAG_SRART_KEY == 0){//还继续按下才有输出
+ 332   6                                                      TQ_WORK_COUNT_TT = 1000;
+ 333   6                                                      TQ_WORK_FLAG = 0;
+ 334   6                                              }
+ 335   5                                      }else{
+ 336   5                                              TQ_WORK_FLAG = 1;
+ 337   5                                              XIANG1();       
+ 338   5                                      }
+ 339   4                              }
+ 340   3                      }
+ 341   2                      
+ 342   2                      if(TQ_ADD_FLAG == 0){
+ 343   3                              TQ_ADD_FLAG = 1;
+ 344   3                              if(TQ_TOTAL_TIME < 9999999){
+ 345   4                                      TQ_TOTAL_TIME++;
+ 346   4                                      write_tq_total_time();
+ 347   4                                      dis_tq_work_total_time(DIS_PART);
+ 348   4                              }
+ 349   3                              if(TQ_CURE_TIME < 99999){
+ 350   4                                      TQ_CURE_TIME++;
+ 351   4                                      dis_tq_work_cure_time(DIS_PART);                
+ 352   4                              }
+ 353   3                      }         
+ 354   2                      
+ 355   2                      if(timekeeping_100ms(1)){//100ms
+ 356   3                              timekeeping_100ms(0);//清零计数
+ 357   3      
+ 358   3                              if(sopt_size != TQ_SPOT_SIZE){
+ 359   4                                      sopt_size = TQ_SPOT_SIZE;
+ 360   4                                      dis_tq_work_spot_size(DIS_PART);
+ 361   4                                      dis_tq_work_energy_density(DIS_PART);
+ 362   4                              }
+ 363   3                              //--------------------水路报警--------------------//
+C51 COMPILER V9.00   XS_TQ_WORK                                                            08/28/2024 17:05:54 PAGE 7   
+
+ 364   3                              if(check_waterway() == WATER_ERROR)water_error++;else{water_error = 0;}
+ 365   3                              if(water_error >= 5){
+ 366   4                                      DIS_PICNUM(Pic_WATERWAY_ERROR);
+ 367   4                                      i = 0;
+ 368   4                                      while(check_waterway() == WATER_ERROR){
+ 369   5                                              i++;
+ 370   5                                              delay_ms(1);
+ 371   5                                              if(i > 500){
+ 372   6                                                      i = 0;
+ 373   6                                                      XIANG1();
+ 374   6                                              }
+ 375   5                                              if(KEY_YES != 0)break;
+ 376   5                                      }
+ 377   4                                      INTERFACE = PAGE_LOADING;
+ 378   4                                      goto over_main_xs_tq_work;              
+ 379   4                              }
+ 380   3                              //--------------------温度报警--------------------//
+ 381   3                              actual_temp = get_water_temp();//读取温度
+ 382   3                              if(XIAN_FLAG == 0 && actual_temp != buff_temp){
+ 383   4                                      buff_temp = actual_temp;
+ 384   4                                      dis_tq_work_temp(actual_temp);
+ 385   4                              }
+ 386   3                              temp = check_temp_error(actual_temp);//读取返回值
+ 387   3                              if(temp > 0)temp_error++;else{temp_error = 0;}
+ 388   3                              if(temp > 0 && temp_error >= 5){//故障
+ 389   4                                      if(temp == 1){
+ 390   5                                              DIS_PICNUM(Pic_NTC_OPEN_CIRCUIT);
+ 391   5                                      }else if(temp == 2){
+ 392   5                                              DIS_PICNUM(Pic_NTC_SHORT_CIRCUIT);
+ 393   5                                      }else if(temp == 3){
+ 394   5                                              DIS_PICNUM(Pic_TEMP_ERROR);
+ 395   5                                      }
+ 396   4                                      i = 0;
+ 397   4                                      DIS_FONT_C(0xff,0xff,9,0x01,0,0,"ACT_TEMP:");
+ 398   4                                      DIS_FONT_C(0xff,0xff,9,0x01,0,16,"MAX_TEMP:");
+ 399   4                                      DIS_FONT_WEI_NUMBER_CM(Pic_TQ_WORK,0,0xff,0xff,0x01,MAX_WATER_TEMP,3,9*8,16);
+ 400   4                                      while(temp > 0){
+ 401   5                                              i++;
+ 402   5                                              delay_ms(1);
+ 403   5                                              if(i > 500){
+ 404   6                                                      i = 0;
+ 405   6                                                      XIANG1();
+ 406   6                                                      actual_temp = get_water_temp();//读取温度
+ 407   6                                                      dis_tq_work_temp(actual_temp);
+ 408   6                                                      temp = check_temp_error(actual_temp);//读取返回值
+ 409   6                                              }
+ 410   5                                              if(KEY_YES != 0)break;
+ 411   5                                      }
+ 412   4                                      INTERFACE = PAGE_LOADING;
+ 413   4                                      goto over_main_xs_tq_work;
+ 414   4                              }       
+ 415   3                      }
+ 416   2              }while(1);
+ 417   1              over_main_xs_tq_work:
+ 418   1              _nop_();
+ 419   1              YAG_PRECOMBUSTION_OFF;
+ 420   1              YAG_CHARGE_OFF;
+ 421   1              YAG_SET_OFF;
+ 422   1              laser_light_close_pwm();
+ 423   1      }
+ 424          
+ 425          u8 check_temp_error(u8 temp)
+C51 COMPILER V9.00   XS_TQ_WORK                                                            08/28/2024 17:05:54 PAGE 8   
+
+ 426          {
+ 427   1              if(temp == 255){//开路
+ 428   2                      return 1;                               
+ 429   2              }else if(temp == 254){//短路
+ 430   2                      return 2;
+ 431   2              }else if(temp >= (MAX_WATER_TEMP + 10)){//温度过高报警
+ 432   2                      return 3;
+ 433   2              }//else if(temp < (WATER_TEMP + 10)){//温度正常
+ 434   1                      return 0;
+ 435   1              //}     
+ 436   1      } 
+ 437           
+ 438           
+ 439           
+ 440           
+ 441           
+ 442           
+ 443           
+ 444           
+ 445           
+ 446           
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =   3350    ----
+   CONSTANT SIZE    =    153    ----
+   XDATA SIZE       =   ----      18
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

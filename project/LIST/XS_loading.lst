@@ -1,0 +1,87 @@
+C51 COMPILER V9.00   XS_LOADING                                                            08/28/2024 17:05:54 PAGE 1   
+
+
+C51 COMPILER V9.00, COMPILATION OF MODULE XS_LOADING
+OBJECT MODULE PLACED IN ..\hex\XS_loading.obj
+COMPILER INVOKED BY: C:\Keil _C51\C51\BIN\C51.EXE ..\main\XS_loading.c LARGE BROWSE INCDIR(..\user;..\common;..\display)
+                    - DEBUG OBJECTEXTEND PRINT(.\LIST\XS_loading.lst) OBJECT(..\hex\XS_loading.obj)
+
+line level    source
+
+   1          #include "config.h"
+   2          
+   3          const u8  code MAIN_KEY_KEEP_LOADING = 3;
+   4          const u16 code MAIN_KEEP_LOADING[]=
+   5          {
+   6                  0,1919,0,859,
+   7                  256,1919,860,1079,
+   8                  0,255,860,1079,
+   9          };
+  10          
+  11          void main_xs_loading(void)
+  12          {
+  13   1              u8 key;
+  14   1              DIS_PICNUM(Pic_LOADING);
+  15   1              do{
+  16   2                      delay_ms(1);
+  17   2                      if(KEY_YES!=0x00){
+  18   3                              ADS7843_KEY(); //扫描按键
+  19   3                              key=KEY_FANHUI(MAIN_KEY_KEEP_LOADING,MAIN_KEEP_LOADING); 
+  20   3                              switch(key){
+  21   4                                      case 1: //工作界面
+  22   4                                              XIANG1();
+  23   4                                              INTERFACE = PAGE_TQ_WORK;
+  24   4                                              goto over_main_xs_loading;
+  25   4                                              break;
+  26   4                                      case 2: //工作界面
+  27   4                                              XIANG1();
+  28   4                                              INTERFACE = PAGE_TQ_WORK;
+  29   4                                              goto over_main_xs_loading;
+  30   4                                              break;
+  31   4                                      case 3: //密码界面
+  32   4                                              XIANG1();
+  33   4                                              INTERFACE = PAGE_ADVANCED_SETTINGS;
+  34   4                                              goto over_main_xs_loading;
+  35   4                                              break;
+  36   4                              }KEY_YES = 0;
+  37   3                      }
+  38   2      
+  39   2      //              if(timekeeping_100ms(1)){
+  40   2      //                      timekeeping_100ms(0);
+  41   2      //                      P40 = ~P40;
+  42   2      //              }
+  43   2              }while(1);      
+  44   1              over_main_xs_loading:
+  45   1              _nop_();
+  46   1      }
+  47          
+  48          
+  49          
+  50          
+  51          
+  52          
+  53          
+  54          
+C51 COMPILER V9.00   XS_LOADING                                                            08/28/2024 17:05:54 PAGE 2   
+
+  55          
+  56          
+  57          
+  58          
+  59          
+  60          
+  61          // 
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     93    ----
+   CONSTANT SIZE    =     25    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

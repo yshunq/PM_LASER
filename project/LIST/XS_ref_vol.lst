@@ -1,0 +1,403 @@
+C51 COMPILER V9.00   XS_REF_VOL                                                            08/14/2024 11:36:46 PAGE 1   
+
+
+C51 COMPILER V9.00, COMPILATION OF MODULE XS_REF_VOL
+OBJECT MODULE PLACED IN ..\hex\XS_ref_vol.obj
+COMPILER INVOKED BY: C:\Keil _C51\C51\BIN\C51.EXE ..\main\XS_ref_vol.c LARGE BROWSE INCDIR(..\user;..\common;..\display)
+                    - DEBUG OBJECTEXTEND PRINT(.\LIST\XS_ref_vol.lst) OBJECT(..\hex\XS_ref_vol.obj)
+
+line level    source
+
+   1          //#include "config.h"
+   2          //
+   3          //const u8  code MAIN_KEY_REF_VOL = 22;
+   4          //const u16 code MAIN_REF_VOL[]=
+   5          //{
+   6          //      490,587,203,299,
+   7          //      803,900,203,299,
+   8          //      490,587,341,437,
+   9          //      803,900,341,437,
+  10          //      490,587,479,575,
+  11          //      803,900,479,575,
+  12          //      490,587,617,713,
+  13          //      803,900,617,713,
+  14          //      490,587,754,850,
+  15          //      803,900,754,850,
+  16          //
+  17          //      1020,1117,203,300,
+  18          //      1333,1430,203,300,
+  19          //      1020,1117,341,437,
+  20          //      1333,1430,341,437,
+  21          //      1020,1117,479,575,
+  22          //      1333,1430,479,575,
+  23          //      1020,1117,617,713,
+  24          //      1333,1430,617,713,
+  25          //      1020,1117,754,850,
+  26          //      1333,1430,754,850,
+  27          //        0, 130,  0,130,
+  28          //        1780,1920,0,100,
+  29          //};
+  30          //
+  31          //void main_xs_ref_vol(void)
+  32          //{
+  33          //      u8 key,last_down;
+  34          //      DIS_PICNUM(Pic_REF_VOL);
+  35          //      dis_ref_vol_pwmdata0();
+  36          //      dis_ref_vol_pwmdata1();
+  37          //      dis_ref_vol_pwmdata2();
+  38          //      dis_ref_vol_pwmdata3();
+  39          //      dis_ref_vol_pwmdata4();
+  40          //      dis_ref_vol_pwmdata5();
+  41          //      dis_ref_vol_pwmdata6();
+  42          //      dis_ref_vol_pwmdata7();
+  43          //      dis_ref_vol_pwmdata8();
+  44          //      dis_ref_vol_pwmdata9();
+  45          //      last_down = 100;
+  46          //
+  47          //      COLD_WATER_OFF;
+  48          //      COLD_HANDLE_PROBE_OFF;
+  49          //
+  50          //      do{
+  51          //              delay_ms(1);
+  52          //              if(KEY_YES!=0x00)
+  53          //              {
+  54          //                      ADS7843_KEY(); //扫描按键
+C51 COMPILER V9.00   XS_REF_VOL                                                            08/14/2024 11:36:46 PAGE 2   
+
+  55          //                      key=KEY_FANHUI(MAIN_KEY_REF_VOL,MAIN_REF_VOL); 
+  56          //                      switch(key)
+  57          //                      {
+  58          //                              case 1:  //0-
+  59          //                                      if(PWMDATA[0] > 1){
+  60          //                                              XIANG1();
+  61          //                                              PWMDATA[0]--;
+  62          //                                              dis_ref_vol_pwmdata0();
+  63          //                                              write_pwmdata0();
+  64          //                                              delay_ms(50);last_down = 0;
+  65          //                                      }else{KEY_YES=0;}
+  66          //                                      break;
+  67          //                              case 2:  //0+
+  68          //                                      if(PWMDATA[0] < PWMDATA[1]){
+  69          //                                              XIANG1();
+  70          //                                              PWMDATA[0]++;
+  71          //                                              dis_ref_vol_pwmdata0();
+  72          //                                              write_pwmdata0();
+  73          //                                              delay_ms(50);last_down = 0;
+  74          //                                      }else{KEY_YES=0;}
+  75          //                                      break;
+  76          //                              case 3:  //1-
+  77          //                                      if(PWMDATA[1] > PWMDATA[0]){
+  78          //                                              XIANG1();
+  79          //                                              PWMDATA[1]--;
+  80          //                                              dis_ref_vol_pwmdata1();
+  81          //                                              write_pwmdata1();
+  82          //                                              delay_ms(50);last_down = 1;
+  83          //                                      }else{KEY_YES=0;}
+  84          //                                      break;
+  85          //                              case 4:  //1+
+  86          //                                      if(PWMDATA[1] < PWMDATA[2]){
+  87          //                                              XIANG1();
+  88          //                                              PWMDATA[1]++;
+  89          //                                              dis_ref_vol_pwmdata1();
+  90          //                                              write_pwmdata1();
+  91          //                                              delay_ms(50);last_down = 1;
+  92          //                                      }else{KEY_YES=0;}
+  93          //                                      break;
+  94          //                              case 5:  //2-
+  95          //                                      if(PWMDATA[2] > PWMDATA[1]){
+  96          //                                              XIANG1();
+  97          //                                              PWMDATA[2]--;
+  98          //                                              dis_ref_vol_pwmdata2();
+  99          //                                              write_pwmdata2();
+ 100          //                                              delay_ms(50);last_down = 2;
+ 101          //                                      }else{KEY_YES=0;}
+ 102          //                                      break;
+ 103          //                              case 6:  //2+
+ 104          //                                      if(PWMDATA[2] < PWMDATA[3]){
+ 105          //                                              XIANG1();
+ 106          //                                              PWMDATA[2]++;
+ 107          //                                              dis_ref_vol_pwmdata2();
+ 108          //                                              write_pwmdata2();
+ 109          //                                              delay_ms(50);last_down = 2;
+ 110          //                                      }else{KEY_YES=0;}
+ 111          //                                      break;
+ 112          //                              case 7:  //3-
+ 113          //                                      if(PWMDATA[3] > PWMDATA[2]){
+ 114          //                                              XIANG1();
+ 115          //                                              PWMDATA[3]--;
+ 116          //                                              dis_ref_vol_pwmdata3();
+C51 COMPILER V9.00   XS_REF_VOL                                                            08/14/2024 11:36:46 PAGE 3   
+
+ 117          //                                              write_pwmdata3();
+ 118          //                                              delay_ms(50);last_down = 3;
+ 119          //                                      }else{KEY_YES=0;}
+ 120          //                                      break;
+ 121          //                              case 8:  //3+
+ 122          //                                      if(PWMDATA[3] < PWMDATA[4]){
+ 123          //                                              XIANG1();
+ 124          //                                              PWMDATA[3]++;
+ 125          //                                              dis_ref_vol_pwmdata3();
+ 126          //                                              write_pwmdata3();
+ 127          //                                              delay_ms(50);last_down = 3;
+ 128          //                                      }else{KEY_YES=0;}
+ 129          //                                      break;
+ 130          //                              case 9:  //4-
+ 131          //                                      if(PWMDATA[4] > PWMDATA[3]){
+ 132          //                                              XIANG1();
+ 133          //                                              PWMDATA[4]--;
+ 134          //                                              dis_ref_vol_pwmdata4();
+ 135          //                                              write_pwmdata4();
+ 136          //                                              delay_ms(50);last_down = 4;
+ 137          //                                      }else{KEY_YES=0;}
+ 138          //                                      break;
+ 139          //                              case 10:  //4+
+ 140          //                                      if(PWMDATA[4] < PWMDATA[5]){
+ 141          //                                              XIANG1();
+ 142          //                                              PWMDATA[4]++;
+ 143          //                                              dis_ref_vol_pwmdata4();
+ 144          //                                              write_pwmdata4();
+ 145          //                                              delay_ms(50);last_down = 4;
+ 146          //                                      }else{KEY_YES=0;}
+ 147          //                                      break;
+ 148          //                              case 11:  //5-
+ 149          //                                      if(PWMDATA[5] > PWMDATA[4]){
+ 150          //                                              XIANG1();
+ 151          //                                              PWMDATA[5]--;
+ 152          //                                              dis_ref_vol_pwmdata5();
+ 153          //                                              write_pwmdata5();
+ 154          //                                              delay_ms(50);last_down = 5;
+ 155          //                                      }else{KEY_YES=0;}
+ 156          //                                      break;
+ 157          //                              case 12:  //5+
+ 158          //                                      if(PWMDATA[5] < PWMDATA[6]){
+ 159          //                                              XIANG1();
+ 160          //                                              PWMDATA[5]++;
+ 161          //                                              dis_ref_vol_pwmdata5();
+ 162          //                                              write_pwmdata5();
+ 163          //                                              delay_ms(50);last_down = 5;
+ 164          //                                      }else{KEY_YES=0;}
+ 165          //                                      break;
+ 166          //                              case 13:  //6-
+ 167          //                                      if(PWMDATA[6] > PWMDATA[5]){
+ 168          //                                              XIANG1();
+ 169          //                                              PWMDATA[6]--;
+ 170          //                                              dis_ref_vol_pwmdata6();
+ 171          //                                              write_pwmdata6();
+ 172          //                                              delay_ms(50);last_down = 6;
+ 173          //                                      }else{KEY_YES=0;}
+ 174          //                                      break;
+ 175          //                              case 14:  //6+
+ 176          //                                      if(PWMDATA[6] < PWMDATA[7]){
+ 177          //                                              XIANG1();
+ 178          //                                              PWMDATA[6]++;
+C51 COMPILER V9.00   XS_REF_VOL                                                            08/14/2024 11:36:46 PAGE 4   
+
+ 179          //                                              dis_ref_vol_pwmdata6();
+ 180          //                                              write_pwmdata6();
+ 181          //                                              delay_ms(50);last_down = 6;
+ 182          //                                      }else{KEY_YES=0;}
+ 183          //                                      break;
+ 184          //                              case 15:  //7-
+ 185          //                                      if(PWMDATA[7] > PWMDATA[6]){
+ 186          //                                              XIANG1();
+ 187          //                                              PWMDATA[7]--;
+ 188          //                                              dis_ref_vol_pwmdata7();
+ 189          //                                              write_pwmdata7();
+ 190          //                                              delay_ms(50);last_down = 7;
+ 191          //                                      }else{KEY_YES=0;}
+ 192          //                                      break;
+ 193          //                              case 16:  //7+
+ 194          //                                      if(PWMDATA[7] < PWMDATA[8]){
+ 195          //                                              XIANG1();
+ 196          //                                              PWMDATA[7]++;
+ 197          //                                              dis_ref_vol_pwmdata7();
+ 198          //                                              write_pwmdata7();
+ 199          //                                              delay_ms(50);last_down = 7;
+ 200          //                                      }else{KEY_YES=0;}
+ 201          //                                      break;
+ 202          //                              case 17:  //8-
+ 203          //                                      if(PWMDATA[8] > PWMDATA[7]){
+ 204          //                                              XIANG1();
+ 205          //                                              PWMDATA[8]--;
+ 206          //                                              dis_ref_vol_pwmdata8();
+ 207          //                                              write_pwmdata8();
+ 208          //                                              delay_ms(50);last_down = 8;
+ 209          //                                      }else{KEY_YES=0;}
+ 210          //                                      break;
+ 211          //                              case 18:  //8+
+ 212          //                                      if(PWMDATA[8] < PWMDATA[9]){
+ 213          //                                              XIANG1();
+ 214          //                                              PWMDATA[8]++;
+ 215          //                                              dis_ref_vol_pwmdata8();
+ 216          //                                              write_pwmdata8();
+ 217          //                                              delay_ms(50);last_down = 8;
+ 218          //                                      }else{KEY_YES=0;}
+ 219          //                                      break;
+ 220          //                              case 19:  //9-
+ 221          //                                      if(PWMDATA[9] > PWMDATA[8]){
+ 222          //                                              XIANG1();
+ 223          //                                              PWMDATA[9]--;
+ 224          //                                              dis_ref_vol_pwmdata9();
+ 225          //                                              write_pwmdata9();
+ 226          //                                              delay_ms(50);last_down = 9;
+ 227          //                                      }else{KEY_YES=0;}
+ 228          //                                      break;
+ 229          //                              case 20:  //9+
+ 230          //                                      if(PWMDATA[9] < 5529){
+ 231          //                                              XIANG1();
+ 232          //                                              PWMDATA[9]++;
+ 233          //                                              dis_ref_vol_pwmdata9();
+ 234          //                                              write_pwmdata9();
+ 235          //                                              delay_ms(50);last_down = 9;
+ 236          //                                      }else{KEY_YES=0;}
+ 237          //                                      break;
+ 238          //                              case 21:
+ 239          //                                      XIANG1();
+ 240          //                                      INTERFACE = PAGE_CHOOSE_MODE;
+C51 COMPILER V9.00   XS_REF_VOL                                                            08/14/2024 11:36:46 PAGE 5   
+
+ 241          //                                      goto over_main_xs_ref_vol;
+ 242          //                                      break;
+ 243          //                              case 22:
+ 244          //                                      XIANG1();
+ 245          //                                      PWMDATA[0] = 25;        //0.5  22A
+ 246          //                                      PWMDATA[1] = 109;       //1.0  44A
+ 247          //                                      PWMDATA[2] = 505;       //1.5  66A
+ 248          //                                      PWMDATA[3] = 997;       //2.0  88A
+ 249          //                                      PWMDATA[4] = 1400;      //2.5  110A
+ 250          //                                      
+ 251          //                                      PWMDATA[5] = 1650;      //3.0  132A
+ 252          //                                      PWMDATA[6] = 2600;      //3.5  154A
+ 253          //                                      PWMDATA[7] = 3200;      //4.0  176A
+ 254          //                                      PWMDATA[8] = 3750;      //4.5  198A
+ 255          //                                      PWMDATA[9] = 4300;      //5.0  220A
+ 256          //                                      write_pwmdata0();
+ 257          //                                      write_pwmdata1();
+ 258          //                                      write_pwmdata2();
+ 259          //                                      write_pwmdata3();
+ 260          //                                      write_pwmdata4();
+ 261          //                                      write_pwmdata5();
+ 262          //                                      write_pwmdata6();
+ 263          //                                      write_pwmdata7();
+ 264          //                                      write_pwmdata8();
+ 265          //                                      write_pwmdata9();
+ 266          //                                      dis_ref_vol_pwmdata0();
+ 267          //                                      dis_ref_vol_pwmdata1();
+ 268          //                                      dis_ref_vol_pwmdata2();
+ 269          //                                      dis_ref_vol_pwmdata3();
+ 270          //                                      dis_ref_vol_pwmdata4();
+ 271          //                                      dis_ref_vol_pwmdata5();
+ 272          //                                      dis_ref_vol_pwmdata6();
+ 273          //                                      dis_ref_vol_pwmdata7();
+ 274          //                                      dis_ref_vol_pwmdata8();
+ 275          //                                      dis_ref_vol_pwmdata9();
+ 276          //                                      KEY_YES=0;
+ 277          //                                      break;
+ 278          //                      }
+ 279          //              }
+ 280          //              else
+ 281          //              {
+ 282          //                      if(last_down != 100)
+ 283          //                      {
+ 284          //                              PWM0_INIT(2000,PWMDATA[last_down]);//2KHZ
+ 285          //                              last_down = 100;
+ 286          //                      }
+ 287          //              }
+ 288          //              
+ 289          //              WATER_TEMP = Get_ADC_RES_WATER_TEMP();//获取水温度
+ 290          //              if(WATER_TEMP != 255)
+ 291          //              {
+ 292          //                      if(WATER_TEMP >= WATER_COLD_UPPER_LIMITS)COLD_WATER_ON; //温度高了打开制冷
+ 293          //                      if(WATER_TEMP <= WATER_COLD_LOWER_LIMITS)COLD_WATER_OFF;//温度低了关闭制冷
+ 294          //              }else{COLD_WATER_OFF;}
+ 295          //                      
+ 296          //              if(HANDLE_PROBE_TEMP != 255)//手柄温度
+ 297          //              {
+ 298          //                      if(HANDLE_PROBE_TEMP >= HANDLE_PROBE_COLD_UPPER_LIMITS[HANDLE_PROBE_COLE_GEAR])COLD_HANDLE_PROBE_ON;    
+             -//温度高了打开制冷
+ 299          //                      if(HANDLE_PROBE_TEMP <= HANDLE_PROBE_COLD_LOWER_LIMITS[HANDLE_PROBE_COLE_GEAR])COLD_HANDLE_PROBE_OFF;
+             -//温度低了关闭制冷
+ 300          //              }else{COLD_HANDLE_PROBE_OFF;}
+C51 COMPILER V9.00   XS_REF_VOL                                                            08/14/2024 11:36:46 PAGE 6   
+
+ 301          //              
+ 302          //      }while(1);
+ 303          //      over_main_xs_ref_vol:
+ 304          //      _nop_();
+ 305          //}
+ 306          //
+ 307          //void dis_ref_vol_pwmdata0(void)
+ 308          //{
+ 309          //      DIS_FONT_WEI_NUMBER_CM(Pic_REF_VOL,1,0x5C,0xF4,0x05,PWMDATA[0],4,646,225);
+ 310          //}
+ 311          //
+ 312          //void dis_ref_vol_pwmdata1(void)
+ 313          //{
+ 314          //      DIS_FONT_WEI_NUMBER_CM(Pic_REF_VOL,1,0x5C,0xF4,0x05,PWMDATA[1],4,646,363);
+ 315          //}
+ 316          //
+ 317          //void dis_ref_vol_pwmdata2(void)
+ 318          //{
+ 319          //      DIS_FONT_WEI_NUMBER_CM(Pic_REF_VOL,1,0x5C,0xF4,0x05,PWMDATA[2],4,646,501);
+ 320          //}
+ 321          //
+ 322          //void dis_ref_vol_pwmdata3(void)
+ 323          //{
+ 324          //      DIS_FONT_WEI_NUMBER_CM(Pic_REF_VOL,1,0x5C,0xF4,0x05,PWMDATA[3],4,646,639);
+ 325          //}
+ 326          //
+ 327          //void dis_ref_vol_pwmdata4(void)
+ 328          //{
+ 329          //      DIS_FONT_WEI_NUMBER_CM(Pic_REF_VOL,1,0x5C,0xF4,0x05,PWMDATA[4],4,646,777);
+ 330          //}
+ 331          //
+ 332          //void dis_ref_vol_pwmdata5(void)
+ 333          //{
+ 334          //      DIS_FONT_WEI_NUMBER_CM(Pic_REF_VOL,1,0x5C,0xF4,0x05,PWMDATA[5],4,1177,225);
+ 335          //}
+ 336          //
+ 337          //void dis_ref_vol_pwmdata6(void)
+ 338          //{
+ 339          //      DIS_FONT_WEI_NUMBER_CM(Pic_REF_VOL,1,0x5C,0xF4,0x05,PWMDATA[6],4,1177,363);
+ 340          //}
+ 341          //
+ 342          //void dis_ref_vol_pwmdata7(void)
+ 343          //{
+ 344          //      DIS_FONT_WEI_NUMBER_CM(Pic_REF_VOL,1,0x5C,0xF4,0x05,PWMDATA[7],4,1177,501);
+ 345          //}
+ 346          //
+ 347          //void dis_ref_vol_pwmdata8(void)
+ 348          //{
+ 349          //      DIS_FONT_WEI_NUMBER_CM(Pic_REF_VOL,1,0x5C,0xF4,0x05,PWMDATA[8],4,1177,639);
+ 350          //}
+ 351          //
+ 352          //void dis_ref_vol_pwmdata9(void)
+ 353          //{
+ 354          //      DIS_FONT_WEI_NUMBER_CM(Pic_REF_VOL,1,0x5C,0xF4,0x05,PWMDATA[9],4,1177,777);
+ 355          //}
+ 356          //
+ 357          //
+ 358          //
+ 359          //
+ 360          //
+ 361          //
+ 362          //
+C51 COMPILER V9.00   XS_REF_VOL                                                            08/14/2024 11:36:46 PAGE 7   
+
+ 363          //
+ 364          //
+ 365          //
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =   ----    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

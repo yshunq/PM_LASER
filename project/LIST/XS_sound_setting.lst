@@ -1,0 +1,168 @@
+C51 COMPILER V9.00   XS_SOUND_SETTING                                                      08/14/2024 14:33:04 PAGE 1   
+
+
+C51 COMPILER V9.00, COMPILATION OF MODULE XS_SOUND_SETTING
+OBJECT MODULE PLACED IN ..\hex\XS_sound_setting.obj
+COMPILER INVOKED BY: C:\Keil _C51\C51\BIN\C51.EXE ..\main\XS_sound_setting.c LARGE BROWSE INCDIR(..\user;..\common;..\di
+                    -splay) DEBUG OBJECTEXTEND PRINT(.\LIST\XS_sound_setting.lst) OBJECT(..\hex\XS_sound_setting.obj)
+
+line level    source
+
+   1          //#include "config.h"
+   2          //
+   3          //const u8  code MAIN_KEY_SOUND_SETTING = 9;
+   4          //const u16 code MAIN_SOUND_SETTING[]=
+   5          //{
+   6          //      440,958,160,246,         //六个选项
+   7          //      440,958,250,335,
+   8          //      440,958,339,424,
+   9          //      440,958,429,514,
+  10          //      440,958,518,603,
+  11          //      440,958,608,693,
+  12          //
+  13          //      0, 130,  0, 130,                 //返回和重置
+  14          //      1775,1915,0,125,
+  15          //
+  16          //      1126,1228,422,480,
+  17          //};
+  18          //
+  19          //void main_xs_sound_flag_setting(void)
+  20          //{
+  21          //      u8 key;
+  22          //      DIS_PICNUM(Pic_SOUND_SETTING);
+  23          //      dis_sound_flag();
+  24          //      do{
+  25          //              delay_ms(1);
+  26          //              if(KEY_YES!=0x00)
+  27          //              {
+  28          //                      ADS7843_KEY(); //扫描按键
+  29          //                      key=KEY_FANHUI(MAIN_KEY_SOUND_SETTING,MAIN_SOUND_SETTING); 
+  30          //                      switch(key)
+  31          //                      {
+  32          //                              case 1:  //
+  33          //                                      XIANG1();
+  34          //                                INTERFACE = PAGE_LOGO_FLAG;
+  35          //                                      goto over_main_xs_sound_setting;
+  36          //                                      break;
+  37          //                              case 2:  //
+  38          //                                      XIANG1();
+  39          //                                INTERFACE = PAGE_WATER_SETTING;
+  40          //                                      goto over_main_xs_sound_setting;
+  41          //                                      break;
+  42          //                              case 3:  //
+  43          //                                      XIANG1();
+  44          //                                INTERFACE = PAGE_HANDLE_SETTING;
+  45          //                                      goto over_main_xs_sound_setting;
+  46          //                                      break;
+  47          //                              case 4:  //
+  48          //                                      XIANG1();
+  49          //                                INTERFACE = PAGE_FLOW_SETTING;
+  50          //                                      goto over_main_xs_sound_setting;
+  51          //                                      break; 
+  52          //                              case 5:  //
+  53          //                                      XIANG1();
+  54          //                                INTERFACE = PAGE_TOTAL_TIME_SETTING;
+C51 COMPILER V9.00   XS_SOUND_SETTING                                                      08/14/2024 14:33:04 PAGE 2   
+
+  55          //                                      goto over_main_xs_sound_setting;
+  56          //                                      break;
+  57          //                              case 6:  //
+  58          //                                      //XIANG1();
+  59          //                                //INTERFACE = PAGE_SOUND_SETTING;
+  60          //                                      //goto over_main_xs_sound_setting;
+  61          //                                      break;
+  62          //                              case 7:  //
+  63          //                                      XIANG1();
+  64          //                                      INTERFACE = PAGE_CHOOSE_MODE;
+  65          //                                      goto over_main_xs_sound_setting;
+  66          //                                      break;
+  67          //                              case 8:  //
+  68          //                                      if(SOUND_FLAG != 0){
+  69          //                                              XIANG1();
+  70          //                                              SOUND_FLAG = 0;
+  71          //                                              write_sound_flag();
+  72          //                                      }
+  73          //                                      KEY_YES = 0;
+  74          //                                      break;
+  75          //                              case 9:  //
+  76          //                                      XIANG1();
+  77          //                                      if(SOUND_FLAG == 0)SOUND_FLAG = 1;
+  78          //                                      else{SOUND_FLAG = 0;}
+  79          //                                      write_sound_flag();
+  80          //                                      dis_sound_flag();
+  81          //                                      KEY_YES = 0;
+  82          //                                      break;
+  83          //                      }
+  84          //                      
+  85          //              }
+  86          //              
+  87          //              WATER_TEMP = Get_ADC_RES_WATER_TEMP();//获取水温度
+  88          //              if(WATER_TEMP != 255)
+  89          //              {
+  90          //                      if(WATER_TEMP >= WATER_COLD_UPPER_LIMITS)COLD_WATER_ON; //温度高了打开制冷
+  91          //                      if(WATER_TEMP <= WATER_COLD_LOWER_LIMITS)COLD_WATER_OFF;//温度低了关闭制冷
+  92          //              }else{COLD_WATER_OFF;}
+  93          //              
+  94          //              if(HANDLE_PROBE_TEMP != 255)//手柄温度
+  95          //              {
+  96          //                      if(HANDLE_PROBE_TEMP >= HANDLE_PROBE_COLD_UPPER_LIMITS[HANDLE_PROBE_COLE_GEAR])COLD_HANDLE_PROBE_ON;    
+             -//温度高了打开制冷
+  97          //                      if(HANDLE_PROBE_TEMP <= HANDLE_PROBE_COLD_LOWER_LIMITS[HANDLE_PROBE_COLE_GEAR])COLD_HANDLE_PROBE_OFF;
+             -//温度低了关闭制冷
+  98          //              }else{COLD_HANDLE_PROBE_OFF;}
+  99          //              
+ 100          //      }while(1);
+ 101          //      over_main_xs_sound_setting:
+ 102          //      _nop_();
+ 103          //}
+ 104          //
+ 105          //void dis_sound_flag(void)
+ 106          //{
+ 107          //      u16 x,y;
+ 108          //      x = 1145;
+ 109          //      y = 435;
+ 110          //      DIS_DEL_DIS(Pic_SOUND_SETTING,1126,422,1228,480,1126,423);
+ 111          //      
+ 112          //      if(SOUND_FLAG == 0)DIS_FONT_C(0x5C,0xF4,2,0x04,x+10,y,"ON");
+ 113          //      else{DIS_FONT_C(0x5C,0xF4,3,0x04,x,y,"OFF");}
+ 114          //}
+C51 COMPILER V9.00   XS_SOUND_SETTING                                                      08/14/2024 14:33:04 PAGE 3   
+
+ 115          //
+ 116          //
+ 117          //
+ 118          //
+ 119          //
+ 120          //
+ 121          //
+ 122          //
+ 123          //
+ 124          //
+ 125          //
+ 126          //
+ 127          //
+ 128          //
+ 129          //
+ 130          //
+ 131          //
+ 132          //
+ 133          //
+ 134          //
+ 135          //
+ 136          //
+ 137          // 
+ 138          // 
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =   ----    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -1,0 +1,351 @@
+C51 COMPILER V9.00   XS_WATER_SETTING                                                      08/14/2024 14:33:03 PAGE 1   
+
+
+C51 COMPILER V9.00, COMPILATION OF MODULE XS_WATER_SETTING
+OBJECT MODULE PLACED IN ..\hex\XS_water_setting.obj
+COMPILER INVOKED BY: C:\Keil _C51\C51\BIN\C51.EXE ..\main\XS_water_setting.c LARGE BROWSE INCDIR(..\user;..\common;..\di
+                    -splay) DEBUG OBJECTEXTEND PRINT(.\LIST\XS_water_setting.lst) OBJECT(..\hex\XS_water_setting.obj)
+
+line level    source
+
+   1          //#include "config.h"
+   2          //
+   3          //const u8  MAIN_KEY_WATER_SETTING = 17;
+   4          //const u16 MAIN_WATER_SETTING[]=
+   5          //{
+   6          //      440,958,160,246,         //六个选项
+   7          //      440,958,250,335,
+   8          //      440,958,339,424,
+   9          //      440,958,429,514,
+  10          //      440,958,518,603,
+  11          //      440,958,608,693,
+  12          //
+  13          //      0, 130,  0, 130,                 //返回和重置
+  14          //      1775,1915,0,125,
+  15          //
+  16          //      1192,1319,218,290,              //水流警报开关
+  17          //
+  18          //      1095, 1171,357, 433,            //水流调节
+  19          //      1340, 1415,357, 433,
+  20          //      1095, 1171,495, 571,
+  21          //      1340, 1415,495, 571,
+  22          //      1095, 1171,635, 710,
+  23          //      1340, 1415,635, 710,
+  24          //      1095, 1171,773,848,
+  25          //      1340, 1415,773,848,
+  26          //};
+  27          //
+  28          //void main_xs_water_setting(void)
+  29          //{
+  30          //      u8 key;
+  31          //      DIS_PICNUM(Pic_WATER_SETTING);
+  32          //      dis_water_warning_flag();
+  33          //      dis_water_warning_upper_limits();
+  34          //      dis_water_warning_lower_limits();
+  35          //      dis_water_cold_upper_limits();
+  36          //      dis_water_cold_lower_limits();
+  37          //      do{
+  38          //              delay_ms(1);
+  39          //              if(KEY_YES!=0x00)
+  40          //              {
+  41          //                      ADS7843_KEY(); //扫描按键
+  42          //                      key=KEY_FANHUI(MAIN_KEY_WATER_SETTING,MAIN_WATER_SETTING); 
+  43          //                      switch(key)
+  44          //                      {
+  45          //                              case 1:  //
+  46          //                                      XIANG1();
+  47          //                                      INTERFACE = PAGE_LOGO_FLAG;
+  48          //                                      goto over_main_xs_water_setting;
+  49          //                                      break;
+  50          //                              case 2:  //
+  51          //                                      //XIANG1();
+  52          //                                      //INTERFACE = PAGE_WATER_SETTING;
+  53          //                                      //goto over_main_xs_water_setting;
+  54          //                                      break;
+C51 COMPILER V9.00   XS_WATER_SETTING                                                      08/14/2024 14:33:03 PAGE 2   
+
+  55          //                              case 3:  //
+  56          //                                      XIANG1();
+  57          //                                      INTERFACE = PAGE_HANDLE_SETTING;
+  58          //                                      goto over_main_xs_water_setting;
+  59          //                                      break;
+  60          //                              case 4:  //
+  61          //                                      XIANG1();
+  62          //                                      INTERFACE = PAGE_FLOW_SETTING;
+  63          //                                      goto over_main_xs_water_setting;
+  64          //                                      break; 
+  65          //                              case 5:  //
+  66          //                                      XIANG1();
+  67          //                                      INTERFACE = PAGE_TOTAL_TIME_SETTING;
+  68          //                                      goto over_main_xs_water_setting;
+  69          //                                      break;
+  70          //                              case 6:  //
+  71          //                                      XIANG1();
+  72          //                                      INTERFACE = PAGE_SOUND_SETTING;
+  73          //                                      goto over_main_xs_water_setting;
+  74          //                                      break;
+  75          //                              case 7:  //
+  76          //                                      XIANG1();
+  77          //                                      INTERFACE = PAGE_CHOOSE_MODE;
+  78          //                                      goto over_main_xs_water_setting;
+  79          //                                      break;
+  80          //                              case 8:  //
+  81          //                                      if(WATER_WARNING_FLAG != 0 || WATER_WARNING_UPPER_LIMITS != 40 || WATER_WARNING_LOWER_LIMITS != 26 
+             -|| WATER_COLD_UPPER_LIMITS != 32 || WATER_COLD_LOWER_LIMITS != 30)
+  82          //                                      {
+  83          //                                              XIANG1();
+  84          //                                              WATER_WARNING_FLAG = 0;
+  85          //                                              write_water_warning_flag();
+  86          //                                              WATER_WARNING_UPPER_LIMITS = 40;
+  87          //                                              write_water_warning_upper_limits();
+  88          //                                              WATER_WARNING_LOWER_LIMITS = 26;
+  89          //                                              write_water_warning_lower_limits();
+  90          //                                              WATER_COLD_UPPER_LIMITS = 32;
+  91          //                                              write_water_cold_upper_limits();
+  92          //                                              WATER_COLD_LOWER_LIMITS = 30;
+  93          //                                              write_water_cold_lower_limits();
+  94          //                                              goto over_main_xs_water_setting;
+  95          //                                      }else{KEY_YES = 0;}
+  96          //                                      break;
+  97          //                              case 9:  //
+  98          //                                      XIANG1();
+  99          //                                      if(WATER_WARNING_FLAG == 0)WATER_WARNING_FLAG = 1;
+ 100          //                                      else{WATER_WARNING_FLAG = 0;}
+ 101          //                                      write_water_warning_flag();
+ 102          //                                      dis_water_warning_flag();
+ 103          //                                      KEY_YES = 0;
+ 104          //                                      break;
+ 105          //                              case 10:  //--
+ 106          //                                      if(WATER_WARNING_UPPER_LIMITS > WATER_WARNING_LOWER_LIMITS)
+ 107          //                                      {
+ 108          //                                              XIANG1();
+ 109          //                                              WATER_WARNING_UPPER_LIMITS--;
+ 110          //                                              write_water_warning_upper_limits();
+ 111          //                                              dis_water_warning_upper_limits();
+ 112          //                                              delay_ms(80);
+ 113          //                                      }else{KEY_YES = 0;}
+ 114          //                                      break;
+ 115          //                              case 11:  //++
+C51 COMPILER V9.00   XS_WATER_SETTING                                                      08/14/2024 14:33:03 PAGE 3   
+
+ 116          //                                      if(WATER_WARNING_UPPER_LIMITS < 100)
+ 117          //                                      {
+ 118          //                                              XIANG1();
+ 119          //                                              WATER_WARNING_UPPER_LIMITS++;
+ 120          //                                              write_water_warning_upper_limits();
+ 121          //                                              dis_water_warning_upper_limits();
+ 122          //                                              delay_ms(80);
+ 123          //                                      }else{KEY_YES = 0;}
+ 124          //                                      break;
+ 125          //                              case 12:  //--
+ 126          //                                      if(WATER_WARNING_LOWER_LIMITS > 0)
+ 127          //                                      {
+ 128          //                                              XIANG1();
+ 129          //                                              WATER_WARNING_LOWER_LIMITS--;
+ 130          //                                              write_water_warning_lower_limits();
+ 131          //                                              dis_water_warning_lower_limits();
+ 132          //                                              delay_ms(80);
+ 133          //                                      }else{KEY_YES = 0;}
+ 134          //                                      break;
+ 135          //                              case 13:  //++
+ 136          //                                      if(WATER_WARNING_LOWER_LIMITS < WATER_WARNING_UPPER_LIMITS)
+ 137          //                                      {
+ 138          //                                              XIANG1();
+ 139          //                                              WATER_WARNING_LOWER_LIMITS++;
+ 140          //                                              write_water_warning_lower_limits();
+ 141          //                                              dis_water_warning_lower_limits();
+ 142          //                                              delay_ms(80);
+ 143          //                                      }else{KEY_YES = 0;}
+ 144          //                                      break;
+ 145          //                              case 14:  //--
+ 146          //                                      if(WATER_COLD_UPPER_LIMITS > WATER_COLD_LOWER_LIMITS)
+ 147          //                                      {
+ 148          //                                              XIANG1();
+ 149          //                                              WATER_COLD_UPPER_LIMITS--;
+ 150          //                                              write_water_cold_upper_limits();
+ 151          //                                              dis_water_cold_upper_limits();
+ 152          //                                              delay_ms(80);
+ 153          //                                      }else{KEY_YES = 0;}
+ 154          //                                      break;
+ 155          //                              case 15:  //++
+ 156          //                                      if(WATER_COLD_UPPER_LIMITS < 100)
+ 157          //                                      {
+ 158          //                                              XIANG1();
+ 159          //                                              WATER_COLD_UPPER_LIMITS++;
+ 160          //                                              write_water_cold_upper_limits();
+ 161          //                                              dis_water_cold_upper_limits();
+ 162          //                                              delay_ms(80);
+ 163          //                                      }else{KEY_YES = 0;}
+ 164          //                                      break;
+ 165          //                              case 16:  //--
+ 166          //                                      if(WATER_COLD_LOWER_LIMITS > 0)
+ 167          //                                      {
+ 168          //                                              XIANG1();
+ 169          //                                              WATER_COLD_LOWER_LIMITS--;
+ 170          //                                              write_water_cold_lower_limits();
+ 171          //                                              dis_water_cold_lower_limits();
+ 172          //                                              delay_ms(80);
+ 173          //                                      }else{KEY_YES = 0;}
+ 174          //                                      break;
+ 175          //                              case 17:  //++
+ 176          //                                      if(WATER_COLD_LOWER_LIMITS < WATER_COLD_UPPER_LIMITS)
+ 177          //                                      {
+C51 COMPILER V9.00   XS_WATER_SETTING                                                      08/14/2024 14:33:03 PAGE 4   
+
+ 178          //                                              XIANG1();
+ 179          //                                              WATER_COLD_LOWER_LIMITS++;
+ 180          //                                              write_water_cold_lower_limits();
+ 181          //                                              dis_water_cold_lower_limits();
+ 182          //                                              delay_ms(80);
+ 183          //                                      }else{KEY_YES = 0;}
+ 184          //                                      break;
+ 185          //                      }
+ 186          //                      
+ 187          //              }
+ 188          //              
+ 189          //              WATER_TEMP = Get_ADC_RES_WATER_TEMP();//获取水温度
+ 190          //              if(WATER_TEMP != 255)
+ 191          //              {
+ 192          //                      if(WATER_TEMP >= WATER_COLD_UPPER_LIMITS)COLD_WATER_ON; //温度高了打开制冷
+ 193          //                      if(WATER_TEMP <= WATER_COLD_LOWER_LIMITS)COLD_WATER_OFF;//温度低了关闭制冷
+ 194          //              }else{COLD_WATER_OFF;}
+ 195          //              
+ 196          //              if(HANDLE_PROBE_TEMP != 255)//手柄温度
+ 197          //              {
+ 198          //                      if(HANDLE_PROBE_TEMP >= HANDLE_PROBE_COLD_UPPER_LIMITS[HANDLE_PROBE_COLE_GEAR])COLD_HANDLE_PROBE_ON;    
+             -//温度高了打开制冷
+ 199          //                      if(HANDLE_PROBE_TEMP <= HANDLE_PROBE_COLD_LOWER_LIMITS[HANDLE_PROBE_COLE_GEAR])COLD_HANDLE_PROBE_OFF;
+             -//温度低了关闭制冷
+ 200          //              }else{COLD_HANDLE_PROBE_OFF;}
+ 201          //              
+ 202          //      }while(1);
+ 203          //      over_main_xs_water_setting:
+ 204          //      _nop_();
+ 205          //}
+ 206          //
+ 207          //void dis_water_warning_flag(void)
+ 208          //{
+ 209          //      u16 x,y;
+ 210          //      x = 1225;
+ 211          //      y = 235;
+ 212          //      DIS_DEL_DIS(Pic_WATER_SETTING,1192,218,1319,290,1192,218);
+ 213          //      if(WATER_WARNING_FLAG == 0)DIS_FONT_C(0x5C,0xF4,2,0x04,x+10,y,"ON");
+ 214          //      else{DIS_FONT_C(0x5C,0xF4,3,0x04,x,y,"OFF");}
+ 215          //}
+ 216          //
+ 217          //void dis_water_warning_upper_limits(void)
+ 218          //{
+ 219          //      u16 x,y;
+ 220          //      u8 temp;
+ 221          //      x = 1216;
+ 222          //      y = 375;
+ 223          //      if(WATER_WARNING_UPPER_LIMITS < 10)
+ 224          //      {
+ 225          //              temp = 10 - WATER_WARNING_UPPER_LIMITS;
+ 226          //              DIS_FONT_C(0x5C,0xF4,1,0x04,x,y,"-");
+ 227          //      }
+ 228          //      else
+ 229          //      {
+ 230          //              temp = WATER_WARNING_UPPER_LIMITS - 10;
+ 231          //              DIS_DEL_DIS(Pic_WATER_SETTING,x,y,x+20,y+40,x,y);
+ 232          //      }
+ 233          //      DIS_FONT_WEI_NUMBER_CM(Pic_WATER_SETTING,1,0x5C,0xF4,0x04,temp,2,x+20,y);
+ 234          //}
+ 235          //
+ 236          //void dis_water_warning_lower_limits(void)
+ 237          //{
+C51 COMPILER V9.00   XS_WATER_SETTING                                                      08/14/2024 14:33:03 PAGE 5   
+
+ 238          //      u16 x,y;
+ 239          //      u8 temp;
+ 240          //      x = 1216;
+ 241          //      y = 512;
+ 242          //      if(WATER_WARNING_LOWER_LIMITS < 10)
+ 243          //      {
+ 244          //              temp = 10 - WATER_WARNING_LOWER_LIMITS;
+ 245          //              DIS_FONT_C(0x5C,0xF4,1,0x04,x,y,"-");
+ 246          //      }
+ 247          //      else
+ 248          //      {
+ 249          //              temp = WATER_WARNING_LOWER_LIMITS - 10;
+ 250          //              DIS_DEL_DIS(Pic_WATER_SETTING,x,y,x+20,y+40,x,y);
+ 251          //      }
+ 252          //      DIS_FONT_WEI_NUMBER_CM(Pic_WATER_SETTING,1,0x5C,0xF4,0x04,temp,2,x+20,y);
+ 253          //}
+ 254          //
+ 255          //void dis_water_cold_upper_limits(void)
+ 256          //{
+ 257          //      u16 x,y;
+ 258          //      u8 temp;
+ 259          //      x = 1216;
+ 260          //      y = 651;
+ 261          //      if(WATER_COLD_UPPER_LIMITS < 10)
+ 262          //      {
+ 263          //              temp = 10 - WATER_COLD_UPPER_LIMITS;
+ 264          //              DIS_FONT_C(0x5C,0xF4,1,0x04,x,y,"-");
+ 265          //      }
+ 266          //      else
+ 267          //      {
+ 268          //              temp = WATER_COLD_UPPER_LIMITS - 10;
+ 269          //              DIS_DEL_DIS(Pic_WATER_SETTING,x,y,x+20,y+40,x,y);
+ 270          //      }
+ 271          //      DIS_FONT_WEI_NUMBER_CM(Pic_WATER_SETTING,1,0x5C,0xF4,0x04,temp,2,x+20,y);
+ 272          //}
+ 273          //
+ 274          //void dis_water_cold_lower_limits(void)
+ 275          //{
+ 276          //      u16 x,y;
+ 277          //      u8 temp;
+ 278          //      x = 1216;
+ 279          //      y = 788;
+ 280          //      if(WATER_COLD_LOWER_LIMITS < 10)
+ 281          //      {
+ 282          //              temp = 10 - WATER_COLD_LOWER_LIMITS;
+ 283          //              DIS_FONT_C(0x5C,0xF4,1,0x04,x,y,"-");
+ 284          //      }
+ 285          //      else
+ 286          //      {
+ 287          //              temp = WATER_COLD_LOWER_LIMITS - 10;
+ 288          //              DIS_DEL_DIS(Pic_WATER_SETTING,x,y,x+20,y+40,x,y);
+ 289          //      }
+ 290          //      DIS_FONT_WEI_NUMBER_CM(Pic_WATER_SETTING,1,0x5C,0xF4,0x04,temp,2,x+20,y);
+ 291          //}
+ 292          //
+ 293          //
+ 294          //
+ 295          //
+ 296          //
+ 297          //
+ 298          //
+ 299          //
+C51 COMPILER V9.00   XS_WATER_SETTING                                                      08/14/2024 14:33:03 PAGE 6   
+
+ 300          //
+ 301          //
+ 302          //
+ 303          //
+ 304          //
+ 305          //
+ 306          //
+ 307          //
+ 308          //
+ 309          //
+ 310          //
+ 311          //
+ 312          //
+ 313          // 
+ 314          // 
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =   ----    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

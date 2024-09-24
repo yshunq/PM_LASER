@@ -1,0 +1,209 @@
+C51 COMPILER V9.00   XS_ADJUST_POWER                                                       08/28/2024 17:05:55 PAGE 1   
+
+
+C51 COMPILER V9.00, COMPILATION OF MODULE XS_ADJUST_POWER
+OBJECT MODULE PLACED IN ..\hex\XS_adjust_power.obj
+COMPILER INVOKED BY: C:\Keil _C51\C51\BIN\C51.EXE ..\main\XS_adjust_power.c LARGE BROWSE INCDIR(..\user;..\common;..\dis
+                    -play) DEBUG OBJECTEXTEND PRINT(.\LIST\XS_adjust_power.lst) OBJECT(..\hex\XS_adjust_power.obj)
+
+line level    source
+
+   1          #include "config.h"
+   2          
+   3          const u8  code MAIN_KEY_ADJUST_POWER = 16;
+   4          const u16 code MAIN_ADJUST_POWER[]=
+   5          {
+   6                  478,596,190,312,
+   7                  790,915,190,312,
+   8                  478,596,328,448,
+   9                  790,915,328,448,
+  10                  478,596,469,588,
+  11                  790,915,469,588,
+  12          
+  13                  1005,1130,190,312,
+  14                  1319,1446,190,312,
+  15                  1005,1130,328,448,
+  16                  1319,1446,328,448,
+  17                  1005,1130,469,588,
+  18                  1319,1446,469,588,
+  19          
+  20                  742,863,732,854,
+  21                  1052,1180,732,854,
+  22                  0,150,0,150,
+  23                  1760,1919,0,150,
+  24          };
+  25          void dis_adjust_power_tq_set_pwm(u8 num);
+  26          void dis_adjust_power_tq_set_time(void);
+  27          void main_xs_adjust_power(void)
+  28          {
+  29   1              u8 key,last_down,num;
+  30   1              u16 pwm_value;
+  31   1              DIS_PICNUM(Pic_ADJUST_POWER);
+  32   1              read_all_tq_set_pwm();
+  33   1              dis_adjust_power_tq_set_pwm(0);
+  34   1              dis_adjust_power_tq_set_pwm(1);
+  35   1              dis_adjust_power_tq_set_pwm(2);
+  36   1              dis_adjust_power_tq_set_pwm(3);
+  37   1              dis_adjust_power_tq_set_pwm(4);
+  38   1              dis_adjust_power_tq_set_pwm(5);
+  39   1              dis_adjust_power_tq_set_time();
+  40   1      
+  41   1              TQ_ENERGY_GEAR = 50;
+  42   1              pwm_value = count_tq_work_set_vol();
+  43   1              yag_voltage_pwm(YAG_PWM_CYCLE,pwm_value);
+  44   1              do{
+  45   2                      delay_ms(1);
+  46   2                      if(KEY_YES!=0x00)
+  47   2                      {
+  48   3                              ADS7843_KEY(); //É¨Ãè°´¼ü
+  49   3                              key=KEY_FANHUI(MAIN_KEY_ADJUST_POWER,MAIN_ADJUST_POWER); 
+  50   3                              if(key <= 12 && key > 0){
+  51   4                                      XIANG1();
+  52   4                                      num = (key-1)/2;
+  53   4                                      if(key%2 == 1){//¼õ¼õ
+  54   5                                              if(num == 0){
+C51 COMPILER V9.00   XS_ADJUST_POWER                                                       08/28/2024 17:05:55 PAGE 2   
+
+  55   6                                                      if(TQ_SET_PWM[num] > 100)TQ_SET_PWM[num] -= 100;        
+  56   6                                              }else{
+  57   6                                                      if(TQ_SET_PWM[num] > (TQ_SET_PWM[num-1] + 100))TQ_SET_PWM[num] -= 100;  
+  58   6                                              }
+  59   5                                              dis_adjust_power_tq_set_pwm(num);
+  60   5                                              last_down = num + 1;
+  61   5                                              delay_ms(100);
+  62   5                                      }else{//¼Ó¼Ó
+  63   5                                              if(num == 5){
+  64   6                                                      if(TQ_SET_PWM[num] < MAX_PWM_VALUE)TQ_SET_PWM[num] += 100;      
+  65   6                                              }else{
+  66   6                                                      if(TQ_SET_PWM[num] < (TQ_SET_PWM[num+1] - 100))TQ_SET_PWM[num] += 100;  
+  67   6                                              }
+  68   5                                              dis_adjust_power_tq_set_pwm(num);
+  69   5                                              last_down = num + 1;
+  70   5                                              delay_ms(100);
+  71   5                                      }
+  72   4                              }else if(key == 13){
+  73   4      //                              if(TQ_SET_TIME > 1){
+  74   4      //                                      XIANG1();
+  75   4      //                                      TQ_SET_TIME--;
+  76   4      //                                      dis_adjust_power_tq_set_time();
+  77   4      //                                      last_down = 13;
+  78   4      //                                      delay_ms(100);
+  79   4      //                              }else{KEY_YES = 0;}
+  80   4                              }else if(key == 14){
+  81   4      //                              if(TQ_SET_TIME < 50){
+  82   4      //                                      XIANG1();
+  83   4      //                                      TQ_SET_TIME++;
+  84   4      //                                      dis_adjust_power_tq_set_time();
+  85   4      //                                      last_down = 13;
+  86   4      //                                      delay_ms(100);
+  87   4      //                              }else{KEY_YES = 0;}
+  88   4                              }else if(key == 15){
+  89   4                                      XIANG1();
+  90   4                                      INTERFACE = PAGE_LOADING;
+  91   4                                      goto over_main_xs_adjust_power;
+  92   4                              }else if(key == 16){
+  93   4                                      XIANG1();
+  94   4                                      TQ_SET_PWM[0] = 1000;
+  95   4                                      TQ_SET_PWM[1] = 4000;
+  96   4                                      TQ_SET_PWM[2] = 7000;
+  97   4                                      TQ_SET_PWM[3] = 10000;
+  98   4                                      TQ_SET_PWM[4] = 13000;
+  99   4                                      TQ_SET_PWM[5] = 16000;
+ 100   4                                      //TQ_SET_TIME = 10;
+ 101   4                                      write_tq_set_pwm(0);
+ 102   4                                      write_tq_set_pwm(1);
+ 103   4                                      write_tq_set_pwm(2);
+ 104   4                                      write_tq_set_pwm(3);
+ 105   4                                      write_tq_set_pwm(4);
+ 106   4                                      write_tq_set_pwm(5);
+ 107   4                                      //write_tq_set_time();
+ 108   4                                      goto over_main_xs_adjust_power; 
+ 109   4                              }
+ 110   3                      }else{
+ 111   3                              switch(last_down){
+ 112   4                                      case 1:
+ 113   4                                              TQ_ENERGY_GEAR = 50;
+ 114   4                                              pwm_value = count_tq_work_set_vol();
+ 115   4                                              yag_voltage_pwm(YAG_PWM_CYCLE,pwm_value);
+ 116   4                                              write_tq_set_pwm(0);
+C51 COMPILER V9.00   XS_ADJUST_POWER                                                       08/28/2024 17:05:55 PAGE 3   
+
+ 117   4                                              break;
+ 118   4                                      case 2:
+ 119   4                                              TQ_ENERGY_GEAR = 200;
+ 120   4                                              pwm_value = count_tq_work_set_vol();
+ 121   4                                              yag_voltage_pwm(YAG_PWM_CYCLE,pwm_value);
+ 122   4                                              write_tq_set_pwm(1);
+ 123   4                                              break;
+ 124   4                                      case 3:
+ 125   4                                              TQ_ENERGY_GEAR = 400;
+ 126   4                                              pwm_value = count_tq_work_set_vol();
+ 127   4                                              yag_voltage_pwm(YAG_PWM_CYCLE,pwm_value);
+ 128   4                                              write_tq_set_pwm(2);
+ 129   4                                              break;
+ 130   4                                      case 4:
+ 131   4                                              TQ_ENERGY_GEAR = 600;
+ 132   4                                              pwm_value = count_tq_work_set_vol();
+ 133   4                                              yag_voltage_pwm(YAG_PWM_CYCLE,pwm_value);
+ 134   4                                              write_tq_set_pwm(3);
+ 135   4                                              break;
+ 136   4                                      case 5:
+ 137   4                                              TQ_ENERGY_GEAR = 800;
+ 138   4                                              pwm_value = count_tq_work_set_vol();
+ 139   4                                              yag_voltage_pwm(YAG_PWM_CYCLE,pwm_value);
+ 140   4                                              write_tq_set_pwm(4);
+ 141   4                                              break;
+ 142   4                                      case 6:
+ 143   4                                              TQ_ENERGY_GEAR = 1000;
+ 144   4                                              pwm_value = count_tq_work_set_vol();
+ 145   4                                              yag_voltage_pwm(YAG_PWM_CYCLE,pwm_value);
+ 146   4                                              write_tq_set_pwm(5);
+ 147   4                                              break;
+ 148   4                                      //case 13:write_tq_set_time();break;
+ 149   4                              }last_down = 0;
+ 150   3                      }
+ 151   2              }while(1);
+ 152   1              over_main_xs_adjust_power:
+ 153   1              _nop_();
+ 154   1              yag_close_pwm();
+ 155   1      }
+ 156          
+ 157          void dis_adjust_power_tq_set_pwm(u8 num)
+ 158          {
+ 159   1              u16 x,y;
+ 160   1              switch(num){
+ 161   2                      case 0:x= 636;y=227;break;
+ 162   2                      case 1:x= 636;y=365;break;
+ 163   2                      case 2:x= 636;y=503;break;
+ 164   2                      case 3:x=1166;y=227;break;
+ 165   2                      case 4:x=1166;y=365;break;
+ 166   2                      case 5:x=1166;y=503;break;
+ 167   2              }
+ 168   1              DIS_FONT_WEI_NUMBER_CM(Pic_ADJUST_POWER,1,0x00,0x00,0x05,TQ_SET_PWM[num],5,x,y);
+ 169   1      }
+ 170          
+ 171          void dis_adjust_power_tq_set_time(void)
+ 172          {
+ 173   1              DIS_FONT_WEI_NUMBER_CM(Pic_ADJUST_POWER,1,0x00,0x00,0x05,TQ_SET_TIME,2,932,768);
+ 174   1      }
+ 175          
+ 176                                    
+ 177          
+ 178          
+C51 COMPILER V9.00   XS_ADJUST_POWER                                                       08/28/2024 17:05:55 PAGE 4   
+
+ 179          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =   1034    ----
+   CONSTANT SIZE    =    129    ----
+   XDATA SIZE       =   ----       9
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -1,0 +1,11 @@
+".\adc.obj",
+".\delay.obj",
+".\IO.obj",
+".\MAIN.obj",
+".\pca.obj",
+".\pwm.obj",
+".\stc8aid.obj",
+".\timer.obj",
+".\UART.obj" 
+TO "stc8f2k08s2 sop16 demo" 
+PRINT(".\LIST\stc8f2k08s2 sop16 demo.m51") RAMSIZE(256) 

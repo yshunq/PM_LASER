@@ -1,0 +1,189 @@
+C51 COMPILER V9.00   MAIN                                                                  08/28/2024 17:05:52 PAGE 1   
+
+
+C51 COMPILER V9.00, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN ..\hex\MAIN.obj
+COMPILER INVOKED BY: C:\Keil _C51\C51\BIN\C51.EXE ..\user\MAIN.C LARGE BROWSE INCDIR(..\user;..\common;..\display) DEBUG
+                    - OBJECTEXTEND PRINT(.\LIST\MAIN.lst) OBJECT(..\hex\MAIN.obj)
+
+line level    source
+
+   1          #include "config.h"
+   2          #include "all_main_ram.h"
+   3          
+   4          //PnM1.x    PnM0.x    Pn.x口工作模式
+   5          //  0         0       准双向口
+   6          //  0         1       推挽输出
+   7          //  1         0       高阻输入
+   8          //  1         1       开漏输出
+   9          
+  10          
+  11          
+  12          void main(void)
+  13          {
+  14   1              P7 = 0xff;
+  15   1              P0M0 = 0x4A;
+  16   1              P0M1 = 0x15;
+  17   1              P1M0 = 0x3B;
+  18   1              P1M1 = 0x04;
+  19   1              P2M0 = 0x6E;
+  20   1              P2M1 = 0x81;
+  21   1              P3M0 = 0xB2;
+  22   1              P3M1 = 0x4D;
+  23   1              P4M0 = 0x4F;
+  24   1              P4M1 = 0xB0;
+  25   1              P5M0 = 0x13;
+  26   1              P5M1 = 0x04;
+  27   1              
+  28   1              /*//-----设置外部晶振-----//
+  29   1              P_SW2 |= 0x80;
+  30   1              XOSCCR = 0xC0;
+  31   1              while (!(XOSCCR & 1));
+  32   1              CLKDIV = 0x00;
+  33   1              CKSEL = 0x01;
+  34   1              P_SW2 &= ~0x80; */
+  35   1              
+  36   1              //IT1 = 0;      //使能INT1上升沿和下降沿中断
+  37   1              //IT1 = 1;      //使能INT1下降沿中断
+  38   1              //EX1 = 1;      //使能INT1中断
+  39   1              
+  40   1              Timer0_Init();//1ms
+  41   1              Timer1_Init();
+  42   1              //Uart2Init();
+  43   1              Uart3Init();//设置波特率115200 定时器2
+  44   1              ADC_Init();
+  45   1      
+  46   1              INTCLKO = EX2;  //使能INT2中断
+  47   1      
+  48   1              EA = 1;         //总中断
+  49   1              
+  50   1              START_STOP_FLAG = 1;
+  51   1              TQ_WORK_FLAG = 1;
+  52   1      
+  53   1              YAG_PRECOMBUSTION_OFF;
+  54   1              YAG_CHARGE_OFF;
+C51 COMPILER V9.00   MAIN                                                                  08/28/2024 17:05:52 PAGE 2   
+
+  55   1              YAG_SET_OFF;
+  56   1              yag_close_pwm();
+  57   1              laser_light_close_pwm();
+  58   1      
+  59   1              TQ_SECOND_PULSE_OFF;//第二脉冲不输出
+  60   1              TQ_SINGLE_PULSE_ON;//单脉冲模式
+  61   1              TQ_HIGH_VOLTAGE_OFF;
+  62   1              MOTOR_STOP_ON;//电机停止
+  63   1              
+  64   1              delay_ms(2000);
+  65   1              TX1_OUT_OVER();//帧结束符
+  66   1              
+  67   1              read_tq_total_time();
+  68   1              read_max_water_temp();
+  69   1              read_all_tq_set_pwm();
+  70   1      //      read_tq_set_time();
+  71   1              TQ_SET_TIME = 1;
+  72   1      
+  73   1              XIAN_FLAG = 0;
+  74   1              
+  75   1              WAVELENGTH = WL585NM;
+  76   1              TQ_FREQUENCY_GEAR = 2;
+  77   1              TQ_ENERGY_GEAR = 100;
+  78   1              //TQ_TOTAL_TIME= 8888888;
+  79   1              TQ_CURE_TIME = 0;
+  80   1              TQ_SPOT_SIZE = 5;
+  81   1              TQ_LASER_LEVEL = 5;
+  82   1              
+  83   1              while(1)
+  84   1              {
+  85   2              INTERFACE = PAGE_LOADING;
+  86   2                      jump_interface();
+  87   2      //              TQ_SECOND_PULSE_ON;
+  88   2      //              TQ_HIGH_VOLTAGE_ON;
+  89   2      //              TQ_SINGLE_PULSE_ON;
+  90   2      //              delay_ms(100);
+  91   2      //              TQ_SECOND_PULSE_OFF;
+  92   2      //              TQ_HIGH_VOLTAGE_OFF;
+  93   2      //              TQ_DOUBLE_PULSE_ON;
+  94   2      //              delay_ms(100);
+  95   2              }
+  96   1      }
+  97          
+  98          void INT2_Isr() interrupt 10
+  99          {
+ 100   1              static u8 state_flag = 0;
+ 101   1              static u8 time = 0;
+ 102   1              static u8 value = 0;
+ 103   1              static u8 temp = 0;
+ 104   1              static u8 count = 0;
+ 105   1              static u8 received_data = 0;
+ 106   1      
+ 107   1              if(state_flag == 0){//等待接收引导码
+ 108   2                      if(TQ_SPOT_COUNT > 16 && TQ_SPOT_COUNT < 24){//大于8ms  小于12ms
+ 109   3                              state_flag = 1;
+ 110   3                              received_data = 0;
+ 111   3                              time = 0;               
+ 112   3                      }       
+ 113   2              }else{
+ 114   2                      if(TQ_SPOT_COUNT < 5){//间距小于2.5ms
+ 115   3                              received_data <<= 1;
+ 116   3                              received_data++;
+C51 COMPILER V9.00   MAIN                                                                  08/28/2024 17:05:52 PAGE 3   
+
+ 117   3                      }else if(TQ_SPOT_COUNT < 7){//间距小于3.5ms
+ 118   3                              received_data <<= 1;
+ 119   3                              //received_data++;
+ 120   3                      }else{//报错
+ 121   3                              state_flag = 0;
+ 122   3                              received_data = 0;
+ 123   3                      }
+ 124   2                      time++;
+ 125   2                      if(time == 4){
+ 126   3                              switch(received_data){
+ 127   4                                      case 0x04:value = 1;break;
+ 128   4                                      case 0x0E:value = 2;break;
+ 129   4                                      case 0x0C:value = 3;break;
+ 130   4                                      case 0x0D:value = 4;break;
+ 131   4                                      case 0x09:value = 5;break;
+ 132   4                                      case 0x0B:value = 6;break;
+ 133   4                                      case 0x0A:value = 7;break;
+ 134   4                                      case 0x08:value = 8;break;
+ 135   4                                      case 0x00:value = 9;break;
+ 136   4                                      case 0x01:value = 10;break;
+ 137   4                              }
+ 138   3                              if(temp == value){
+ 139   4                                      count++;
+ 140   4                                      if(count > 5){
+ 141   5                                              TQ_SPOT_SIZE = value;
+ 142   5                                              count = 0;
+ 143   5                                      }
+ 144   4                              }else{
+ 145   4                                      count = 0;
+ 146   4                              }
+ 147   3                              temp = value;
+ 148   3                              state_flag = 0;
+ 149   3                              received_data = 0;
+ 150   3                              time = 0;
+ 151   3                      }
+ 152   2              }
+ 153   1              
+ 154   1              TQ_SPOT_COUNT = 0;              
+ 155   1      }
+ 156          
+ 157          //void INT1_Isr() interrupt 2   TQ_SPOT_SIZE
+ 158          //{
+ 159          //      //INT1_COUNT++;
+ 160          //}
+ 161          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    489    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =     51    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =      4    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -1,0 +1,170 @@
+C51 COMPILER V9.00   XS_TOTAL_TIME                                                         08/14/2024 14:33:04 PAGE 1   
+
+
+C51 COMPILER V9.00, COMPILATION OF MODULE XS_TOTAL_TIME
+OBJECT MODULE PLACED IN ..\hex\XS_total_time.obj
+COMPILER INVOKED BY: C:\Keil _C51\C51\BIN\C51.EXE ..\main\XS_total_time.c LARGE BROWSE INCDIR(..\user;..\common;..\displ
+                    -ay) DEBUG OBJECTEXTEND PRINT(.\LIST\XS_total_time.lst) OBJECT(..\hex\XS_total_time.obj)
+
+line level    source
+
+   1          //#include "config.h"
+   2          //
+   3          //const u8  MAIN_KEY_TOTAL_TIME = 8;
+   4          //const u16 MAIN_TOTAL_TIME[]=
+   5          //{
+   6          //      440,958,160,246,         //六个选项
+   7          //      440,958,250,335,
+   8          //      440,958,339,424,
+   9          //      440,958,429,514,
+  10          //      440,958,518,603,
+  11          //      440,958,608,693,
+  12          //
+  13          //      0, 130,  0, 130,                 //返回和重置
+  14          //      1775,1915,0,125,
+  15          //};
+  16          //
+  17          //void main_xs_total_time_setting(void)
+  18          //{
+  19          //      u8 key;
+  20          //      u16 i,j;
+  21          //      set_check_handle();
+  22          //      DIS_PICNUM(Pic_TOTAL_TIME_SETTING);
+  23          //      delay_ms(100);
+  24          //      dis_total_time_setting();
+  25          //      i = 0;
+  26          //      j = 0;
+  27          //      do{
+  28          //              delay_ms(1);
+  29          //              if(KEY_YES!=0x00)
+  30          //              {
+  31          //                      ADS7843_KEY(); //扫描按键
+  32          //                      key=KEY_FANHUI(MAIN_KEY_TOTAL_TIME,MAIN_TOTAL_TIME); 
+  33          //                      switch(key)
+  34          //                      {
+  35          //                              case 1:  //
+  36          //                                      XIANG1();
+  37          //                                INTERFACE = PAGE_LOGO_FLAG;
+  38          //                                      goto over_main_xs_total_time;
+  39          //                                      break;
+  40          //                              case 2:  //
+  41          //                                      XIANG1();
+  42          //                                INTERFACE = PAGE_WATER_SETTING;
+  43          //                                      goto over_main_xs_total_time;
+  44          //                                      break;
+  45          //                              case 3:  //
+  46          //                                      XIANG1();
+  47          //                                INTERFACE = PAGE_HANDLE_SETTING;
+  48          //                                      goto over_main_xs_total_time;
+  49          //                                      break;
+  50          //                              case 4:  //
+  51          //                                      XIANG1();
+  52          //                                INTERFACE = PAGE_FLOW_SETTING;
+  53          //                                      goto over_main_xs_total_time;
+  54          //                                      break; 
+C51 COMPILER V9.00   XS_TOTAL_TIME                                                         08/14/2024 14:33:04 PAGE 2   
+
+  55          //                              case 5:  //
+  56          //                                      //XIANG1();
+  57          //                                //INTERFACE = PAGE_TOTAL_TIME_SETTING;
+  58          //                                      //goto over_main_xs_total_time;
+  59          //                                      break;
+  60          //                              case 6:  //
+  61          //                                      XIANG1();
+  62          //                                INTERFACE = PAGE_SOUND_SETTING;
+  63          //                                      goto over_main_xs_total_time;
+  64          //                                      break;
+  65          //                              case 7:  //
+  66          //                                      XIANG1();
+  67          //                                INTERFACE = PAGE_CHOOSE_MODE;
+  68          //                                      goto over_main_xs_total_time;
+  69          //                                      break;
+  70          //                              case 8:  //
+  71          //                                      i++;
+  72          //                                      j = 0;
+  73          //                                      if(i > 3000)
+  74          //                                      {
+  75          //                                              if(RX_PROBE_TOTAL > 0)
+  76          //                                              {
+  77          //                                                      XIANG1();
+  78          //                                                      RX_PROBE_TOTAL = 0;
+  79          //                                                      SHOTS_USED = 0;
+  80          //                                                      set_write_handle(RX_PROBE_ID,RX_PROBE_TOTAL);
+  81          //                                                      dis_total_time_setting();
+  82          //                                              }else{KEY_YES = 0;}
+  83          //                                      }
+  84          //                                      break;
+  85          //                      }
+  86          //                      
+  87          //              }
+  88          //              j++;
+  89          //              if(j > 100)
+  90          //              {
+  91          //                      j = 0;
+  92          //                      i = 0;
+  93          //              }
+  94          //              
+  95          //              WATER_TEMP = Get_ADC_RES_WATER_TEMP();//获取水温度
+  96          //              if(WATER_TEMP != 255)
+  97          //              {
+  98          //                      if(WATER_TEMP >= WATER_COLD_UPPER_LIMITS)COLD_WATER_ON; //温度高了打开制冷
+  99          //                      if(WATER_TEMP <= WATER_COLD_LOWER_LIMITS)COLD_WATER_OFF;//温度低了关闭制冷
+ 100          //              }else{COLD_WATER_OFF;}
+ 101          //              
+ 102          //              if(HANDLE_PROBE_TEMP != 255)//手柄温度
+ 103          //              {
+ 104          //                      if(HANDLE_PROBE_TEMP >= HANDLE_PROBE_COLD_UPPER_LIMITS[HANDLE_PROBE_COLE_GEAR])COLD_HANDLE_PROBE_ON;    
+             -//温度高了打开制冷
+ 105          //                      if(HANDLE_PROBE_TEMP <= HANDLE_PROBE_COLD_LOWER_LIMITS[HANDLE_PROBE_COLE_GEAR])COLD_HANDLE_PROBE_OFF;
+             -//温度低了关闭制冷
+ 106          //              }else{COLD_HANDLE_PROBE_OFF;}
+ 107          //              
+ 108          //      }while(1);
+ 109          //      over_main_xs_total_time:
+ 110          //      _nop_();
+ 111          //}
+ 112          //
+ 113          //void dis_total_time_setting(void)
+ 114          //{
+C51 COMPILER V9.00   XS_TOTAL_TIME                                                         08/14/2024 14:33:04 PAGE 3   
+
+ 115          //      DIS_FONT_WEI_NUMBER_CM(Pic_TOTAL_TIME_SETTING,1,0x5C,0xF4,0x04,RX_PROBE_TOTAL,7,1105,407);
+ 116          //}
+ 117          //
+ 118          //
+ 119          //
+ 120          //
+ 121          //
+ 122          //
+ 123          //
+ 124          //
+ 125          //
+ 126          //
+ 127          //
+ 128          //
+ 129          //
+ 130          //
+ 131          //
+ 132          //
+ 133          //
+ 134          //
+ 135          //
+ 136          //
+ 137          //
+ 138          //
+ 139          // 
+ 140          // 
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =   ----    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

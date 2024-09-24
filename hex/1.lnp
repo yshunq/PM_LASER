@@ -1,0 +1,22 @@
+"..\hex\adc.obj",
+"..\hex\MAIN.obj",
+"..\hex\pwm.obj",
+"..\hex\stc8aid.obj",
+"..\hex\timer.obj",
+"..\hex\UART.obj",
+"..\hex\24cxx.obj",
+"..\hex\main_interface.obj",
+"..\hex\XS_loading.obj",
+"..\hex\XS_advanced_settings.obj",
+"..\hex\XS_basic_setting.obj",
+"..\hex\XS_set_pulse.obj",
+"..\hex\XS_tq_work.obj",
+"..\hex\XS_adjust_power.obj",
+"..\hex\ads7843.obj",
+"..\hex\display.obj",
+"..\hex\eeprom_data.obj",
+"..\hex\other.obj",
+"..\hex\cut_tq_work.obj",
+"..\hex\dis_tq_work.obj" 
+TO "..\hex\1" 
+PRINT(".\LIST\1.m51") RAMSIZE(256) 

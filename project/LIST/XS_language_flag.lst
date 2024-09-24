@@ -1,0 +1,110 @@
+C51 COMPILER V9.00   XS_LANGUAGE_FLAG                                                      08/14/2024 14:33:04 PAGE 1   
+
+
+C51 COMPILER V9.00, COMPILATION OF MODULE XS_LANGUAGE_FLAG
+OBJECT MODULE PLACED IN ..\hex\XS_language_flag.obj
+COMPILER INVOKED BY: C:\Keil _C51\C51\BIN\C51.EXE ..\main\XS_language_flag.c LARGE BROWSE INCDIR(..\user;..\common;..\di
+                    -splay) DEBUG OBJECTEXTEND PRINT(.\LIST\XS_language_flag.lst) OBJECT(..\hex\XS_language_flag.obj)
+
+line level    source
+
+   1          //#include "config.h"
+   2          //
+   3          //const u8  code MAIN_KEY_LANGUAGE = 4;
+   4          //const u16 code MAIN_LANGUAGE[]=
+   5          //{
+   6          //        0, 138,  0, 138,
+   7          //      900,1079,  0, 138,
+   8          //      235, 373,892,1027,
+   9          //      705, 847,892,1027,
+  10          //};
+  11          //
+  12          //void main_xs_language(void)
+  13          //{
+  14          //      u8 key;
+  15          //      read_language();
+  16          //      DIS_PICNUM(Pic_LANGUAGE);
+  17          //
+  18          //      COLD_WATER_OFF;
+  19          //      COLD_HANDLE_PROBE_OFF;
+  20          //      //DIS_FONT_WEI_NUMBER_CM(Pic_LANGUAGE,1,0x5C,0xF4,0x04,LANGUAGE,2,0,0);
+  21          //      do{
+  22          //              delay_ms(1);
+  23          //              if(KEY_YES!=0x00){
+  24          //                      ADS7843_KEY(); //扫描按键
+  25          //                      key=KEY_FANHUI(MAIN_KEY_LANGUAGE,MAIN_LANGUAGE); 
+  26          //                      if(key == 1){
+  27          //                              XIANG1();
+  28          //                              INTERFACE = PAGE_CHOOSE_MODE;
+  29          //                              goto over_main_xs_language;
+  30          //                      }else if(key == 2){
+  31          //                              XIANG1();
+  32          //                              INTERFACE = PAGE_ADVANCED_SETTINGS;
+  33          //                              goto over_main_xs_language;
+  34          //                      }else if(key == 3){
+  35          //                              XIANG1();
+  36          //                              if(LANGUAGE > 0){LANGUAGE--;}
+  37          //                              else{LANGUAGE = 3;}
+  38          //                              write_language();
+  39          //                              delay_ms(50);
+  40          //                              goto over_main_xs_language;
+  41          //                      }else if(key == 4){
+  42          //                              XIANG1();
+  43          //                              if(LANGUAGE < 3){LANGUAGE++;}
+  44          //                              else{LANGUAGE = 0;}
+  45          //                              write_language();
+  46          //                              delay_ms(50);
+  47          //                              goto over_main_xs_language;
+  48          //                      }
+  49          //                      KEY_YES = 0;
+  50          //              }
+  51          //
+  52          //              WATER_TEMP = Get_ADC_RES_WATER_TEMP();//获取水温度
+  53          //              if(WATER_TEMP != 255)
+  54          //              {
+C51 COMPILER V9.00   XS_LANGUAGE_FLAG                                                      08/14/2024 14:33:04 PAGE 2   
+
+  55          //                      if(WATER_TEMP >= WATER_COLD_UPPER_LIMITS)COLD_WATER_ON; //温度高了打开制冷
+  56          //                      if(WATER_TEMP <= WATER_COLD_LOWER_LIMITS)COLD_WATER_OFF;//温度低了关闭制冷
+  57          //              }else{COLD_WATER_OFF;}
+  58          //              
+  59          //              if(HANDLE_PROBE_TEMP != 255)//手柄温度
+  60          //              {
+  61          //                      if(HANDLE_PROBE_TEMP >= HANDLE_PROBE_COLD_UPPER_LIMITS[HANDLE_PROBE_COLE_GEAR])COLD_HANDLE_PROBE_ON;    
+             -//温度高了打开制冷
+  62          //                      if(HANDLE_PROBE_TEMP <= HANDLE_PROBE_COLD_LOWER_LIMITS[HANDLE_PROBE_COLE_GEAR])COLD_HANDLE_PROBE_OFF;
+             -//温度低了关闭制冷
+  63          //              }else{COLD_HANDLE_PROBE_OFF;}           
+  64          //
+  65          //              
+  66          //      }while(1);
+  67          //      over_main_xs_language:
+  68          //      _nop_();
+  69          //}
+  70          //
+  71          //
+  72          //
+  73          // 
+  74          // 
+  75          // 
+  76          // 
+  77          // 
+  78          // 
+  79          // 
+  80          // 
+  81          // 
+  82          // 
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =   ----    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
